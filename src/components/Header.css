@@ -1,0 +1,75 @@
+button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.bg-plane {
+    background-image: url(../assets/images/plane.png);
+    background-repeat: no-repeat;
+    object-fit: cover;
+    height: 850px;
+    background-position: 60% 39%;
+}
+
+.nav-list {
+    display: flex;
+    list-style-type: none;
+    justify-content: left;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 3rem;
+    color: #3e7bfa;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.nav-list a {
+    text-decoration: none;
+}
+
+.login a {
+    text-decoration: none;
+}
+
+.register a {
+    background-color: #3e7bfa;
+    text-decoration: none;
+    padding-inline: 1.5rem;
+    padding-block: 1rem;
+    color: white;
+    border-radius: 0.8rem;
+}
+
+.title {
+    color: #fff;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.title h1 {
+    font-weight: 700;
+    font-size: 3rem;
+    text-shadow: 1px 4px 8px grey;
+    margin-bottom: 1rem;
+}
+
+.title h3 {
+    text-shadow: 1px 4px 8px grey;
+}
+
+@media screen and (min-width: 1440px) {
+    .bg-plane {
+        background-position: 0% 38.5%;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .bg-plane {
+        background-size: cover;
+        height: 1200px;
+        background-position: 0% 41%;
+    }
+}
