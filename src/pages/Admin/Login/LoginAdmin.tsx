@@ -1,60 +1,60 @@
 import React, { useState, ChangeEvent } from "react";
 import styled from "styled-components";
 
-interface LoginAdminProps { }
+interface LoginAdminProps {}
 
-const LoginAdmin: React.FC<LoginAdminProps> = (props) => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+const LoginAdmin: React.FC<LoginAdminProps> = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-    };
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
 
-    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    };
-    return (
-        <Div>
-            <Div2>
-                <Column>
-                    <Div3>
-                        <Img
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/dba9f4064d49315575cf802f06c628b0a0518710a290c7a56314ddd366a613e9?apiKey=2604b2664f3b46639d3f69d070e760e6&"
-                        />
-                        <Div4>Hi, Berjumpa Lagi!</Div4>
-                        <Img2
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/4e8a8e1eb60abcc657dff83a471b91814c049836c24a41ad5fe3d1d1c3de08fb?apiKey=2604b2664f3b46639d3f69d070e760e6&"
-                        />
-                    </Div3>
-                </Column>
-                <Column2>
-                    <Div5>
-                        <Div6>Masuk Admin</Div6>
-                        <Div7>Email</Div7>
-                        <Input
-                            type="email"
-                            placeholder="Masukkan email"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-                        <Div9>Kata Sandi</Div9>
-                        <Div11>
-                            <Input
-                                type="password"
-                                placeholder="Masukkan kata sandi"
-                                value={password}
-                                onChange={handlePasswordChange}
-                            />
-                        </Div11>
-                        <Div13 className="btn">Masuk</Div13>
-                    </Div5>
-                </Column2>
-            </Div2>
-        </Div>
-    );
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+  return (
+    <Div>
+      <Div2>
+        <Column>
+          <Div3>
+            <Img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/dba9f4064d49315575cf802f06c628b0a0518710a290c7a56314ddd366a613e9?apiKey=2604b2664f3b46639d3f69d070e760e6&"
+            />
+            <Div4>Hi, Berjumpa Lagi!</Div4>
+            <Img2
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/4e8a8e1eb60abcc657dff83a471b91814c049836c24a41ad5fe3d1d1c3de08fb?apiKey=2604b2664f3b46639d3f69d070e760e6&"
+            />
+          </Div3>
+        </Column>
+        <Column2>
+          <Div5>
+            <Div6>Masuk Admin</Div6>
+            <Div7>Email</Div7>
+            <Input
+              type="email"
+              placeholder="Masukkan email"
+              value={email}
+              onChange={handleEmailChange}
+            />
+            <Div9>Kata Sandi</Div9>
+            <Div11>
+              <Input
+                type="password"
+                placeholder="Masukkan kata sandi"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </Div11>
+            <Div13 className="btn">Masuk</Div13>
+          </Div5>
+        </Column2>
+      </Div2>
+    </Div>
+  );
 };
 const Input = styled.input`
   width: 100%;
@@ -150,13 +150,12 @@ const Column2 = styled.div`
   flex-direction: column;
   line-height: normal;
   width: 30%;
-  margin: auto;  /* Center the column horizontally */
+  margin: auto; /* Center the column horizontally */
 
   @media (max-width: 991px) {
-    width: 80%;  /* Adjust the width for smaller screens */
+    width: 80%; /* Adjust the width for smaller screens */
   }
 `;
-
 
 const Div5 = styled.div`
   display: flex;
@@ -188,7 +187,6 @@ const Div7 = styled.div`
   }
 `;
 
-
 const Div9 = styled.div`
   color: var(--Primary-Blue, #3e7bfa);
   letter-spacing: 0.15px;
@@ -198,7 +196,6 @@ const Div9 = styled.div`
     max-width: 100%;
   }
 `;
-
 
 const Div11 = styled.div`
   color: var(--Neutral-06, #9e9e9e);

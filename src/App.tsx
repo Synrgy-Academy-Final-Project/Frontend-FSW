@@ -1,9 +1,14 @@
+import { Route, Routes } from "react-router-dom";
+import LoginAdmin from "./pages/Admin/Login/LoginAdmin";
+import Footer from "./components/Footer";
+
 function App() {
   return (
     <>
-      <div>
-        <h1 className="text-center">TES CI CD</h1>
-      </div>
+      <Routes>
+        <Route path="/" element={<LoginAdmin />} />
+        <Route path="/footer" element={<Footer />} />
+      </Routes>
     </>
   );
 }
