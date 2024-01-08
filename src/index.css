@@ -74,30 +74,7 @@
 
   box-shadow: 0px 16px 24px 0px rgba(96, 97, 112, 0.16),
     0px 2px 8px 0px rgba(40, 41, 61, 0.04);
-}
 
-.elevation-06 {
-  border-radius: 1rem;
-  background: #fff;
-
-  box-shadow: 0px 20px 32px 0px rgba(96, 97, 112, 0.24),
-    0px 2px 8px 0px rgba(40, 41, 61, 0.08);
-}
-
-/* Example */
-
-.text-header {
-  font-weight: var(--fwbold);
-  color: var(--neutral08);
-  font-size: 32px;
-  line-height: 40px;
-}
-
-@media (min-width: 1440px) {
-  .container {
-    width: 1440px;
-    margin: 0 auto;
-    padding: 0 48px;
   }
 
   .row {
@@ -109,46 +86,3 @@
     flex-grow: 1;
     max-width: 100%;
     padding: 0 16px;
-    flex-basis: calc(100% / 12);
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    width: 768px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .col {
-    flex-grow: 1;
-    max-width: 100%;
-    padding: 0 16px;
-    flex-basis: calc(100% / 8);
-  }
-}
-
-@media (min-width: 360px) {
-  .container {
-    width: 360px;
-    margin: 0 auto;
-    padding: 0 16px;
-  }
-
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .col {
-    flex-grow: 1;
-    max-width: 100%;
-    padding: 0 16px;
-    flex-basis: calc(100% / 4);
-  }
-}

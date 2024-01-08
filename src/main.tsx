@@ -1,12 +1,16 @@
 // main.tsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import LoginAdmin from "./LoginAdmin.tsx";
+// import LoginAdmin from "./pages/Admin/Login/LoginAdmin";
+import App from "./App";
 // import './index.css'
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <LoginAdmin />
-  </React.StrictMode>
+  <BrowserRouter>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </BrowserRouter>
 );
