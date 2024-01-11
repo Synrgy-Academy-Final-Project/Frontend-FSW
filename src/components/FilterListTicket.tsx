@@ -116,6 +116,63 @@ const FilterListTicket: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Facility */}
+        <div className="lsNOL">
+          <h2 className="textH2">Fasilitas</h2>
+          <div className="NolContent">
+            <div className="NolWrapper">
+              <div className="checkContent">
+                <input type="checkbox" name="bagasi" id="bagasi" />
+                <label htmlFor="bagasi">Bagasi</label>
+              </div>
+              <img src="./images/ic_shopping_bag.png" alt="shopping_bag" />
+            </div>
+            <div className="NolWrapper">
+              <div className="checkContent">
+                <input type="checkbox" name="hiburan" id="hiburan" />
+                <label htmlFor="hiburan">Hiburan di pesawat</label>
+              </div>
+              <img src="./images/ic_youtube_square.png" alt="youtube_square" />
+            </div>
+            <div className="NolWrapper">
+              <div className="checkContent">
+                <input type="checkbox" name="makanan" id="makanan" />
+                <label htmlFor="makanan">Makanan di pesawat</label>
+              </div>
+              <img src="./images/ic_utensils.png" alt="utensils" />
+            </div>
+            <div className="NolWrapper">
+              <div className="checkContent">
+                <input type="checkbox" name="stopkontak" id="stopkontak" />
+                <label htmlFor="stopkontak">Stopkontak atau USB</label>
+              </div>
+              <img src="./images/ic_usb.png" alt="usb" />
+            </div>
+            <div className="NolWrapper">
+              <div className="checkContent">
+                <input type="checkbox" name="wifi" id="wifi" />
+                <label htmlFor="wifi">Wifi</label>
+              </div>
+              <img src="./images/ic_wifi.png" alt="wifi" />
+            </div>
+          </div>
+        </div>
+
+        {/* Refund & Reschedule */}
+        <div className="lsRR">
+          <h2 className="textH2">Refund & Reschedule</h2>
+          <div className="RRContent">
+            <div className="checkContent">
+              <input type="checkbox" name="refund" id="refund" />
+              <label htmlFor="refund">Refund</label>
+            </div>
+            <div className="checkContent">
+              <input type="checkbox" name="reschedule" id="reschedule" />
+              <label htmlFor="reschedule">Reschedule</label>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

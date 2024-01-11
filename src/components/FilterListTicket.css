@@ -221,3 +221,17 @@ label {
   align-items: flex-start;
   gap: 8px;
 }
+
+.lsRR {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.RRContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
