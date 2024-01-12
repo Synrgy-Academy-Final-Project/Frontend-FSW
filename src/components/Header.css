@@ -33,6 +33,15 @@ button {
     text-decoration: none;
 }
 
+.logout{
+    background-color: #3e7bfa;
+    text-decoration: none;
+    padding-inline: 1.5rem;
+    padding-block: 1rem;
+    color: white;
+    border-radius: 0.8rem;
+}
+
 .register a {
     background-color: #3e7bfa;
     text-decoration: none;

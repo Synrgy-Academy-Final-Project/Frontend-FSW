@@ -29,6 +29,7 @@ export const Texth2 = styled.h2`
   margin-bottom: 24px;
 `;
 
+
 export const Texth5 = styled.h5`
   color: #3e7bfa;
   font-size: 16px;
