@@ -1,10 +1,8 @@
 import "./Header.css";
 
 export default function Header() {
-  // Mendapatkan token dari local storage
-  const token = localStorage.getItem("token");
 
-  // Fungsi untuk logout
+  const token = localStorage.getItem("token");
   const handleLogout = () => {
     // Hapus token dari local storage
     localStorage.removeItem("token");
