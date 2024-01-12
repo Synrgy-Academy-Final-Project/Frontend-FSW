@@ -64,7 +64,7 @@ const LoginForm: React.FC = () => {
       } else {
         alert("Login berhasil");
         localStorage.setItem("token", responseJson.data.token);
-        navigate("/header");
+        navigate("/");
       }
     } catch (error) {
       // Tangkap error validasi dan perbarui state errors
