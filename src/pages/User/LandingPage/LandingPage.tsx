@@ -1,18 +1,28 @@
 import React from "react";
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
-import Promo from "../../../components/Promo";
-import PopularPlaces from "../../../components/PopularPlaces";
-import AboutUs from "../../../components/AboutUs";
+import Header from "../../../components/Header.tsx";
+import AboutUs from "../../../components/AboutUs.tsx";
+import Promo from "../../../components/Promo.tsx";
+import PopularPlaces from "../../../components/PopularPlaces.tsx";
+import Footer from "../../../components/Footer.tsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+const LandingPage: React.FC = () => {
+  const sectionStyle = { marginBottom: "2rem" };
 
-export default function LandingPage() {
   return (
-    <>
+    <div>
       <Header />
-      <Promo />
-      <PopularPlaces />
-      <AboutUs />
+      <div style={sectionStyle}>
+        <Promo />
+      </div>
+      <div style={sectionStyle}>
+        <AboutUs />
+      </div>
+      <div style={sectionStyle}>
+        <PopularPlaces />
+      </div>
       <Footer />
-    </>
+    </div>
   );
-}
+};
+
+export default LandingPage;
