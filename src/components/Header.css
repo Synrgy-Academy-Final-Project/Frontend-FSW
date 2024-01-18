@@ -20,20 +20,25 @@ button {
     align-items: center;
     gap: 2.5rem;
     padding: 3rem;
-    color: #3e7bfa;
-    font-weight: 600;
-    font-size: 1.1rem;
 }
 
 .nav-list a {
     text-decoration: none;
 }
 
-.login a {
+.nav-list span {
+    color: #3e7bfa;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.login {
+    padding-inline: 1.5rem;
+    padding-block: 1rem;
     text-decoration: none;
 }
 
-.logout{
+.logout {
     background-color: #3e7bfa;
     text-decoration: none;
     padding-inline: 1.5rem;
@@ -49,6 +54,7 @@ button {
     padding-block: 1rem;
     color: white;
     border-radius: 0.8rem;
+    font-weight: 700;
 }
 
 .title {
