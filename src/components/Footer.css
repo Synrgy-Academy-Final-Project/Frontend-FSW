@@ -8,9 +8,11 @@
 
 .menu {
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .menu-body {
-  font-size: 18px;
+  font-size: 16px;
+  color : #757575;
+  font-weight: 600px;
 }
