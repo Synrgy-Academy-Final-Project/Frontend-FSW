@@ -14,9 +14,9 @@ export default function Footer() {
           />
           <Row>
             <Col md={4}>
-              <h3>Ikuti Kami</h3>
+              <p className="menu">Ikuti Kami</p>
               <br />
-              <p>info@flyid.com</p>
+              <p className="menu-body">info@flyid.com</p>
             </Col>
             <Col md={4}>
               <p className="menu">Menu</p>

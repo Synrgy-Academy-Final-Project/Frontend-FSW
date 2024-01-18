@@ -9,8 +9,8 @@ import Promo from "./components/Promo";
 import PopularPlaces from "./components/PopularPlaces";
 import "./App.css";
 import FilterListTicket from "./components/FilterListTicket";
-// import LandingPage from "./pages/User/LandingPage/LandingPage";
 import TicketList from "./pages/TicketList";
+import VerifyAccount from "./pages/User/VerifyAccount/VerifyAccount";
 
 import LandingPage from "./pages/User/LandingPage/LandingPage";
 
@@ -28,6 +28,7 @@ function App() {
         <Route path="/populerplaces" element={<PopularPlaces />} />
         <Route path="/filterListTicket" element={<FilterListTicket />} />
         <Route path="/list-ticket" element={<TicketList />} />
+        <Route path="/verify-account" element={<VerifyAccount />} />
       </Routes>
     </>
   );

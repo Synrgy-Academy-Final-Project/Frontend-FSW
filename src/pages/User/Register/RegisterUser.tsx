@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as Yup from "yup";
+import { encryptData } from "../../../utils/authUtils";
 
 const RegisterUser = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +16,8 @@ const RegisterUser = () => {
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 
   const navigate = useNavigate();
+
+
 
   const handleRegister = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -58,7 +61,10 @@ const RegisterUser = () => {
         alert("Error: " + responseJson.message);
       } else {
         alert("Registrasi berhasil");
-        navigate("/login");
+        // navigate(`/verify-account?email=${encodeURIComponent(email)}`);
+        const token = encryptData({ email: email });
+        sessionStorage.setItem("registrationToken", token);
+        navigate("/verify-account");
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
