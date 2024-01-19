@@ -11,6 +11,8 @@ import "./App.css";
 import FilterListTicket from "./components/FilterListTicket";
 import TicketList from "./pages/TicketList";
 import VerifyAccount from "./pages/User/VerifyAccount/VerifyAccount";
+import ForgetPassword from "./pages/User/ForgetPassword/ForgetPassword";
+import ResetPassword from "./pages/User/ForgetPassword/ResetPassword";
 
 import LandingPage from "./pages/User/LandingPage/LandingPage";
 
@@ -29,6 +31,8 @@ function App() {
         <Route path="/filterListTicket" element={<FilterListTicket />} />
         <Route path="/list-ticket" element={<TicketList />} />
         <Route path="/verify-account" element={<VerifyAccount />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </>
   );
