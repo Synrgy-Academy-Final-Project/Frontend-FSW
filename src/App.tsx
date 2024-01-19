@@ -15,6 +15,9 @@ import ForgetPassword from "./pages/User/ForgetPassword/ForgetPassword";
 import ResetPassword from "./pages/User/ForgetPassword/ResetPassword";
 
 import LandingPage from "./pages/User/LandingPage/LandingPage";
+import TicketSearch from "./components/TicketSearch";
+import ModalPesanTiket from "./components/ModalPesanTiket";
+import DetailTicket from "./components/DetailTicket";
 
 function App() {
   return (
@@ -33,6 +36,9 @@ function App() {
         <Route path="/verify-account" element={<VerifyAccount />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/ticketsearch" element={<TicketSearch />} />
+        <Route path="/modalticket" element={<ModalPesanTiket />} />
+        <Route path="/detailticket" element={<DetailTicket />} />
       </Routes>
     </>
   );
