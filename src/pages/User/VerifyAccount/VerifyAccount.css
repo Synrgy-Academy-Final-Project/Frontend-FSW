@@ -1,0 +1,36 @@
+.left {
+  background-color: #3e7bfa;
+  height: 100vh;
+  display: flex;
+  /* margin-bottom: auto; */
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.h2 {
+  font: size 32px;
+}
+
+.confirm {
+  font-size: 32px;
+  width: 400px;
+  height: 48px;
+  /* background-color: #3e7bfa; */
+  margin-bottom: 10px;
+  padding-top : 18px;
+}
+
+.tittle {
+    font-size: 28px;
+    padding-bottom:18px;
+}
+
+.text-confirm {
+  color: #bebebf;
+  font-size: 16px;
+  text-align: center;
+}
+
+.text-confirm .span {
+  font-color: #3e7bfa;
+}
