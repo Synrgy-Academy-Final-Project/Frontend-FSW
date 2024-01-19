@@ -1,6 +1,5 @@
 import React from "react";
-import { HeadSect, Underlined, TextSect } from "./styles/AboutUs.styled";
-import { DivBtn, Btn, StyledImage } from "./styles/Promo.styled";
+import { DivBtn, Btn, StyledImage, HeadSect, TextSect } from "./styles/PopularPlaces.styled";
 import { Container, Row, Col } from "react-bootstrap";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
@@ -39,12 +38,13 @@ const PopularPlaces: React.FC = () => {
   return (
     <Container>
       <Row>
-        <HeadSect>Tempat Populer</HeadSect>
-        <Underlined></Underlined>
+        <Col lg={3}>
+          <HeadSect>Tempat Populer</HeadSect>
+        </Col>
       </Row>
       <Row>
         <Col lg={10}>
-          <TextSect>Most popular destinations around the world, from historical places to natural wonders.</TextSect>
+          <TextSect>Berbagai tempat populer yang dapat menjadi referensi perjalanan Anda</TextSect>
         </Col>
         <Col lg={2}>
           <DivBtn>

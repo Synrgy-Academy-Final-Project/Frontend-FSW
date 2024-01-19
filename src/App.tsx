@@ -3,9 +3,10 @@ import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import RegisterUser from "./pages/User/Register/RegisterUser";
 import LoginUser from "./pages/User/Login/LoginUser";
+import NewPassword from "./pages/User/NewPassword/NewPassword";
 import Header from './components/Header';
-import AboutUs from './components/AboutUs';
-import Promo from './components/Promo';
+import Feature from './components/Feature';
+import CtaBottom from './components/CtaBottom';
 import PopularPlaces from './components/PopularPlaces';
 import "./App.css";
 import FilterListTicket from "./components/FilterListTicket";
@@ -20,10 +21,11 @@ function App() {
         <Route path="/header" element={<Header />} />
         <Route path="/login" element={<LoginUser />} />
         <Route path="/register" element={<RegisterUser />} />
+        <Route path="/newpassword" element={<NewPassword />} />
         <Route path="/footer" element={<Footer />} />
 
-        <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/promo" element={<Promo />} />
+        <Route path="/fitur" element={<Feature />} />
+        <Route path="/ctabot" element={<CtaBottom />} />
         <Route path="/populerplaces" element={<PopularPlaces />} />
         <Route path="/filterListTicket" element={<FilterListTicket />} />
 
