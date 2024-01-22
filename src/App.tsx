@@ -19,6 +19,7 @@ import LandingPage from "./pages/User/LandingPage/LandingPage";
 import TicketSearch from "./components/TicketSearch";
 import ModalPesanTiket from "./components/ModalPesanTiket";
 import DetailTicket from "./components/DetailTicket";
+import DetailSection from "./components/DetailSection";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/ticketsearch" element={<TicketSearch />} />
         <Route path="/modalticket" element={<ModalPesanTiket />} />
         <Route path="/detailticket" element={<DetailTicket />} />
+        <Route path="/detailsection" element={<DetailSection />} />
       </Routes>
     </>
   );
