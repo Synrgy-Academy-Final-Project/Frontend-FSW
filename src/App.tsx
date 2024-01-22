@@ -14,6 +14,14 @@ import VerifyAccount from "./pages/User/VerifyAccount/VerifyAccount";
 
 import LandingPage from "./pages/User/LandingPage/LandingPage";
 
+// Admin
+import LoginAdmin from "././pages/Admin/Login/LoginAdmin.tsx";
+import Dashboard from "./components/Admin/Dashboard.tsx";
+import IndexBandara from "./components/Admin/indexBandara.tsx";
+import IndexMaskapai from "./components/Admin/indexMaskapai.tsx";
+import IndexTanggal from "./components/Admin/indexTanggal.tsx";
+import IndexTransaksi from "./components/Admin/indexTransaksi.tsx";
+
 function App() {
   return (
     <>
@@ -29,6 +37,14 @@ function App() {
         <Route path="/filterListTicket" element={<FilterListTicket />} />
         <Route path="/list-ticket" element={<TicketList />} />
         <Route path="/verify-account" element={<VerifyAccount />} />
+
+        {/*Admin*/}
+        <Route path="/login-admin" element={<LoginAdmin />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/airport" element={<IndexBandara />} />
+        <Route path="/airline" element={<IndexMaskapai />} />
+        <Route path="/departure-date" element={<IndexTanggal />} />
+        <Route path="/transaction" element={<IndexTransaksi />} />
       </Routes>
     </>
   );

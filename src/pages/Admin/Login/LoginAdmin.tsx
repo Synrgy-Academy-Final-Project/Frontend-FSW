@@ -14,6 +14,7 @@ const LoginAdmin: React.FC<LoginAdminProps> = () => {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+
   return (
     <Div>
       <Div2>
