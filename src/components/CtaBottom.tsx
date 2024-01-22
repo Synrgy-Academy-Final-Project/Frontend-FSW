@@ -1,6 +1,6 @@
 import React from "react";
 import { TextFeature } from "./styles/Feature.styled";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container} from "react-bootstrap";
 import "keen-slider/keen-slider.min.css";
 import styled from "styled-components";
 
