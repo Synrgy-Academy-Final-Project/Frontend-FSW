@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as Yup from "yup";
-import { Col, Container, Row, Form } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { encryptData } from "../../../utils/authUtils";
 
 const RegisterUser = () => {
