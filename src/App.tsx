@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import RegisterUser from "./pages/User/Register/RegisterUser";
 import LoginUser from "./pages/User/Login/LoginUser";
 import NewPassword from "./pages/User/NewPassword/NewPassword";
+import DataPenumpang from "./pages/User/DataPenumpang/DataPenumpang";
 import Header from "./components/Header";
 import Feature from "./components/Feature";
 import CtaBottom from "./components/CtaBottom";
@@ -30,6 +31,8 @@ function App() {
         <Route path="/login" element={<LoginUser />} />
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/newpassword" element={<NewPassword />} />
+        <Route path="/datapenumpang" element={<DataPenumpang />} />
+
         <Route path="/footer" element={<Footer />} />
         <Route path="/fitur" element={<Feature />} />
         <Route path="/ctabot" element={<CtaBottom />} />

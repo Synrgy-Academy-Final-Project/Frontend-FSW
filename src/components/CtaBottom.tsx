@@ -1,6 +1,6 @@
 import React from "react";
 import { TextFeature } from "./styles/Feature.styled";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container} from "react-bootstrap";
 import "keen-slider/keen-slider.min.css";
 import styled from "styled-components";
 
@@ -20,7 +20,7 @@ const CtaBottom: React.FC = () => {
           Unduh aplikasinya sekarang dan dapatkan berbagai pengalaman mudah
           Mulailah perjalanan luar biasa bersama Fly.id
         </TextFeature>
-        <BtnCta className="">Dapatkan Sekarang!</BtnCta>
+        <BtnCta>Dapatkan Sekarang!</BtnCta>
       </Div1>
     </Container>
   );
