@@ -22,6 +22,7 @@ import DetailTicket from "./components/DetailTicket";
 import DetailSection from "./components/DetailSection";
 import DetailHarga from "./components/DetailHarga";
 import CardTicket from "./components/CardTicket";
+import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         <Route path="/detailsection" element={<DetailSection />} />
         <Route path="/detailharga" element={<DetailHarga />} />
         <Route path="/cardtiket" element={<CardTicket />} />
+        <Route path="/verify-account-forgot" element={<OTPVerification />} />
       </Routes>
     </>
   );
