@@ -21,6 +21,8 @@ import TicketSearch from "./components/TicketSearch";
 import ModalPesanTiket from "./components/ModalPesanTiket";
 import DetailTicket from "./components/DetailTicket";
 import DetailSection from "./components/DetailSection";
+import DetailHarga from "./components/DetailHarga";
+import CardTicket from "./components/CardTicket";
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
         <Route path="/modalticket" element={<ModalPesanTiket />} />
         <Route path="/detailticket" element={<DetailTicket />} />
         <Route path="/detailsection" element={<DetailSection />} />
+        <Route path="/detailharga" element={<DetailHarga />} />
+        <Route path="/cardtiket" element={<CardTicket />} />
       </Routes>
     </>
   );

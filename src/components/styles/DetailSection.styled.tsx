@@ -6,12 +6,14 @@ export const DetailContainer = styled.div`
   align-items: flex-start;
   gap: 16px;
   flex: 1 0 0;
+  width: 600px;
 `;
 
-export const OrdererWrapper = styled.div`
+export const DetailWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 `;
 
 export const OrdererHead = styled.div`
@@ -27,22 +29,19 @@ export const SemiBoldText = styled.h1`
   color: var(--Neutral-09, #1c1c1e);
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: unset;
 `;
 
 export const RegulerTextNeutral = styled.h2`
   color: var(--Neutral-07, #757575);
   font-size: 16px;
   font-weight: 400;
-  margin-bottom: unset;
 `;
 
-export const OrdererForm = styled.div`
+export const DetailForm = styled.div`
   display: flex;
   padding: 16px;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   gap: 16px;
   align-self: stretch;
   border-radius: 10px;
@@ -57,7 +56,7 @@ export const RadioGroup = styled.div`
   align-self: stretch;
 `;
 
-export const LabelRadio = styled.label`
+export const RadioContent = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
@@ -73,12 +72,11 @@ export const InputRadio = styled.input`
   color: var(--Neutral-05, #c2c2c2);
 `;
 
-export const RegulerTextBlack = styled.h2`
+export const Label = styled.label`
   color: #000;
   text-align: center;
   font-size: 16px;
   font-weight: 400;
-  margin-bottom: unset;
 `;
 
 export const FormInput = styled.div`
@@ -105,4 +103,24 @@ export const Input = styled.input`
   border-radius: 10px;
   border: 1px solid var(--Neutral-03, #ededed);
   outline: none;
+`;
+
+export const PassengerHead = styled.div`
+  display: flex;
+  padding: 16px 0px;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+`;
+
+export const CheckWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  align-self: stretch;
+`;
+
+export const InputCheck = styled.input`
+  width: 24px;
+  height: 24px;
 `;

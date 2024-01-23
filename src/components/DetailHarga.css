@@ -1,0 +1,23 @@
+.card {
+  width: 592px;
+}
+
+.card-title {
+  font-size: 20px;
+  text-align: center;
+  background-color: #ededed;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color:#1C1C1E;
+  font-weight: 600;
+}
+
+.button-confirm {
+  background-color: #3e7bfa;
+  width: 560px;
+  height: 48px;
+}
+
+.table td, .table th {
+  border: none;
+}
