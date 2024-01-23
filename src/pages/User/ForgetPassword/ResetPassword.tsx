@@ -97,7 +97,7 @@ export default function ResetPassword() {
       if (response.status === 200) {
         alert("Berhasil membuat kata sandi baru");
         navigate("/login");
-        // Hapus token registrasi
+        // Hapus token 
         sessionStorage.removeItem("emailToken");
         sessionStorage.removeItem("token");
       } else {
