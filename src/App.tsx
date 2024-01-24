@@ -18,6 +18,7 @@ import LandingPage from "./pages/User/LandingPage/LandingPage";
 import TicketSearch from "./components/TicketSearch";
 import ModalPesanTiket from "./components/ModalPesanTiket";
 import DetailTicket from "./components/DetailTicket";
+import FormPembayaran from "./components/FormPembayaran";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/ticketsearch" element={<TicketSearch />} />
         <Route path="/modalticket" element={<ModalPesanTiket />} />
         <Route path="/detailticket" element={<DetailTicket />} />
+        <Route path="/formpembayaran" element={<FormPembayaran />} />
       </Routes>
     </>
   );
