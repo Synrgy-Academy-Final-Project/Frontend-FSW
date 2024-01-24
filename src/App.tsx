@@ -3,9 +3,10 @@ import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import RegisterUser from "./pages/User/Register/RegisterUser";
 import LoginUser from "./pages/User/Login/LoginUser";
+import NewPassword from "./pages/User/NewPassword/NewPassword";
 import Header from "./components/Header";
-import AboutUs from "./components/AboutUs";
-import Promo from "./components/Promo";
+import Feature from "./components/Feature";
+import CtaBottom from "./components/CtaBottom";
 import PopularPlaces from "./components/PopularPlaces";
 import "./App.css";
 import FilterListTicket from "./components/FilterListTicket";
@@ -18,6 +19,10 @@ import LandingPage from "./pages/User/LandingPage/LandingPage";
 import TicketSearch from "./components/TicketSearch";
 import ModalPesanTiket from "./components/ModalPesanTiket";
 import DetailTicket from "./components/DetailTicket";
+import DetailSection from "./components/DetailSection";
+import DetailHarga from "./components/DetailHarga";
+import CardTicket from "./components/CardTicket";
+import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
 import FormPembayaran from "./components/FormPembayaran";
 
 function App() {
@@ -28,9 +33,10 @@ function App() {
         <Route path="/header" element={<Header />} />
         <Route path="/login" element={<LoginUser />} />
         <Route path="/register" element={<RegisterUser />} />
+        <Route path="/newpassword" element={<NewPassword />} />
         <Route path="/footer" element={<Footer />} />
-        <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/promo" element={<Promo />} />
+        <Route path="/fitur" element={<Feature />} />
+        <Route path="/ctabot" element={<CtaBottom />} />
         <Route path="/populerplaces" element={<PopularPlaces />} />
         <Route path="/filterListTicket" element={<FilterListTicket />} />
         <Route path="/list-ticket" element={<TicketList />} />
@@ -40,6 +46,10 @@ function App() {
         <Route path="/ticketsearch" element={<TicketSearch />} />
         <Route path="/modalticket" element={<ModalPesanTiket />} />
         <Route path="/detailticket" element={<DetailTicket />} />
+        <Route path="/detailsection" element={<DetailSection />} />
+        <Route path="/detailharga" element={<DetailHarga />} />
+        <Route path="/cardtiket" element={<CardTicket />} />
+        <Route path="/verify-account-forgot" element={<OTPVerification />} />
         <Route path="/formpembayaran" element={<FormPembayaran />} />
       </Routes>
     </>

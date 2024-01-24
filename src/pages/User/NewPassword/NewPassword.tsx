@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Col, Container, Row } from "react-bootstrap";
-import { encryptData } from "../../../utils/authUtils";
 
-const RegisterUser = () => {
+const NewPassword = () => {
   const [email, setEmail] = useState("");
   // const [phone, setPhone] = useState();
   const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
   const [errors, setErrors] = useState<{fullname?: string; email?: string; password?: string }>(
     {}
   );
@@ -17,8 +17,6 @@ const RegisterUser = () => {
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 
   const navigate = useNavigate();
-
-
 
   const handleRegister = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -62,10 +60,7 @@ const RegisterUser = () => {
         alert("Error: " + responseJson.message);
       } else {
         alert("Registrasi berhasil");
-        // navigate(`/verify-account?email=${encodeURIComponent(email)}`);
-        const token = encryptData({ email: email });
-        sessionStorage.setItem("registrationToken", token);
-        navigate("/verify-account");
+        navigate("/login");
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -95,8 +90,7 @@ const RegisterUser = () => {
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/dba9f4064d49315575cf802f06c628b0a0518710a290c7a56314ddd366a613e9?apiKey=2604b2664f3b46639d3f69d070e760e6&"
           />
           <WelcomeText>
-            Selamat datang. <br />
-            Mulailah perjalanan Anda bersama kami
+            Masukkan kata sandi baru Anda, pastikan kata sandi mudah diingat ya!
           </WelcomeText>
           <Img
             loading="lazy"
@@ -107,72 +101,10 @@ const RegisterUser = () => {
           <RegisterForm>
             <h3>
               {" "}
-              <b>Yuk Buat Akun!</b>
+              <b>Kata Sandi Baru</b>
             </h3>
             <FormGroup>
-              <Label>Nama Lengkap</Label>
-              <Input
-                type="fullname"
-                name="fullname"
-                id="fullname"
-                placeholder="Masukkan nama lengkap"
-                value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
-                required
-              />
-              {/* Menampilkan pesan error dari Yup jika ada */}
-              {errors.fullname && (
-                <div
-                  style={{
-                    color: "red",
-                    fontSize: "14px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  {errors.fullname}
-                </div>
-              )}
-            </FormGroup>
-            {/* <FormGroup>
-                <Label>Nomor Ponsel</Label>
-                <Input
-                    type="tel"
-                    name="phone"
-                    id="phone"
-                    placeholder="Masukkan nomor ponsel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    pattern="0?[0-9]*" 
-                    title="Harap masukkan hanya angka" 
-                    required 
-                />
-              </FormGroup> */}
-            <FormGroup>
-              <Label>Email</Label>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Masukkan email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              {/* Menampilkan pesan error dari Yup jika ada */}
-              {errors.email && (
-                <div
-                  style={{
-                    color: "red",
-                    fontSize: "14px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  {errors.email}
-                </div>
-              )}
-            </FormGroup>
-            <FormGroup>
-              <Label>Kata Sandi</Label>
+              <Label>Kata Sandi Baru</Label>
               <Input
                 type="password"
                 name="password"
@@ -195,7 +127,31 @@ const RegisterUser = () => {
                 </div>
               )}
             </FormGroup>
-            <Button onClick={handleRegister}>Daftar</Button>
+            <FormGroup>
+              <Label>Ulang Kata Sandi Baru</Label>
+              <Input
+                type="password"
+                name="repassword"
+                id="repassword"
+                placeholder="Masukkan ulang kata sandi"
+                value={repassword}
+                onChange={(e) => setRepassword(e.target.value)}
+                required
+              />
+              {/* Menampilkan pesan error dari Yup jika ada */}
+              {errors.password && (
+                <div
+                  style={{
+                    color: "red",
+                    fontSize: "14px",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  {errors.password}
+                </div>
+              )}
+            </FormGroup>
+            <Button onClick={handleRegister}>Submit</Button>
             <p>
               Sudah Punya Akun? <Login>Masuk aja!</Login>
             </p>
@@ -273,4 +229,4 @@ const Button = styled.button`
 const Login = styled.span`
   color: var(--Primary-Blue, #3e7bfa);
 `;
-export default RegisterUser;
+export default NewPassword;

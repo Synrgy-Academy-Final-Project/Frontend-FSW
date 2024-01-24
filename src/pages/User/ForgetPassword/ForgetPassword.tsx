@@ -1,8 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import "./ForgetPassword.css";
+import * as Yup from "yup";
+import { encryptData } from "../../../utils/authUtils";
+import { useNavigate } from "react-router-dom";
 
 export default function ForgetPassword() {
+  const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState<{
+    email?: string;
+  }>({});
+
+  const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
+
+  const navigate = useNavigate();
+
+  const handleSumbit = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    try {
+      // Skema validasi Yup
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .email("Format email tidak valid")
+          .required("Email wajib diisi"),
+        password: Yup.string(),
+      });
+
+      // Lakukan validasi menggunakan Yup
+      await schema.validate({ email }, { abortEarly: false });
+
+      const payload = {
+        email: email,
+      };
+
+      const response = await fetch(
+        base_url + "/api/v1/auth/forgot-password",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const responseJson = await response.json();
+
+      if (response.status !== 200) {
+        alert("Error: " + responseJson.message);
+      } else {
+        alert("Forget Password berhasil");
+        const token = encryptData({ email: email });
+        sessionStorage.setItem("emailToken", token);
+        navigate("/verify-account-forgot");
+      }
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const yupErrors: { email?: string } = {};
+        error.inner.forEach((e) => {
+          if (e.path) {
+            yupErrors[e.path as "email"] = e.message;
+          }
+        });
+        setErrors(yupErrors);
+      } else {
+        console.error("Error during forget password:", error);
+        alert("Terjadi kesalahan dalam proses forget password");
+      }
+    }
+  };
+
   return (
     <div>
       <Container fluid>
@@ -35,18 +101,36 @@ export default function ForgetPassword() {
               </h3>
               <h5>
                 Masukkan alamat email yang terhubung <br />
-                dengan akun anda
-              .</h5>
+                dengan akun anda .
+              </h5>
               <Form style={{ width: "400px" }}>
                 <Form.Group className="mb-3">
-                  <Form.Control type="text" placeholder="Email" style={{ height: "56px" }} />
+                  <Form.Control
+                    type="text"
+                    placeholder="Email"
+                    style={{ height: "56px" }}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  {errors.email && (
+                    <div
+                      style={{
+                        color: "red",
+                        fontSize: "14px",
+                        paddingBottom: "10px",
+                      }}
+                    >
+                      {errors.email}
+                    </div>
+                  )}
                 </Form.Group>
               </Form>
               <div className="pt-2">
                 <Button
                   style={{ backgroundColor: "#3e7bfa", borderColor: "#3e7bfa" }}
                   className="confirm"
-                  //   onClick={handleVerification}
+                  onClick={handleSumbit}
                 >
                   Sumbit
                 </Button>
