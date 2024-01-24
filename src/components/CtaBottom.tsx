@@ -20,7 +20,7 @@ const CtaBottom: React.FC = () => {
           Unduh aplikasinya sekarang dan dapatkan berbagai pengalaman mudah
           Mulailah perjalanan luar biasa bersama Fly.id
         </TextFeature>
-        <BtnCta className="">Dapatkan Sekarang!</BtnCta>
+        <BtnCta>Dapatkan Sekarang!</BtnCta>
       </Div1>
     </Container>
   );
