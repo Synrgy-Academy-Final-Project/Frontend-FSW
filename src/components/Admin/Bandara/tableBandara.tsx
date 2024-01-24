@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
+import {useCurrentPage} from "../CurrentPageContext.tsx";
 
 const TableContainer = styled.div`
   margin: 16px;
@@ -32,10 +33,10 @@ const Td = styled.td`
   background-color: #fff;
   border-bottom: 1px solid #f2f2f2;
   &:first-child {
-    border-bottom-left-radius: 8px; // Rounded corner for the first cell in the last row
+    border-bottom-left-radius: 8px;
   }
   &:last-child {
-    border-bottom-right-radius: 8px; // Rounded corner for the last cell in the last row
+    border-bottom-right-radius: 8px;
   }
 `;
 
@@ -61,10 +62,10 @@ const PaginationButton = styled.button`
 `;
 
 const KembaliButton = styled(PaginationButton)`
-  background: #E1E7EE;
+  background: #FFF;
   color: #3E7BFA;
   &:hover {
-    background-color: #cad4e0;
+    background-color: #e6f0fd;
   }
   &:disabled {
     background-color: #ccc;
@@ -79,6 +80,12 @@ const SelanjutnyaButton = styled(PaginationButton)`
   color: #3E7BFA;
   &:hover {
     background-color: #e6f0fd;
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    border: 1px solid #ccc;
+    color: #666;
   }
 `;
 
@@ -101,45 +108,171 @@ const PageNumber = styled.span`
 `;
 
 const TableBandara = () => {
+    const [bandaras, setBandaras] = useState([]);
+    const [displayedBandaras, setDisplayedBandaras] = useState([]);
+    const [error, setError] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize] = useState(5);
+    const [totalItems, setTotalItems] = useState(0);
+    const { refreshData, setRefreshData } = useCurrentPage();
+    const [deleteMessage, setDeleteMessage] = useState('');
+
+    useEffect(() => {
+        const fetchBandaras = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No token found');
+                }
+
+                const response = await fetch(`https://backend-fsw.fly.dev/api/v1/airports/baseprice`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                const jsonData = await response.json();
+
+                if (response.status !== 200) {
+                    throw new Error(jsonData.message || 'Error fetching data');
+                }
+
+                setBandaras(jsonData.data);
+                setTotalItems(jsonData.data.length);
+                updateDisplayedBandaras(jsonData.data, 1, pageSize);
+
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+
+        fetchBandaras();
+        if (refreshData) {
+            setRefreshData(false);
+        }
+    }, [refreshData, setRefreshData]);
+
+    const updateDisplayedBandaras = (data, page, size) => {
+        const startIndex = (page - 1) * size;
+        const endIndex = startIndex + size;
+        setDisplayedBandaras(data.slice(startIndex, endIndex));
+    };
+
+    useEffect(() => {
+        updateDisplayedBandaras(bandaras, currentPage, pageSize);
+    }, [bandaras, currentPage, pageSize]);
+
+    const totalPages = Math.ceil(totalItems / pageSize);
+    const isPreviousDisabled = currentPage === 1;
+    const isNextDisabled = currentPage === totalPages || totalItems <= currentPage * pageSize;
+
+    const handlePreviousClick = () => {
+        if (!isPreviousDisabled) {
+            setCurrentPage(currentPage => currentPage - 1);
+        }
+    };
+
+    const handleNextClick = () => {
+        if (!isNextDisabled) {
+            setCurrentPage(currentPage => currentPage + 1);
+        }
+    };
+
+    const calculateItemNumber = (index) => {
+        return (currentPage - 1) * pageSize + index + 1;
+    };
+    function formatDuration(minutes) {
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return `${hours}j ${remainingMinutes}m`;
+    }
+
+
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const handleDeleteClick = async (id) => {
+        const confirmDelete = window.confirm('Yakin mau hapus data ini?');
+
+        if (confirmDelete) {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No token found');
+                }
+
+                const response = await fetch(`https://backend-fsw.fly.dev/api/v1/airports/baseprice/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    setBandaras((prevBandaras) => prevBandaras.filter((bandara) => bandara.id !== id));
+                    setRefreshData(true);
+                    setSuccessMessage('Data berhasil dihapus.');
+                } else {
+                    const jsonData = await response.json();
+                    throw new Error(jsonData.message || 'Error deleting data');
+                }
+            } catch (err) {
+                setDeleteMessage(err.message);
+            }
+        }
+    };
+
+
     return (
-        <TableContainer>
-            <Table>
-                <thead>
-                <tr>
-                    <Th>No</Th>
-                    <Th>Kota/Bandara Asal</Th>
-                    <Th>Kota/Bandara Tujuan</Th>
-                    <Th>Durasi</Th>
-                    <Th>Harga</Th>
-                    <Th>Aksi</Th>
-                </tr>
-                </thead>
-                <tbody>
-                {/* Example row */}
-                <tr>
-                    <Td>1</Td>
-                    <Td>Jakarta (CGK)</Td>
-                    <Td>Bali (DPS)</Td>
-                    <Td>0j 0m</Td>
-                    <Td>Rp1.000.000</Td>
-                    <Td>
-                        <ActionButton title="Edit">
-                            <Icon src="https://i.ibb.co/WFKh40T/Pen.png" alt="Edit" />
-                        </ActionButton>
-                        <ActionButton title="Delete">
-                            <Icon src="https://i.ibb.co/phm3fMy/Trash-Alt.png" alt="Delete" />
-                        </ActionButton>
-                    </Td>
-                </tr>
-                {/* More rows would be mapped here */}
-                </tbody>
-            </Table>
-            <PaginationContainer>
-                <KembaliButton disabled>{' < Kembali'}</KembaliButton>
-                <PageNumber>1</PageNumber>
-                <SelanjutnyaButton>{'Selanjutnya > '}</SelanjutnyaButton>
-            </PaginationContainer>
-        </TableContainer>
+        <>
+            {successMessage && <p>Success: {successMessage}</p>}
+
+            {error && <p>Error: {error}</p>}
+            <TableContainer>
+                <Table>
+                    <thead>
+                    <tr>
+                        <Th>No</Th>
+                        <Th>Kota/Bandara Asal</Th>
+                        <Th>Kota/Bandara Tujuan</Th>
+                        <Th>Durasi</Th>
+                        <Th>Harga</Th>
+                        <Th>Aksi</Th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {displayedBandaras.map((bandara, index) => (
+                        <tr key={bandara.id}>
+                            <Td>{calculateItemNumber(index)}</Td>
+                            <Td>{bandara.fromCity} ({bandara.fromCode})</Td>
+                            <Td>{bandara.toCity} ({bandara.toCode})</Td>
+                            <Td>{formatDuration(bandara.duration)}</Td>
+                            <Td>Rp{bandara.price}</Td>
+                            <Td>
+                                <ActionButton title="Edit">
+                                    <Icon src="https://i.ibb.co/WFKh40T/Pen.png" alt="Edit" />
+                                </ActionButton>
+                                <ActionButton
+                                    title="Delete"
+                                    onClick={() => handleDeleteClick(bandara.id)}
+                                >
+                                    <Icon src="https://i.ibb.co/phm3fMy/Trash-Alt.png" alt="Delete" />
+                                </ActionButton>
+                            </Td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </Table>
+                <PaginationContainer>
+                    <KembaliButton onClick={handlePreviousClick} disabled={isPreviousDisabled}>
+                        {' < Kembali'}
+                    </KembaliButton>
+                    <PageNumber>{currentPage}</PageNumber>
+                    <SelanjutnyaButton onClick={handleNextClick} disabled={isNextDisabled}>
+                        {'Selanjutnya > '}
+                    </SelanjutnyaButton>
+                </PaginationContainer>
+            </TableContainer>
+        </>
     );
 };
 
