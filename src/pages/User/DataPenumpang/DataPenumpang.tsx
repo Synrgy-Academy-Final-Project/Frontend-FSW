@@ -1,10 +1,12 @@
 import React from "react";
 import Footer from "../../../components/Footer.tsx";
-import DetailSection from "../../../components/DetailSection.tsx";
+import DetailBooking from "../../../components/DetailSection.tsx";
+import DetailHarga from "../../../components/DetailHarga.tsx";
 import { Col, Container, Row, Form } from "react-bootstrap";
 import styled from "styled-components";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../../../components/ModalPesanTiket.css";
 
 const DataPenumpang: React.FC = () => {
   const token = localStorage.getItem("token");
@@ -41,7 +43,7 @@ const DataPenumpang: React.FC = () => {
           )}
         </Col>
       </Row>
-      <Div1>
+      <Div1 className="my-4">
         <Row className="align-items-center">
           <Col lg={1}>
             <img src="src/assets/images/3d-phone.png" alt="" />
@@ -58,10 +60,135 @@ const DataPenumpang: React.FC = () => {
         </Row>
       </Div1>
       <Row>
-        <Col>
-          <DetailSection></DetailSection>
+        <Col xl={6}>
+          <div>
+            <DetailBooking></DetailBooking>
+          </div>
         </Col>
-        <Col></Col>
+        <Col xl={6}>
+          <div className="row align-items-center">
+            <div className="col text-center my-auto">
+              <div className="maskapai">
+                <img src="src/assets/images/XMLID_29_.png" alt="" />
+              </div>
+            </div>
+            <div className="col text-center pt-3">
+              <div>
+                <h4 className="sb-20-b">Jakarta (CGK)</h4>
+              </div>
+              <div className="date-detail">
+                <h5 className="r-16-b">4 Oktober 2023</h5>
+              </div>
+            </div>
+            <div className="col text-center">
+              <img
+                src="src/assets/images/Plane.png"
+                alt=""
+                style={{ width: "35px" }}
+              />
+            </div>
+            <div className="col text-center pt-3">
+              <div>
+                <h4 className="sb-20-b">Bali (DPS)</h4>
+              </div>
+              <div className="date-detail">
+                <h5 className="r-16-b">4 Oktober 2023</h5>
+              </div>
+            </div>
+          </div>
+          <hr style={{ borderTop: "2px solid #A0A0A0" }} />
+          <div className="border-detail">
+            <div className="row">
+              <div className="col-3 text-center d-flex flex-column justify-content-between">
+                <h4 className="sb-20-b">20:15</h4>
+                <h4 className="sb-16-g">2 j 0 m</h4>
+                <h4 className="sb-20-b">22:15</h4>
+              </div>
+              <div className="col-1 d-flex flex-column justify-content-center">
+                <svg height="10" width="10">
+                  <circle cx="50%" cy="50%" r="4" fill="#007BFF" />
+                </svg>
+                <svg height="100%">
+                  <line
+                    x1="18%"
+                    y1="0"
+                    x2="18%"
+                    y2="100%"
+                    stroke="#007BFF"
+                    strokeWidth="2"
+                    strokeDasharray="5"
+                  />
+                </svg>
+                <svg height="10" width="10">
+                  <circle cx="50%" cy="50%" r="4" fill="#007BFF" />
+                </svg>
+              </div>
+              <div className="col-8">
+                <div className="title-dp">
+                  <h4 className="sb-16-b">Jakarta (CGK)</h4>
+                  <p className="r-14-g mb-1">
+                    Soekarno Hatta International Airport
+                  </p>
+                </div>
+                <svg height="2" width="480">
+                  <line
+                    x1="0"
+                    y1="0"
+                    x2="100%"
+                    y2="0"
+                    stroke="#E0E0E0"
+                    strokeWidth="4"
+                    strokeDasharray="20"
+                  />
+                </svg>
+                <div className="content-dp">
+                  <div className="row list-dp">
+                    <div className="col-1 justify-content-center">
+                      <img src="src/assets/images/Shopping Bag.png" alt="" />
+                    </div>
+                    <div className="col-11">
+                      <p className="r-14-b my-2">Bagasi kabin 1 item (7 kg)</p>
+                    </div>
+                  </div>
+                  <div className="row list-dp">
+                    <div className="col-1 justify-content-center">
+                      <img src="src/assets/images/Shopping Bag.png" alt="" />
+                    </div>
+                    <div className="col-11">
+                      <p className="r-14-b my-2">Bagasi 1 item (20 kg)</p>
+                    </div>
+                  </div>
+                  <div className="row list-dp">
+                    <div className="col-1 justify-content-center">
+                      <img src="src/assets/images/Utensils.png" alt="" />
+                    </div>
+                    <div className="col-11">
+                      <p className="r-14-b my-2">Makanan di pesawat</p>
+                    </div>
+                  </div>
+                </div>
+                <svg height="2" width="480">
+                  <line
+                    x1="0"
+                    y1="0"
+                    x2="100%"
+                    y2="0"
+                    stroke="#E0E0E0"
+                    strokeWidth="4"
+                    strokeDasharray="20"
+                  />
+                </svg>
+                <div className="title-dp">
+                  <h4 className="sb-16-b">Bali (DPS)</h4>
+                  <p className="r-14-g">
+                    I Gusti Ngurah Rai International Airport
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <DetailHarga></DetailHarga>
+        </Col>
       </Row>
 
       <Footer />
