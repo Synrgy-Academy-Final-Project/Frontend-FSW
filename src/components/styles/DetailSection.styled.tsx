@@ -29,12 +29,30 @@ export const SemiBoldText = styled.h1`
   color: var(--Neutral-09, #1c1c1e);
   font-size: 20px;
   font-weight: 600;
+  margin-bottom: unset;
 `;
 
 export const RegulerTextNeutral = styled.h2`
   color: var(--Neutral-07, #757575);
   font-size: 16px;
   font-weight: 400;
+  margin-bottom: unset;
+`;
+
+export const RegulerTextBold = styled.h3`
+  color: var(--Neutral-09, #1c1c1e);
+  font-size: 16px;
+  font-weight: 600;
+  width: 150px;
+  margin-bottom: unset;
+`;
+
+export const RegulerText = styled.h3`
+  color: var(--Neutral-09, #1c1c1e);
+  font-size: 16px;
+  font-weight: 400;
+  width: 150px;
+  margin-bottom: unset;
 `;
 
 export const DetailForm = styled.div`
@@ -123,4 +141,16 @@ export const CheckWrapper = styled.div`
 export const InputCheck = styled.input`
   width: 24px;
   height: 24px;
+`;
+
+export const OrdererDataWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+export const OrdererData = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
 `;
