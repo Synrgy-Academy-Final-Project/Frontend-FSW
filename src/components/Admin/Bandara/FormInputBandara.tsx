@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {useCurrentPage} from "../CurrentPageContext.tsx";
+import Select from 'react-select';
 
 const Form = styled.form`
   width: 97%;
@@ -26,13 +27,13 @@ const FormGroup = styled.div`
   }
 `;
 
-const Select = styled.select`
-  border: 1px solid #CCCCCC;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 14px;
-  cursor: pointer;
-`;
+// const Select = styled.select`
+//   border: 1px solid #CCCCCC;
+//   border-radius: 4px;
+//   padding: 8px;
+//   font-size: 14px;
+//   cursor: pointer;
+// `;
 
 const Input = styled.input`
   border: 1px solid #CCCCCC;
@@ -81,12 +82,11 @@ const FormInputBandara = () => {
     const totalDurationInMinutes = parseInt(durationHours) * 60 + parseInt(durationMinutes);
     const [refreshing, setRefreshing] = useState(false);
     const [isResponseVisible, setIsResponseVisible] = useState(true);
+    const [isNotificationVisible, setIsNotificationVisible] = useState(false);
 
     const handleRefreshClick = () => {
-        // Set refreshing state to true
         setRefreshing(true);
 
-        // Refresh the page
         window.location.reload();
     };
 
@@ -111,7 +111,6 @@ const FormInputBandara = () => {
 
                 const jsonData = await response.json();
 
-                // Check if jsonData is an array
                 if (Array.isArray(jsonData)) {
                     const formattedAirports = jsonData.map((item) => ({
                         id: item.id,
@@ -132,7 +131,13 @@ const FormInputBandara = () => {
 
         fetchAirports();
     }, []);
-
+    const airportOptions = airports.map(airport => ({
+        value: airport.id,
+        label: `${airport.fromCity} (${airport.fromCode})`
+    }));
+    const handleSelectChange = (selectedOption, action) => {
+        setFormData({ ...formData, [action.name]: selectedOption.value });
+    };
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -170,6 +175,10 @@ const FormInputBandara = () => {
             } else {
                 setResponseMessage(jsonData.message || `Unexpected status code: ${response.status}`);
             }
+            setIsNotificationVisible(true);
+            setTimeout(() => {
+                setIsNotificationVisible(false);
+            }, 3000);
         } catch (err) {
             console.error('Error:', err.message);
             setResponseMessage(err.message);
@@ -186,60 +195,34 @@ const FormInputBandara = () => {
 
     return (
         <div>
-            {responseMessage && (
-                <ResponseMessage
-                    style={{
-                        backgroundColor: getResponseBackgroundColor(),
-                        color: 'white',
-                    }}
-                    onClick={handleRefreshClick}
-                >
-                    {refreshing ? 'Refreshing...' : responseMessage}
-                </ResponseMessage>
-            )}
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <label htmlFor="originAirport">Kota/Bandara Asal</label>
                     <Select
                         id="originAirport"
                         name="fromAirportId"
-                        value={formData.fromAirportId}
-                        onChange={handleInputChange}
+                        options={airportOptions}
+                        onChange={handleSelectChange}
                         required
-                    >
-                        <option value="" disabled>Pilih Bandara Asal</option>
-                        {loading ? (
-                            <option>Loading...</option>
-                        ) : (
-                            airports.map((airport) => (
-                                // Gunakan airport.id sebagai value
-                                <option key={airport.id} value={airport.id}>
-                                    {airport.fromCity}
-                                </option>
-                            ))
-                        )}
-                    </Select>
+                        isLoading={loading}
+                        isDisabled={loading}
+                        placeholder="Bandara Asal"
+                    />
+
+
                 </FormGroup>
                 <FormGroup>
                     <label htmlFor="destinationAirport">Kota/Bandara Tujuan</label>
                     <Select
                         id="destinationAirport"
                         name="toAirportId"
-                        value={formData.toAirportId}
-                        onChange={handleInputChange}
+                        options={airportOptions}
+                        onChange={handleSelectChange}
                         required
-                    >
-                        <option value="" disabled>Pilih Bandara Tujuan</option>
-                        {loading ? (
-                            <option>Loading...</option>
-                        ) : (
-                            airports.map((airport) => (
-                                <option key={airport.id} value={airport.id}>
-                                    {airport.fromCity}
-                                </option>
-                            ))
-                        )}
-                    </Select>
+                        isLoading={loading}
+                        isDisabled={loading}
+                        placeholder="Bandara Tujuan"
+                    />
                 </FormGroup>
 
                 <FormGroup>
@@ -280,6 +263,17 @@ const FormInputBandara = () => {
                 </FormGroup>
                 <Button type="submit">+ Tambah</Button>
             </Form>
+            {isNotificationVisible && (
+                <ResponseMessage
+                    style={{
+                        margin:'15px',
+                        backgroundColor: getResponseBackgroundColor(),
+                        color: 'white',
+                    }}
+                >
+                    {responseMessage}
+                </ResponseMessage>
+            )}
         </div>
     );
 };
