@@ -1,4 +1,5 @@
-import './Header.css'
+import './Header.css';
+import TicketSearch from "./TicketSearch";
 
 export default function Header() {
     const token = localStorage.getItem('token')
@@ -70,7 +71,8 @@ export default function Header() {
                 </nav>
                 <div className='title'>
                     <h1>Fly.id</h1>
-                    <h3>Dapatkan tiket terbaik untuk perjalanan Anda!</h3>
+                    <h3 className='pb-5'>Dapatkan tiket terbaik untuk perjalanan Anda!</h3>
+                    <TicketSearch ></TicketSearch>
                 </div>
             </div>
         </header>

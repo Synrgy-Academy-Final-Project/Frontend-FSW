@@ -6,7 +6,7 @@ button {
 }
 
 .bg-plane {
-    background-image: url(../assets/images/plane.png);
+    background-image: url(../assets/images/plane-bg.png);
     background-repeat: no-repeat;
     object-fit: cover;
     height: 850px;
