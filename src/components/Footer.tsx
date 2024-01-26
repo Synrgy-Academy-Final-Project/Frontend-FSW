@@ -4,38 +4,36 @@ import "./Footer.css";
 
 export default function Footer() {
   return (
-    <div>
-      <Container fluid className="footer">
-        <Row className="text-white">
-          <Col md={4}>Copyright © Travellian 2020 All rights reserved</Col>
-          <Col md={2}>
-            <p className="menu">Menu</p>
-            <p className="menu-body">Home</p>
-            <p className="menu-body">Explore</p>
-            <p className="menu-body">Travel</p>
-            <p className="menu-body">Blog</p>
-            <p className="menu-body">Pricing</p>
-          </Col>
-          <Col md={2}>
-            <p className="menu">Informasi</p>
-            <p className="menu-body">Destinations</p>
-            <p className="menu-body">Supports</p>
-            <p className="menu-body">Terms & Conditions</p>
-            <p className="menu-body">Privacy</p>
-          </Col>
-          <Col md={2}>
-            <p className="menu">Kontak Kami</p>
-            <p className="menu-body">+123 456 789</p>
-            <p className="menu-body">travellian</p>
-            <p className="menu-body">1245, New Yourk, USA</p>
-          </Col>
-          <Col md={2}>
-            <p className="menu">Ikuti Kami</p>
-            {/* <p className="menu-body">+123 456 789</p>
-            <p className="menu-body">travellian</p>
-            <p className="menu-body">1245, New Yourk, USA</p> */}
-          </Col>
-        </Row>
+    <div className="footer ">
+      <Container>
+        <div className="">
+          <img
+            src="https://i.ibb.co/TWvyNTj/Logo-1.png"
+            alt="Logo FlyID"
+            style={{ width: "100px", marginBottom: "20px" }}
+          />
+          <Row>
+            <Col md={4}>
+              <p className="menu">Ikuti Kami</p>
+              <br />
+              <p className="menu-body">info@flyid.com</p>
+            </Col>
+            <Col md={4}>
+              <p className="menu">Menu</p>
+              <p className="menu-body">Beranda</p>
+              <p className="menu-body">Tiket Pesawat</p>
+              <p className="menu-body">Tempat Populer</p>
+              <p className="menu-body">Tentang Kami</p>
+            </Col>
+            <Col md={4}>
+              <p className="menu">Informasi</p>
+              <p className="menu-body">Penerbangan</p>
+              <p className="menu-body">Support</p>
+              <p className="menu-body">Terms & Conditions</p>
+              <p className="menu-body">Privacy</p>
+            </Col>
+          </Row>
+        </div>
       </Container>
     </div>
   );
