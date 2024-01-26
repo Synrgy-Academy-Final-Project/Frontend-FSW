@@ -1,13 +1,9 @@
-.bg-color {
-  background-color: gray;
-}
 .card-search {
   background-color: #ffff;
-  margin: 0 45px;
   border-radius: 1.5rem;
   background: #fff;
   box-shadow: 0px 7px 30px 0px rgba(118, 145, 174, 0.08);
-  padding: 14px 74px 30px 74px;
+  padding: 14px 54px 30px 54px;
 }
 
 .rounded-start {
@@ -65,6 +61,12 @@
   border-color: #3e7bfa !important;
 }
 
+.react-datepicker-ignore-onclickoutside {
+  border-color: #3e7bfa !important;
+}
+.react-datepicker__input-container {
+  border-color: #3e7bfa !important;
+}
 .date-end {
   height: 110px !important;
   width: 100%;
@@ -89,8 +91,8 @@
   z-index: 1;
   border-radius: 50% !important;
   line-height: 0% !important;
-  width: 40px !important;
-  height: 40px !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
   position: absolute !important;
   align-items: center;
   justify-content: center;

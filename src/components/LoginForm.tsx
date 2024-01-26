@@ -116,12 +116,12 @@ const LoginForm: React.FC = () => {
             </div>
           )}
 
-          <Texth4>Lupa Kata Sandi?</Texth4>
+          <Texth4 href="/forget-password">Lupa Kata Sandi?</Texth4>
 
           <Button onClick={handleLogin}>Masuk</Button>
 
           <Texth3>
-            Belum punya akun? <Span>Daftar aja!</Span>
+            Belum punya akun? <Span href="/register">Daftar aja!</Span>
           </Texth3>
         </Form>
       </LoginContainer>

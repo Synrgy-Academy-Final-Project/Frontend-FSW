@@ -128,11 +128,11 @@ export default function ForgetPassword() {
               </Form>
               <div className="pt-2">
                 <Button
-                  style={{ backgroundColor: "#3e7bfa", borderColor: "#3e7bfa" }}
                   className="confirm"
+                  style={{ backgroundColor: "#3e7bfa", borderColor: "#3e7bfa", fontSize: '24px', paddingTop: '0' }}
                   onClick={handleSumbit}
                 >
-                  Sumbit
+                  Submit
                 </Button>
               </div>
             </div>
