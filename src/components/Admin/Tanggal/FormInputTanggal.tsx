@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCurrentPage } from "../CurrentPageContext.tsx";
 import Select from 'react-select';
@@ -69,6 +69,13 @@ const ResponseMessage = styled.div`
 `;
 
 const FormInputTanggal = () => {
+    const dayCategoryOptions = [
+        { value: 'Hari Biasa', label: 'Hari Biasa' },
+        { value: 'Hari Libur', label: 'Hari Libur' }
+    ];
+    const handleSelectChange = (selectedOption) => {
+        setFormData({ ...formData, dayCategory: selectedOption.value });
+    };
     const { setRefreshData } = useCurrentPage();
     const [formData, setFormData] = useState({
         dateOfDeparture: '',
@@ -79,6 +86,16 @@ const FormInputTanggal = () => {
         message: '',
         type: '', // 'success' for green, 'error' for red
     });
+
+    useEffect(() => {
+        if (notification.message) {
+            const timeoutId = setTimeout(() => {
+                setNotification({ message: '', type: '' });
+            }, 3000);
+
+            return () => clearTimeout(timeoutId);
+        }
+    }, [notification]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -141,13 +158,9 @@ const FormInputTanggal = () => {
                 <InputGroup>
                     <Label>Kategori Hari</Label>
                     <Select
-                        name="dayCategory"
-                        value={formData.dayCategory}
-                        options={[
-                            { value: 'Hari Biasa', label: 'Hari Biasa' },
-                            { value: 'Hari Libur', label: 'Hari Libur' }
-                        ]}
-                        onChange={(selectedOption) => setFormData({ ...formData, dayCategory: selectedOption.value })}
+                        value={dayCategoryOptions.find(option => option.value === formData.dayCategory)}
+                        onChange={handleSelectChange}
+                        options={dayCategoryOptions}
                     />
                 </InputGroup>
                 <InputGroup>
