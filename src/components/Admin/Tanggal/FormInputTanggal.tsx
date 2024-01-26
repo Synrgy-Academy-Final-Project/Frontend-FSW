@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import {useCurrentPage} from "../CurrentPageContext.tsx";
+import { useCurrentPage } from "../CurrentPageContext.tsx";
 import Select from 'react-select';
+
 const Form = styled.form`
   width: 97%;
   margin-left: 15px;
@@ -35,18 +36,6 @@ const Input = styled.input`
   font-size: 14px;
 `;
 
-// const Select = styled.select`
-//   padding: 10px;
-//   padding-right: 30px;
-//   border: 1px solid #ccc;
-//   border-radius: 8px;
-//   font-size: 14px;
-//   background: white url('https://i.ibb.co/brG0Rbk/Chevron-Down.png') no-repeat right 10px center;
-//   -webkit-appearance: none;
-//   -moz-appearance: none;
-//   appearance: none;
-// `;
-
 const Button = styled.button`
   background-color: #007BFF;
   margin-top: 25px;
@@ -61,12 +50,14 @@ const Button = styled.button`
     background-color: #0056b3;
   }
 `;
+
 const DateInput = styled.input`
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
 `;
+
 const ResponseMessage = styled.div`
   padding: 8px;
   border-radius: 4px;
@@ -78,36 +69,15 @@ const ResponseMessage = styled.div`
 `;
 
 const FormInputTanggal = () => {
-    const [loading, setLoading] = useState(true);
     const { setRefreshData } = useCurrentPage();
-    const [refreshing, setRefreshing] = useState(false);
-    const [addedData, setAddedData] = useState(false);
-    const [error, setError] = useState('');
-
-    const [notification, setNotification] = useState({
-        message: '',
-        type: '', // 'success' for green, 'error' for red
-    });
-
-    const handleNotification = (message, type) => {
-        setNotification({ message, type });
-
-        // Automatically clear the notification after 3000ms (3 seconds)
-        setTimeout(() => {
-            setNotification({ message: '', type: '' });
-        }, 3000);
-    };
-
-    const handleRefreshClick = () => {
-        setRefreshing(true);
-
-        window.location.reload();
-    };
-
     const [formData, setFormData] = useState({
         dateOfDeparture: '',
         dayCategory: 'Hari Biasa',
         price: 0,
+    });
+    const [notification, setNotification] = useState({
+        message: '',
+        type: '', // 'success' for green, 'error' for red
     });
 
     const handleInputChange = (event) => {
@@ -146,80 +116,66 @@ const FormInputTanggal = () => {
                     price: 0,
                 });
                 setRefreshData(true);
-                setAddedData(true);
-                setLoading(false);
-                setError('Data berhasil ditambahkan.');
-                handleNotification('Data berhasil ditambahkan.', 'success');
+                setNotification({ message: 'Data berhasil ditambahkan.', type: 'success' });
             } else if (!response.ok) {
                 throw new Error('Failed to add data');
             }
         } catch (error) {
             console.error('Error adding data:', error);
-            setError(error.message);
+            setNotification({ message: error.message, type: 'error' });
         }
     };
-    const getResponseBackgroundColor = () => {
-        if (error.includes('Data berhasil ditambahkan.')) {
-            return 'green';
-        } else {
-            return 'red';
-        }
-    };
-    const dayCategoryOptions = [
-        { value: 'Hari Biasa', label: 'Hari Biasa' },
-        { value: 'Hari Libur', label: 'Hari Libur' }
-    ];
-    const handleSelectChange = (selectedOption) => {
-        setFormData({ ...formData, dayCategory: selectedOption.value });
-    };
-    return (
-    <>
 
-        <Form onSubmit={handleSubmit}>
-            <InputGroup>
-                <Label>Tanggal Keberangkatan</Label>
-                <DateInput
-                    type="date"
-                    name="dateOfDeparture"
-                    value={formData.dateOfDeparture}
-                    onChange={handleInputChange}
-                />
-            </InputGroup>
-            <InputGroup>
-                <Label>Kategori Hari</Label>
-                <Select
-                    name="dayCategory"
-                    value={dayCategoryOptions.find(option => option.value === formData.dayCategory)}
-                    onChange={handleSelectChange}
-                    options={dayCategoryOptions}
-                />
-            </InputGroup>
-            <InputGroup>
-                <Label>Harga</Label>
-                <Input
-                    id="price"
-                    name="price"
-                    type="number"
-                    placeholder="Rp"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    required
-                />
-            </InputGroup>
-            <Button type="submit">+ Tambah</Button>
-        </Form>
-        {notification.message && (
-            <ResponseMessage
-                style={{
-                    margin: '15px',
-                    backgroundColor: notification.type === 'success' ? 'green' : 'red',
-                    color: 'white',
-                }}
-            >
-                {refreshing ? 'Refreshing...' : notification.message}
-            </ResponseMessage>
-        )}
-    </>
+    return (
+        <>
+            <Form onSubmit={handleSubmit}>
+                <InputGroup>
+                    <Label>Tanggal Keberangkatan</Label>
+                    <DateInput
+                        type="date"
+                        name="dateOfDeparture"
+                        value={formData.dateOfDeparture}
+                        onChange={handleInputChange}
+                    />
+                </InputGroup>
+                <InputGroup>
+                    <Label>Kategori Hari</Label>
+                    <Select
+                        name="dayCategory"
+                        value={formData.dayCategory}
+                        options={[
+                            { value: 'Hari Biasa', label: 'Hari Biasa' },
+                            { value: 'Hari Libur', label: 'Hari Libur' }
+                        ]}
+                        onChange={(selectedOption) => setFormData({ ...formData, dayCategory: selectedOption.value })}
+                    />
+                </InputGroup>
+                <InputGroup>
+                    <Label>Harga</Label>
+                    <Input
+                        id="price"
+                        name="price"
+                        type="number"
+                        placeholder="Rp"
+                        value={formData.price}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </InputGroup>
+                <Button type="submit">+ Tambah</Button>
+            </Form>
+            {notification.message && (
+                <ResponseMessage
+                    style={{
+                        margin: '15px',
+                        backgroundColor: notification.type === 'success' ? 'green' : 'red',
+                        color: 'white',
+                    }}
+                >
+                    {notification.message}
+                </ResponseMessage>
+            )}
+        </>
     );
 };
 
