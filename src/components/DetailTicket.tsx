@@ -6,7 +6,7 @@ export default function DetailTicket() {
     <div className="row">
       <div className="col-3"></div>
       <div className="col-9">
-        <Accordion defaultActiveKey="0">
+        <Accordion>
           <Accordion.Item eventKey="0">
             <Accordion.Header>
               <Card className="w-100 d-flex">
