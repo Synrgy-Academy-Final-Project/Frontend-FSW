@@ -31,7 +31,7 @@ const Navbar = () => {
     return (
         <NavbarContainer>
             <Greeting>{currentPage}</Greeting>
-            <ProfileIcon src="path_to_your_profile_icon.png" alt="Profile" />
+            <ProfileIcon src="https://i.ibb.co/Fhk8RfG/Switch.png" alt="Profile" />
         </NavbarContainer>
     );
 };
