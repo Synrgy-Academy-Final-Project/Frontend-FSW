@@ -54,6 +54,7 @@ const Button = styled.button`
 const EditFormTanggal = ({ dateId, initialData, onClose,  onUpdateSuccess, updateMessage  }) => {
     const [apiMessage, setApiMessage] = useState('');
 
+
     const dayCategoryOptions = [
         { value: 'Hari Biasa', label: 'Hari Biasa' },
         { value: 'Hari Libur', label: 'Hari Libur' }
@@ -112,18 +113,27 @@ const EditFormTanggal = ({ dateId, initialData, onClose,  onUpdateSuccess, updat
                 setApiMessage('Data berhasil diperbarui.'); // Atur pesan dari API
                 setRefreshData(true);
                 onClose();
+                setTimeout(() => {
+                    setApiMessage('');
+                }, 3000);
             } else {
                 const jsonData = await response.json();
                 console.error('Error updating data:', jsonData); // Log errors
                 updateMessage(jsonData.message || 'Error updating data');
                 setApiMessage(jsonData.message || 'Error updating data'); // Atur pesan dari API
                 onUpdateSuccess();
+                setTimeout(() => {
+                    setApiMessage('');
+                }, 3000);
             }
         } catch (error) {
             console.error('Error updating data:', error);
             setError(error.message);
             setApiMessage(error.message); // Atur pesan dari API
             onUpdateSuccess();
+            setTimeout(() => {
+                setApiMessage('');
+            }, 3000);
         }
     };
 

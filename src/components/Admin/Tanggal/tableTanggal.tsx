@@ -174,11 +174,11 @@ const TableTanggal = () => {
 
     // update
     const [editingDateId, setEditingDateId] = useState(null);
-    const [editFormMessage, setEditFormMessage] = useState('');
     const [apiMessage, setApiMessage] = useState('');
     const [patchMessage, setPatchMessage] = useState('');
 
-
+    // ...
+    const [editFormMessage, setEditFormMessage] = useState('');
 
     const hideMessageAfterTimeout = () => {
         setTimeout(() => {
@@ -288,12 +288,20 @@ const TableTanggal = () => {
     const getResponseBackgroundColor = () => {
         if (successMessage.includes('Data berhasil dihapus.')) {
             return 'green';
-        } else if (patchMessage.includes('Data berhasil diperbarui.')) {
-            return 'green'; // Apply green background color for "Data berhasil diperbarui." message
+        } else if (apiMessage.includes('Data berhasil diperbarui.')) {
+            return 'green';
+        } else if (editFormMessage.includes('Data berhasil diperbarui.')) {
+            return 'green'; // Menambahkan kondisi ini
         } else {
             return 'red';
         }
     };
+    const hideEditFormMessageAfterTimeout = () => {
+        setTimeout(() => {
+            setEditFormMessage('');
+        }, 3000);
+    };
+
 
 
     return (
@@ -310,7 +318,7 @@ const TableTanggal = () => {
                 </ResponseMessage>
             )}
 
-            {isNotificationVisible && patchMessage && (
+            {editFormMessage && (
                 <ResponseMessage
                     style={{
                         margin: '15px',
@@ -318,9 +326,12 @@ const TableTanggal = () => {
                         color: 'white',
                     }}
                 >
-                    {patchMessage}
+                    {editFormMessage}
                 </ResponseMessage>
             )}
+
+            {editFormMessage && hideEditFormMessageAfterTimeout()}
+
 
 
             <TableContainer>
