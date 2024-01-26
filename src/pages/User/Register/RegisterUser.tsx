@@ -195,9 +195,9 @@ const RegisterUser = () => {
                 </div>
               )}
             </FormGroup>
-            <Button onClick={handleRegister}>Daftar</Button>
+            <Button className="my-3" onClick={handleRegister}>Daftar</Button>
             <p>
-              Sudah Punya Akun? <Login>Masuk aja!</Login>
+              Sudah Punya Akun? <Login href="/login" >Masuk aja!</Login>
             </p>
           </RegisterForm>
         </Col>
@@ -270,7 +270,8 @@ const Button = styled.button`
   cursor: pointer;
   width: 100%;
 `;
-const Login = styled.span`
+const Login = styled.a`
+  text-decoration: none;
   color: var(--Primary-Blue, #3e7bfa);
 `;
 export default RegisterUser;

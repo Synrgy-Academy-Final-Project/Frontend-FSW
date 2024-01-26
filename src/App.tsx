@@ -40,6 +40,7 @@ function App() {
                 <Route path='/login' element={<LoginUser />} />
                 <Route path='/register' element={<RegisterUser />} />
                 <Route path='/newpassword' element={<NewPassword />} />
+                <Route path='/list-ticket' element={<TicketList />} />
                 <Route path='/datapenumpang' element={<DataPenumpang />} />
                 <Route path='/verify-account' element={<VerifyAccount />} />
                 <Route path='/forget-password' element={<ForgetPassword />} />
@@ -47,7 +48,6 @@ function App() {
 
                 {/* Components */}
                 <Route path='/filterListTicket' element={<FilterListTicket />} />
-                <Route path='/list-ticket' element={<TicketList />} />
                 <Route path='/verify-account' element={<VerifyAccount />} />
 
                 {/*Admin*/}
