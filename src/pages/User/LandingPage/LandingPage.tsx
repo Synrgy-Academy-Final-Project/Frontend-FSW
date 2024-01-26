@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../../components/Header.tsx";
-import AboutUs from "../../../components/AboutUs.tsx";
-import Promo from "../../../components/Promo.tsx";
+import CtaBottom from "../../../components/CtaBottom.tsx";
+import Feature from "../../../components/Feature.tsx";
 import PopularPlaces from "../../../components/PopularPlaces.tsx";
 import Footer from "../../../components/Footer.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,13 +12,13 @@ const LandingPage: React.FC = () => {
     <div>
       <Header />
       <div style={sectionStyle}>
-        <Promo />
-      </div>
-      <div style={sectionStyle}>
-        <AboutUs />
+        <Feature />
       </div>
       <div style={sectionStyle}>
         <PopularPlaces />
+      </div>
+      <div style={sectionStyle}>
+        <CtaBottom />
       </div>
       <Footer />
     </div>
