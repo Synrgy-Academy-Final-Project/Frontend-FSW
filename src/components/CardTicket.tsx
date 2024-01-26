@@ -1,5 +1,6 @@
 import Time from "../assets/images/Time.png";
 import Garuda from "../assets/images/garuda.png";
+import DetailTicket from "./DetailTicket";
 type Props = {};
 
 const CardTicket = (props: Props) => {
@@ -41,6 +42,7 @@ const CardTicket = (props: Props) => {
           </button>
         </div>
       </div>
+      <DetailTicket />
     </div>
   );
 };

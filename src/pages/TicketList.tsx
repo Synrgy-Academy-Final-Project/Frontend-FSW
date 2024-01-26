@@ -1,15 +1,14 @@
 import CardTicket from "../components/CardTicket";
+import DetailTicket from "../components/DetailTicket";
 import FilterListTicket from "../components/FilterListTicket";
-import SearchTicket from "../components/SearchTicket";
+import Header from "../components/Header";
 
 type Props = {};
 
 const TicketList = (props: Props) => {
   return (
     <div>
-      <div className="container border border-2 p-3 m-3 rounded-2 mx-auto">
-        <SearchTicket onSearch={() => console.log("test")} />
-      </div>
+      <Header label="LIST-TICKET" />
       <div className="d-flex">
         <div className="w-25">
           <FilterListTicket />
@@ -18,7 +17,7 @@ const TicketList = (props: Props) => {
           {[...Array(5)].map((item) => {
             return (
               <div>
-                <CardTicket />
+                <DetailTicket />
               </div>
             );
           })}
