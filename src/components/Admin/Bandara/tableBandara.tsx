@@ -284,6 +284,7 @@ const TableBandara = () => {
                     setTimeout(() => {
                         setIsNotificationVisible(false);
                     }, 3000);
+                    setEditFormMessage('');
                 } else {
                     const jsonData = await response.json();
                     throw new Error(jsonData.message || 'Error deleting data');
@@ -298,12 +299,24 @@ const TableBandara = () => {
         }
     };
     const getResponseBackgroundColor = () => {
-        const isSuccess = successMessage.includes('Data berhasil dihapus.') ||
-            successMessage.includes('Data berhasil diperbarui.') ||
-            editFormMessage.includes('update base price airport successfully');
-
-        return isSuccess ? 'green' : 'red';
+        if (successMessage.includes('Data berhasil dihapus.')) {
+            return 'green';
+        } else if (successMessage.includes('Data berhasil diperbarui.')) {
+            return 'green';
+        } else {
+            return 'red';
+        }
     };
+
+    const getResponseBackgroundColorUpdate = () => {
+        if (editFormMessage.includes('update base price airport successfully')) {
+            return 'green';
+        } else {
+            return 'red';
+        }
+    };
+
+
 
     const [refreshing, setRefreshing] = useState(false);
     const handleRefreshClick = () => {
@@ -324,6 +337,7 @@ const TableBandara = () => {
     const handleEditFormUpdate = () => {
         setRefreshData(true);
         setIsNotificationVisible(true);
+        setEditFormMessage('');
         setTimeout(() => {
             setIsNotificationVisible(false);
             setShowModal(false);
@@ -339,28 +353,18 @@ const TableBandara = () => {
 
     return (
         <>
-            {isNotificationVisible && successMessage && (
+            {isNotificationVisible && (successMessage || editFormMessage) && (
                 <ResponseMessage
                     style={{
                         margin: '15px',
-                        backgroundColor: getResponseBackgroundColor(),
+                        backgroundColor: editFormMessage ? getResponseBackgroundColorUpdate() : getResponseBackgroundColor(),
                         color: 'white',
                     }}
                 >
-                    {successMessage}
+                    {editFormMessage || successMessage}
                 </ResponseMessage>
             )}
-            {isNotificationVisible && editFormMessage && (
-                <ResponseMessage
-                    style={{
-                        margin: '15px',
-                        backgroundColor: getResponseBackgroundColor(),
-                        color: 'white',
-                    }}
-                >
-                    {editFormMessage}
-                </ResponseMessage>
-            )}
+
 
 
             <TableContainer>
