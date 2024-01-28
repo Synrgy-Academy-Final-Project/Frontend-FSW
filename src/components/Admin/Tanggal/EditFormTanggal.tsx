@@ -86,11 +86,10 @@ const EditFormTanggal = ({ dateId, initialData, onClose,  onUpdateSuccess, updat
                 throw new Error('No token found');
             }
 
-            // Format the dateOfDeparture in "yyyy-MM-dd" format
             const formattedDate = new Date(formData.dateOfDeparture).toISOString().split('T')[0];
 
             const payload = {
-                dateOfDeparture: formattedDate, // Use the formatted date
+                dateOfDeparture: formattedDate,
                 dayCategory: formData.dayCategory,
                 price: parseInt(formData.price),
             };
@@ -104,13 +103,13 @@ const EditFormTanggal = ({ dateId, initialData, onClose,  onUpdateSuccess, updat
                 body: JSON.stringify(payload),
             });
 
-            console.log('Response:', response); // Add this line to log the response
+            console.log('Response:', response);
 
             if (response.status === 200) {
                 const jsonData = await response.json();
                 onUpdateSuccess();
                 updateMessage('Data berhasil diperbarui.');
-                setApiMessage('Data berhasil diperbarui.'); // Atur pesan dari API
+                setApiMessage('Data berhasil diperbarui.');
                 setRefreshData(true);
                 onClose();
                 setTimeout(() => {
@@ -118,9 +117,9 @@ const EditFormTanggal = ({ dateId, initialData, onClose,  onUpdateSuccess, updat
                 }, 3000);
             } else {
                 const jsonData = await response.json();
-                console.error('Error updating data:', jsonData); // Log errors
+                console.error('Error updating data:', jsonData);
                 updateMessage(jsonData.message || 'Error updating data');
-                setApiMessage(jsonData.message || 'Error updating data'); // Atur pesan dari API
+                setApiMessage(jsonData.message || 'Error updating data');
                 onUpdateSuccess();
                 setTimeout(() => {
                     setApiMessage('');
@@ -129,7 +128,7 @@ const EditFormTanggal = ({ dateId, initialData, onClose,  onUpdateSuccess, updat
         } catch (error) {
             console.error('Error updating data:', error);
             setError(error.message);
-            setApiMessage(error.message); // Atur pesan dari API
+            setApiMessage(error.message);
             onUpdateSuccess();
             setTimeout(() => {
                 setApiMessage('');

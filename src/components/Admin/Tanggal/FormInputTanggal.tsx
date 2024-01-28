@@ -84,7 +84,7 @@ const FormInputTanggal = () => {
     });
     const [notification, setNotification] = useState({
         message: '',
-        type: '', // 'success' for green, 'error' for red
+        type: '',
     });
 
     useEffect(() => {
