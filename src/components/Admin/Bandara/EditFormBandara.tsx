@@ -58,7 +58,7 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Atur z-index agar overlay tampil di atas konten lain */
+  z-index: 1000;
 `;
 
 const ModalContainer = styled.div`
@@ -68,7 +68,7 @@ const ModalContainer = styled.div`
   background: #FFFFFF;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  z-index: 2000; /* Atur z-index agar kontainer modal tampil di atas overlay */
+  z-index: 2000;
 `;
 
 const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose , rowIndex }) => {
@@ -80,8 +80,9 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose , rowIn
         durationMinutes: bandara.duration % 60, // Extract minutes
         price: bandara.price,
     });
-    const [showModal, setShowModal] = useState(false); // State untuk mengontrol tampilan modal
+    const [showModal, setShowModal] = useState(false);
     const [editingBandaraId, setEditingBandaraId] = useState(null);
+
 
     useEffect(() => {
         async function fetchAirports() {
@@ -157,21 +158,25 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose , rowIn
                 body: JSON.stringify({
                     fromAirportId: formData.fromAirportId,
                     toAirportId: formData.toAirportId,
-                    duration: durationInMinutes, // Use the total duration in minutes
+                    duration: durationInMinutes,
                     price: formData.price,
                 }),
             });
 
-            if (response.status === 200) {
+            if (response.status === 201) {
+                const jsonData = await response.json();
                 onUpdate();
-                onEditFormMessage('Data berhasil diperbarui.');
+                onEditFormMessage(jsonData.message || 'Data berhasil diperbarui.');
                 onClose();
             } else {
                 const jsonData = await response.json();
                 onEditFormMessage(jsonData.message || 'Error updating data');
+                onClose();
             }
         } catch (err) {
             console.error('Error:', err.message);
+            onEditFormMessage(err.message);
+            onClose();
         }
     };
 
@@ -189,7 +194,7 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose , rowIn
         onClose();
     };
     const handleFormClick = (e) => {
-        e.stopPropagation(); // Menghentikan propagasi event klik dari elemen form ke overlay
+        e.stopPropagation();
     };
     return (
         <Overlay

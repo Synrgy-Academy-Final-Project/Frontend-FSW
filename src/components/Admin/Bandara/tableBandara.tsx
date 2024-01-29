@@ -14,7 +14,7 @@ const Overlay = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  cursor: pointer; /* Menambahkan cursor pointer */
+  cursor: pointer;
 `;
 
 const ModalContainer = styled.div`
@@ -24,7 +24,7 @@ const ModalContainer = styled.div`
   background: #FFFFFF;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  z-index: 2000; /* Atur z-index agar kontainer modal tampil di atas overlay */
+  z-index: 2000;
 `;
 
 const TableContainer = styled.div`
@@ -36,9 +36,9 @@ const TableContainer = styled.div`
 
 const EditFormContainer = styled.div`
   position: absolute;
-  top: 75%; // Posisikan di tengah vertikal
-  left: 50%; // Posisikan di tengah horizontal
-  transform: translate(-50%, -50%); // Geser elemen ke tengah
+  top: 75%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
   width: 100%;
   max-width: 400px;
   padding: 16px;
@@ -166,7 +166,7 @@ const TableBandara = () => {
     const { refreshData, setRefreshData } = useCurrentPage();
     const [deleteMessage, setDeleteMessage] = useState('');
     const [isNotificationVisible, setIsNotificationVisible] = useState(false);
-    const [showModal, setShowModal] = useState(false); // State untuk mengontrol tampilan modal
+    const [showModal, setShowModal] = useState(false);
     const [editingBandaraId, setEditingBandaraId] = useState(null);
     const [selectedBandara, setSelectedBandara] = useState(null);
 
@@ -174,8 +174,8 @@ const TableBandara = () => {
     const handleEditClick = (bandaraId) => {
         const selectedBandara = bandaras.find((bandara) => bandara.id === bandaraId);
         setSelectedBandara(selectedBandara);
-        setEditingBandaraId(bandaraId); // Setel id bandara yang sedang diedit
-        setShowModal(true); // Menampilkan modal ketika tombol edit diklik
+        setEditingBandaraId(bandaraId);
+        setShowModal(true);
     };
 
 
@@ -284,6 +284,7 @@ const TableBandara = () => {
                     setTimeout(() => {
                         setIsNotificationVisible(false);
                     }, 3000);
+                    setEditFormMessage('');
                 } else {
                     const jsonData = await response.json();
                     throw new Error(jsonData.message || 'Error deleting data');
@@ -307,6 +308,15 @@ const TableBandara = () => {
         }
     };
 
+    const getResponseBackgroundColorUpdate = () => {
+        if (editFormMessage.includes('update base price airport successfully')) {
+            return 'green';
+        } else {
+            return 'red';
+        }
+    };
+
+
 
     const [refreshing, setRefreshing] = useState(false);
     const handleRefreshClick = () => {
@@ -314,44 +324,48 @@ const TableBandara = () => {
 
         window.location.reload();
     };
-    const [editFormMessage, setEditFormMessage] = useState('');
 
+    const [editFormMessage, setEditFormMessage] = useState('');
     const handleEditFormMessage = (message) => {
         setEditFormMessage(message);
-    };
-    const handleEditFormUpdate = () => {
-        setRefreshData(true);
-        setSuccessMessage('Data berhasil diperbarui.');
         setIsNotificationVisible(true);
         setTimeout(() => {
             setIsNotificationVisible(false);
-        }, 5000);
+        }, 3000);
+    };
 
-        // Close the EditFormBandara popup
-        // setShowEditForm(false);
+    const handleEditFormUpdate = () => {
+        setRefreshData(true);
+        setIsNotificationVisible(true);
+        setEditFormMessage('');
+        setTimeout(() => {
+            setIsNotificationVisible(false);
+            setShowModal(false);
+        }, 3000);
+
     };
 
     const handleCloseModal = () => {
         setShowModal(false);
-        setEditingBandaraId(null); // Reset editingBandaraId saat popup ditutup
+        setEditingBandaraId(null);
     };
-
-
 
 
     return (
         <>
-            {isNotificationVisible && successMessage && (
+            {isNotificationVisible && (successMessage || editFormMessage) && (
                 <ResponseMessage
                     style={{
                         margin: '15px',
-                        backgroundColor: getResponseBackgroundColor(),
+                        backgroundColor: editFormMessage ? getResponseBackgroundColorUpdate() : getResponseBackgroundColor(),
                         color: 'white',
                     }}
                 >
-                    {successMessage}
+                    {editFormMessage || successMessage}
                 </ResponseMessage>
             )}
+
+
 
             <TableContainer>
 
@@ -360,7 +374,8 @@ const TableBandara = () => {
                         bandara={selectedBandara}
                         onUpdate={handleEditFormUpdate}
                         onEditFormMessage={handleEditFormMessage}
-                        onClose={handleCloseModal} // Menggunakan handleCloseModal untuk menutup popup
+                        onClose={handleCloseModal}
+
                     />
                 )}
 
@@ -384,11 +399,11 @@ const TableBandara = () => {
                             <Td>{formatDuration(bandara.duration)}</Td>
                             <Td>Rp{bandara.price}</Td>
                             <Td>
-                                {editingBandaraId !== bandara.id && ( // Tampilkan tombol Edit dan Delete hanya jika tidak dalam mode edit
+                                {editingBandaraId !== bandara.id && (
                                     <>
                                         <ActionButton
                                             title="Edit"
-                                            onClick={() => handleEditClick(bandara.id)} // Pass the bandara.id as a parameter
+                                            onClick={() => handleEditClick(bandara.id)}
                                         >
                                             <Icon src="https://i.ibb.co/WFKh40T/Pen.png" alt="Edit" />
                                         </ActionButton>
