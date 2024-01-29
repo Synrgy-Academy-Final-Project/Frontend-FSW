@@ -15,6 +15,15 @@
   border-radius: 0rem 0.75rem 0.75rem 0rem;
   border: 1px solid var(--Primary-Light-Blue, #b1c5ff);
 }
+.accordion-button {
+  border-radius: 0.75rem 0rem 0rem 0.75rem !important;
+  border: 1px solid var(--Primary-Light-Blue, #b1c5ff);
+}
+.accordeoon-label {
+  font-size: 12px;
+  font-weight: 100;
+  margin-bottom: 32px;
+}
 
 /* Text Field */
 /* .form-position {

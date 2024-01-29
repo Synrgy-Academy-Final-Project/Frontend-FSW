@@ -1,0 +1,26 @@
+.desc-payment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--Primary-Blue, #3e7bfa);
+}
+
+.b-24-p {
+  text-align: left;
+  font-family: "Open Sans";
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.5rem; /* 166.667% */
+  letter-spacing: -0.03125rem;
+}
+
+.sb-20-w {
+  color: #fff;
+  font-family: "Open Sans";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.75rem; /* 140% */
+  letter-spacing: -0.04688rem;
+}
