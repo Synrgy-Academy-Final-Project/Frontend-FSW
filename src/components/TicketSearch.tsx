@@ -22,16 +22,6 @@ interface Option {
   detailLabel: string;
 }
 
-// const options: Option[] = [
-//   { value: "soekarno hatta", label: "Jakarta", detailLabel: "Soekarno Hatta" },
-//   {
-//     value: "ngurah rai",
-//     label: "Bali",
-//     detailLabel: "I Gusti Ngurah Rai International Airport",
-//   },
-//   { value: "adi sumarmo", label: "Solo", detailLabel: "Adi Sumarmo" },
-// ];
-
 // Fungsi untuk mendapatkan data dari API
 const getAirportData = async (): Promise<Option[]> => {
   try {
@@ -213,32 +203,6 @@ export default function TicketSearch() {
       setReturnDay("");
     }
   };
-
-  // const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
-  // const handleDropdownToggle = () => {
-  //   setIsDropdownVisible(!isDropdownVisible);
-  // };
-
-  // const handleDropdownPassengerClick = (event) => {
-  //   event.stopPropagation();
-  // };
-
-  // const handleDropdownClose = () => {
-  //   setIsDropdownVisible(false);
-  // };
-
-  // const handleDropdownItemClick = (event) => {
-  //   event.preventDefault(); // Prevent the default behavior of the link
-  //   setIsDropdownVisible(true);
-  // };
-  // const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
-  // const handleDropdownToggle = () => setIsDropdownVisible(!isDropdownVisible);
-  // const handleDropdownPassengerClick = () => {}; // Implement this function if needed
-  // const handleDropdownItemClick = () => {
-  //   setIsDropdownVisible(true);
-  // };
 
   return (
     <div>

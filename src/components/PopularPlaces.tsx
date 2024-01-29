@@ -68,9 +68,9 @@ const PopularPlaces: React.FC = () => {
               >
                 <path
                   d="M2 22L12 12L2 2"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </Btn>
