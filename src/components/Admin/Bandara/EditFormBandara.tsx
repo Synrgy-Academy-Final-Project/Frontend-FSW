@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 
@@ -71,18 +71,15 @@ const ModalContainer = styled.div`
   z-index: 2000;
 `;
 
-const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose , rowIndex }) => {
+const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose }) => {
     const [airports, setAirports] = useState([]);
     const [formData, setFormData] = useState({
         fromAirportId: bandara.fromAirportId,
         toAirportId: bandara.toAirportId,
-        durationHours: Math.floor(bandara.duration / 60), // Extract hours
-        durationMinutes: bandara.duration % 60, // Extract minutes
+        durationHours: String(Math.floor(bandara.duration / 60)), // Convert to string
+        durationMinutes: String(bandara.duration % 60), // Convert to string
         price: bandara.price,
     });
-    const [showModal, setShowModal] = useState(false);
-    const [editingBandaraId, setEditingBandaraId] = useState(null);
-
 
     useEffect(() => {
         async function fetchAirports() {
@@ -107,9 +104,8 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose , rowIn
 
                 if (Array.isArray(jsonData)) {
                     const formattedAirports = jsonData.map((item) => ({
-                        id: item.id,
-                        fromCity: item.city,
-                        fromCode: item.code,
+                        value: item.id,
+                        label: `${item.city} (${item.code})`, // Fix the property names
                     }));
 
                     setAirports(formattedAirports);
@@ -130,9 +126,11 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose , rowIn
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSelectChange = (selectedOption, { name }) => {
-        setFormData({ ...formData, [name]: selectedOption.value });
-    };
+    // const handleSelectChange = (selectedOption) => {
+    //     const name = "fromAirportId"; // Specify the name you want here
+    //     setFormData({ ...formData, [name]: selectedOption ? selectedOption.value : null });
+    // };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -180,87 +178,84 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose , rowIn
         }
     };
 
-    const airportOptions = airports.map(airport => ({
-        value: airport.id,
-        label: `${airport.fromCity} (${airport.fromCode})`
+    const airportOptions = airports.map((airport) => ({
+        value: airport.value,
+        label: airport.label,
     }));
 
     const handleCancel = () => {
         onClose();
     };
     const handleOverlayClick = () => {
-        setShowModal(false);
-        setEditingBandaraId(null);
         onClose();
     };
     const handleFormClick = (e) => {
         e.stopPropagation();
     };
+
     return (
-        <Overlay
-            onClick={handleOverlayClick}
-        >
+        <Overlay onClick={handleOverlayClick}>
             <ModalContainer>
-            <EditForm onSubmit={handleSubmit} onClick={handleFormClick}>
-                <FormGroup>
-                    <Label htmlFor="fromAirportId">Kota/Bandara Asal</Label>
-                    <Select
-                        id="originAirport"
-                        name="fromAirportId"
-                        options={airportOptions}
-                        onChange={handleSelectChange}
-                        value={airportOptions.find(option => option.value === formData.fromAirportId)}
-                        required
-                        placeholder="Bandara Asal"
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label htmlFor="toAirportId">Kota/Bandara Tujuan</Label>
-                    <Select
-                        id="destinationAirport"
-                        name="toAirportId"
-                        options={airportOptions}
-                        onChange={handleSelectChange}
-                        value={airportOptions.find(option => option.value === formData.toAirportId)}
-                        required
-                        placeholder="Bandara Tujuan"
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label htmlFor="durationHours">Durasi (Jam)</Label>
-                    <Input
-                        id="durationHours"
-                        name="durationHours"
-                        type="number"
-                        value={formData.durationHours}
-                        onChange={handleInputChange}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label htmlFor="durationMinutes">Durasi (Menit)</Label>
-                    <Input
-                        id="durationMinutes"
-                        name="durationMinutes"
-                        type="number"
-                        value={formData.durationMinutes}
-                        onChange={handleInputChange}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label htmlFor="price">Harga</Label>
-                    <Input
-                        id="price"
-                        name="price"
-                        type="number"
-                        value={formData.price}
-                        onChange={handleInputChange}
-                    />
-                </FormGroup>
-                <FlexContainer>
-                    <Button type="submit">Simpan</Button>
-                    <CancelButton type="button" onClick={handleCancel}>Batal</CancelButton>
-                </FlexContainer>
-            </EditForm>
+                <EditForm onSubmit={handleSubmit} onClick={handleFormClick}>
+                    <FormGroup>
+                        <Label htmlFor="fromAirportId">Kota/Bandara Asal</Label>
+                        <Select
+                            id="originAirport"
+                            name="fromAirportId"
+                            options={airportOptions}
+                            onChange={(selectedOption) => setFormData({ ...formData, fromAirportId: selectedOption ? selectedOption.value : null })}
+                            value={airportOptions.find((option) => option.value === formData.fromAirportId)}
+                            required
+                            placeholder="Bandara Asal"
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor="toAirportId">Kota/Bandara Tujuan</Label>
+                        <Select
+                            id="destinationAirport"
+                            name="toAirportId"
+                            options={airportOptions}
+                            onChange={(selectedOption) => setFormData({ ...formData, toAirportId: selectedOption ? selectedOption.value : null })}
+                            value={airportOptions.find((option) => option.value === formData.toAirportId)}
+                            required
+                            placeholder="Bandara Tujuan"
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor="durationHours">Durasi (Jam)</Label>
+                        <Input
+                            id="durationHours"
+                            name="durationHours"
+                            type="number"
+                            value={formData.durationHours}
+                            onChange={handleInputChange}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor="durationMinutes">Durasi (Menit)</Label>
+                        <Input
+                            id="durationMinutes"
+                            name="durationMinutes"
+                            type="number"
+                            value={formData.durationMinutes}
+                            onChange={handleInputChange}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor="price">Harga</Label>
+                        <Input
+                            id="price"
+                            name="price"
+                            type="number"
+                            value={formData.price}
+                            onChange={handleInputChange}
+                        />
+                    </FormGroup>
+                    <FlexContainer>
+                        <Button type="submit">Simpan</Button>
+                        <CancelButton type="button" onClick={handleCancel}>Batal</CancelButton>
+                    </FlexContainer>
+                </EditForm>
             </ModalContainer>
         </Overlay>
     );

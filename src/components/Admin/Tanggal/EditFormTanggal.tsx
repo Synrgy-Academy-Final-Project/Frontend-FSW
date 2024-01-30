@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import { useCurrentPage } from "../CurrentPageContext.tsx";
@@ -106,7 +106,6 @@ const EditFormTanggal = ({ dateId, initialData, onClose,  onUpdateSuccess, updat
             console.log('Response:', response);
 
             if (response.status === 200) {
-                const jsonData = await response.json();
                 onUpdateSuccess();
                 updateMessage('Data berhasil diperbarui.');
                 setApiMessage('Data berhasil diperbarui.');
