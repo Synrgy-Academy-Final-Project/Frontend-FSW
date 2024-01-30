@@ -15,7 +15,7 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "strict": true, //Default true = diatur false agar tidak kena any
+    "strict": false, //Default true = diatur false agar tidak kena any
     // "noUnusedLocals": true,
     // "noUnusedParameters": true,
     //disetting untuk deploy
