@@ -48,7 +48,7 @@ const DataPenumpang: React.FC = () => {
           <Col lg={1}>
             <img src="src/assets/images/3d-phone.png" alt="" />
           </Col>
-          <Col lg={11} className="ps-3">
+          <Col lg={11} className="ps-5">
             <HeadText>
               Ayo masuk dan pesan tiket jadi lebih mudah dan cepat lo!
             </HeadText>

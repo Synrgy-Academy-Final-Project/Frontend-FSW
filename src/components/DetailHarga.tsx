@@ -57,7 +57,7 @@ const DetailHarga = () => {
             </p>
             <Button
               style={{ backgroundColor: "#3e7bfa", borderColor: "#3e7bfa" }}
-              className="button-confirm"
+              className="button-harga"
             >
               Sumbit
             </Button>

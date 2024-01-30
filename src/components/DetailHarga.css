@@ -1,5 +1,7 @@
 .card {
-  width: 592px;
+  width: 100%;
+  max-width: 592px; 
+  margin: 0 auto;
 }
 
 .card-title {
@@ -12,9 +14,10 @@
   font-weight: 600;
 }
 
-.button-confirm {
+.button-harga {
   background-color: #3e7bfa;
-  width: 560px;
+  width: 100%;
+  max-width: 560px;
   height: 48px;
 }
 

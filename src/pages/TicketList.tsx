@@ -14,13 +14,11 @@ const TicketList = (props: Props) => {
           <FilterListTicket />
         </div>
         <div className="d-flex flex-column w-75">
-          {[...Array(5)].map((item) => {
-            return (
-              <div>
-                <DetailTicket />
-              </div>
-            );
-          })}
+          {[...Array(5)].map((item, index) => (
+            <div key={index}>
+              <DetailTicket />
+            </div>
+          ))}
         </div>
       </div>
     </div>
