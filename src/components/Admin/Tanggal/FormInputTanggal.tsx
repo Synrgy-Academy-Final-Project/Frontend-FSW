@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCurrentPage } from "../CurrentPageContext.tsx";
 import Select from 'react-select';
@@ -80,7 +80,7 @@ const FormInputTanggal = () => {
     const [formData, setFormData] = useState({
         dateOfDeparture: '',
         dayCategory: 'Hari Biasa',
-        price: 0,
+        price: '0', // Ubah ke string
     });
     const [notification, setNotification] = useState({
         message: '',
@@ -130,7 +130,7 @@ const FormInputTanggal = () => {
                 setFormData({
                     dateOfDeparture: '',
                     dayCategory: 'Hari Biasa',
-                    price: 0,
+                    price: '0', // Ubah ke string
                 });
                 setRefreshData(true);
                 setNotification({ message: 'Data berhasil ditambahkan.', type: 'success' });

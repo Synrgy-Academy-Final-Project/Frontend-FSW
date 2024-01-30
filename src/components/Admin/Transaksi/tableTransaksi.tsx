@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const TableContainer = styled.div`
@@ -80,18 +79,6 @@ const SelanjutnyaButton = styled(PaginationButton)`
   &:hover {
     background-color: #e6f0fd;
   }
-`;
-
-const ActionButton = styled.button`
-  margin: 0 4px;
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
-
-const Icon = styled.img`
-  width: 20px;
-  height: 20px;
 `;
 
 const PageNumber = styled.span`

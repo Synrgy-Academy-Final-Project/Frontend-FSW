@@ -1,31 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {useCurrentPage} from "../CurrentPageContext.tsx";
+import { useCurrentPage } from "../CurrentPageContext.tsx";
 import EditFormBandara from './EditFormBandara';
-
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  cursor: pointer;
-`;
-
-const ModalContainer = styled.div`
-  width: 100%;
-  max-width: 400px;
-  padding: 16px;
-  background: #FFFFFF;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  z-index: 2000;
-`;
 
 const TableContainer = styled.div`
   position: relative;
@@ -34,27 +10,11 @@ const TableContainer = styled.div`
   border-radius: 8px;
 `;
 
-const EditFormContainer = styled.div`
-  position: absolute;
-  top: 75%; 
-  left: 50%; 
-  transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 400px;
-  padding: 16px;
-  background: #FFFFFF;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  z-index: 2;
-`;
-
-
-
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  border-radius: 8px; 
+  border-radius: 8px;
 `;
 
 const Th = styled.th`
@@ -62,10 +22,10 @@ const Th = styled.th`
   padding: 8px;
   border-bottom: 2px solid #f2f2f2;
   &:first-child {
-    border-top-left-radius: 8px; 
+    border-top-left-radius: 8px;
   }
   &:last-child {
-    border-top-right-radius: 8px; 
+    border-top-right-radius: 8px;
   }
 `;
 
@@ -147,6 +107,7 @@ const PageNumber = styled.span`
   min-width: 30px;
   text-align: center;
 `;
+
 const ResponseMessage = styled.div`
   padding: 8px;
   border-radius: 4px;
@@ -156,20 +117,18 @@ const ResponseMessage = styled.div`
   cursor: pointer;
   font-weight: bold;
 `;
+
 const TableBandara = () => {
     const [bandaras, setBandaras] = useState([]);
     const [displayedBandaras, setDisplayedBandaras] = useState([]);
-    const [error, setError] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(10);
+    const [pageSize] = useState(3);
     const [totalItems, setTotalItems] = useState(0);
     const { refreshData, setRefreshData } = useCurrentPage();
-    const [deleteMessage, setDeleteMessage] = useState('');
     const [isNotificationVisible, setIsNotificationVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [editingBandaraId, setEditingBandaraId] = useState(null);
     const [selectedBandara, setSelectedBandara] = useState(null);
-
 
     const handleEditClick = (bandaraId) => {
         const selectedBandara = bandaras.find((bandara) => bandara.id === bandaraId);
@@ -177,8 +136,6 @@ const TableBandara = () => {
         setEditingBandaraId(bandaraId);
         setShowModal(true);
     };
-
-
 
     useEffect(() => {
         updateDisplayedBandaras(bandaras, currentPage, pageSize);
@@ -202,16 +159,14 @@ const TableBandara = () => {
 
                 if (response.status !== 200) {
                     throw new Error(jsonData.message || 'Error fetching data');
-
                 }
 
                 setBandaras(jsonData.data);
-                console.log(jsonData.data)
                 setTotalItems(jsonData.data.length);
                 updateDisplayedBandaras(jsonData.data, 1, pageSize);
 
             } catch (err) {
-                setError(err.message);
+                console.error(err);
             }
         };
 
@@ -250,12 +205,12 @@ const TableBandara = () => {
     const calculateItemNumber = (index) => {
         return (currentPage - 1) * pageSize + index + 1;
     };
+
     function formatDuration(minutes) {
         const hours = Math.floor(minutes / 60);
         const remainingMinutes = minutes % 60;
         return `${hours}j ${remainingMinutes}m`;
     }
-
 
     const [successMessage, setSuccessMessage] = useState('');
 
@@ -284,13 +239,12 @@ const TableBandara = () => {
                     setTimeout(() => {
                         setIsNotificationVisible(false);
                     }, 3000);
-                    setEditFormMessage('');
                 } else {
                     const jsonData = await response.json();
                     throw new Error(jsonData.message || 'Error deleting data');
                 }
             } catch (err) {
-                setDeleteMessage(err.message);
+                console.error(err);
                 setIsNotificationVisible(true);
                 setTimeout(() => {
                     setIsNotificationVisible(false);
@@ -298,34 +252,17 @@ const TableBandara = () => {
             }
         }
     };
+
     const getResponseBackgroundColor = () => {
-        if (successMessage.includes('Data berhasil dihapus.')) {
-            return 'green';
-        } else if (successMessage.includes('Data berhasil diperbarui.')) {
+        if (successMessage.includes('Data berhasil dihapus.') || successMessage.includes('Data berhasil diperbarui.')) {
             return 'green';
         } else {
             return 'red';
         }
-    };
-
-    const getResponseBackgroundColorUpdate = () => {
-        if (editFormMessage.includes('update base price airport successfully')) {
-            return 'green';
-        } else {
-            return 'red';
-        }
-    };
-
-
-
-    const [refreshing, setRefreshing] = useState(false);
-    const handleRefreshClick = () => {
-        setRefreshing(true);
-
-        window.location.reload();
     };
 
     const [editFormMessage, setEditFormMessage] = useState('');
+
     const handleEditFormMessage = (message) => {
         setEditFormMessage(message);
         setIsNotificationVisible(true);
@@ -342,7 +279,6 @@ const TableBandara = () => {
             setIsNotificationVisible(false);
             setShowModal(false);
         }, 3000);
-
     };
 
     const handleCloseModal = () => {
@@ -350,14 +286,13 @@ const TableBandara = () => {
         setEditingBandaraId(null);
     };
 
-
     return (
         <>
             {isNotificationVisible && (successMessage || editFormMessage) && (
                 <ResponseMessage
                     style={{
                         margin: '15px',
-                        backgroundColor: editFormMessage ? getResponseBackgroundColorUpdate() : getResponseBackgroundColor(),
+                        backgroundColor: getResponseBackgroundColor(),
                         color: 'white',
                     }}
                 >
@@ -365,17 +300,13 @@ const TableBandara = () => {
                 </ResponseMessage>
             )}
 
-
-
             <TableContainer>
-
                 {showModal && selectedBandara && (
                     <EditFormBandara
                         bandara={selectedBandara}
                         onUpdate={handleEditFormUpdate}
                         onEditFormMessage={handleEditFormMessage}
                         onClose={handleCloseModal}
-
                     />
                 )}
 

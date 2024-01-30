@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {useCurrentPage} from "../CurrentPageContext.tsx";
+import { useCurrentPage } from "../CurrentPageContext.tsx";
 import Select from 'react-select';
 
 const Form = styled.form`
@@ -27,14 +27,6 @@ const FormGroup = styled.div`
   }
 `;
 
-// const Select = styled.select`
-//   border: 1px solid #CCCCCC;
-//   border-radius: 4px;
-//   padding: 8px;
-//   font-size: 14px;
-//   cursor: pointer;
-// `;
-
 const Input = styled.input`
   border: 1px solid #CCCCCC;
   border-radius: 4px;
@@ -56,6 +48,7 @@ const Button = styled.button`
     background-color: #0056b3;
   }
 `;
+
 const ResponseMessage = styled.div`
   padding: 8px;
   border-radius: 4px;
@@ -65,6 +58,7 @@ const ResponseMessage = styled.div`
   cursor: pointer;
   font-weight: bold;
 `;
+
 const FormInputBandara = () => {
     const [formData, setFormData] = useState({
         fromAirportId: '',
@@ -73,22 +67,17 @@ const FormInputBandara = () => {
         price: '',
     });
 
-    const [airports, setAirports] = useState([]); // Initialize as an empty array
+    const [airports, setAirports] = useState([]);
     const [loading, setLoading] = useState(true);
     const { setRefreshData } = useCurrentPage();
     const [responseMessage, setResponseMessage] = useState('');
+
+    const [responseTimeout, setResponseTimeout] = useState(null);
+
     const [durationHours, setDurationHours] = useState('');
     const [durationMinutes, setDurationMinutes] = useState('');
+
     const totalDurationInMinutes = parseInt(durationHours) * 60 + parseInt(durationMinutes);
-    const [refreshing, setRefreshing] = useState(false);
-    const [isResponseVisible, setIsResponseVisible] = useState(true);
-    const [isNotificationVisible, setIsNotificationVisible] = useState(false);
-
-    const handleRefreshClick = () => {
-        setRefreshing(true);
-
-        window.location.reload();
-    };
 
     useEffect(() => {
         async function fetchAirports() {
@@ -131,13 +120,16 @@ const FormInputBandara = () => {
 
         fetchAirports();
     }, []);
+
     const airportOptions = airports.map(airport => ({
         value: airport.id,
         label: `${airport.fromCity} (${airport.fromCode})`
     }));
+
     const handleSelectChange = (selectedOption, action) => {
         setFormData({ ...formData, [action.name]: selectedOption.value });
     };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -172,16 +164,30 @@ const FormInputBandara = () => {
             if (response.status === 201) {
                 setResponseMessage('Data berhasil ditambahkan.');
                 setRefreshData(true);
+
+                // Atur timeout untuk menghapus pesan respons setelah 3 detik
+                clearTimeout(responseTimeout);
+                const newResponseTimeout = setTimeout(() => {
+                    setResponseMessage('');
+                }, 3000);
+                setResponseTimeout(newResponseTimeout);
             } else {
                 setResponseMessage(jsonData.message || `Unexpected status code: ${response.status}`);
+                clearTimeout(responseTimeout);
+                const newResponseTimeout = setTimeout(() => {
+                    setResponseMessage('');
+                }, 3000);
+                setResponseTimeout(newResponseTimeout);
             }
-            setIsNotificationVisible(true);
-            setTimeout(() => {
-                setIsNotificationVisible(false);
-            }, 3000);
         } catch (err) {
             console.error('Error:', err.message);
             setResponseMessage(err.message);
+
+            clearTimeout(responseTimeout);
+            const newResponseTimeout = setTimeout(() => {
+                setResponseMessage('');
+            }, 3000);
+            setResponseTimeout(newResponseTimeout);
         }
     };
 
@@ -208,8 +214,6 @@ const FormInputBandara = () => {
                         isDisabled={loading}
                         placeholder="Bandara Asal"
                     />
-
-
                 </FormGroup>
                 <FormGroup>
                     <label htmlFor="destinationAirport">Kota/Bandara Tujuan</label>
@@ -263,10 +267,10 @@ const FormInputBandara = () => {
                 </FormGroup>
                 <Button type="submit">+ Tambah</Button>
             </Form>
-            {isNotificationVisible && (
+            {responseMessage && (
                 <ResponseMessage
                     style={{
-                        margin:'15px',
+                        margin: '15px',
                         backgroundColor: getResponseBackgroundColor(),
                         color: 'white',
                     }}
