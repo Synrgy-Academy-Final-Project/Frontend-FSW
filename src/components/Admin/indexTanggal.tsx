@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import FormInputTanggal from './Tanggal/FormInputTanggal.tsx';
