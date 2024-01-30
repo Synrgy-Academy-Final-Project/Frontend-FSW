@@ -20,7 +20,10 @@ import IndexBandara from './components/Admin/indexBandara.tsx'
 import IndexMaskapai from './components/Admin/indexMaskapai.tsx'
 import IndexTanggal from './components/Admin/indexTanggal.tsx'
 import IndexTransaksi from './components/Admin/indexTransaksi.tsx'
+
+// component 
 import FilterListTicket from './components/FilterListTicket'
+import ETicket from './components/ETicket.tsx'
 import TicketSearch from './components/TicketSearch'
 import ModalPesanTiket from './components/ModalPesanTiket'
 import DetailTicket from './components/DetailTicket'
@@ -49,7 +52,7 @@ function App() {
 
                 {/* Components */}
                 <Route path='/filterListTicket' element={<FilterListTicket />} />
-                <Route path='/verify-account' element={<VerifyAccount />} />
+                <Route path='/eticket-comp' element={<ETicket />} />
 
                 {/*Admin*/}
                 <Route path='/login-admin' element={<LoginAdmin />} />
