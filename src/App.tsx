@@ -31,6 +31,7 @@ import CardTicket from "./components/CardTicket";
 import DropdownClass from "./components/DropdownPassenger";
 import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
 import DetailSectionPayment from "./components/DetailSectionPayment";
+import DetailPerjalanan from "./components/DetailPerjalanan.tsx";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         {/* Components */}
         <Route path="/filterListTicket" element={<FilterListTicket />} />
         <Route path="/eticket-comp" element={<ETicket />} />
+        <Route path="/detailperjalanan" element={<DetailPerjalanan />} />
 
         {/*Admin*/}
         <Route path="/login-admin" element={<LoginAdmin />} />
