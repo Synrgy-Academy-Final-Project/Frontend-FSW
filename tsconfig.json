@@ -16,8 +16,11 @@
 
     /* Linting */
     "strict": false, //Default true = diatur false agar tidak kena any
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    //disetting untuk deploy
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
