@@ -187,8 +187,8 @@ const TableTanggal = () => {
 
     const handleEditClick = (dateId) => {
         setEditingDateId(dateId)
-        setPatchMessage('') // Reset pesan PATCH saat mengklik tombol Edit
-        setApiMessage('') // Reset pesan dari API saat mengklik tombol Edit
+        setPatchMessage('')
+        setApiMessage('')
     }
 
     const handleCancelEdit = () => {
@@ -221,8 +221,8 @@ const TableTanggal = () => {
                 console.error('Error fetching data:', error)
             }
             if (successMessage || patchMessage) {
-                setIsNotificationVisible(true) // Show the notification
-                hideMessageAfterTimeout() // Hide messages after 3 seconds
+                setIsNotificationVisible(true)
+                hideMessageAfterTimeout()
             }
         }
 
@@ -268,13 +268,13 @@ const TableTanggal = () => {
             })
 
             if (response.ok) {
-                setSuccessMessage('Data berhasil dihapus.') // Atur pesan berhasil
-                setIsNotificationVisible(true) // Tampilkan notifikasi
+                setSuccessMessage('Data berhasil dihapus.')
+                setIsNotificationVisible(true)
                 setRefreshData(true)
             } else {
                 const jsonData = await response.json()
-                setSuccessMessage(jsonData.message || 'Error deleting data') // Atur pesan kesalahan dari API
-                setIsNotificationVisible(true) // Tampilkan notifikasi
+                setSuccessMessage(jsonData.message || 'Error deleting data')
+                setIsNotificationVisible(true)
             }
         } catch (error) {
             console.error('Error deleting data:', error)
@@ -287,7 +287,7 @@ const TableTanggal = () => {
         } else if (apiMessage.includes('Data berhasil diperbarui.')) {
             return 'green'
         } else if (editFormMessage.includes('Data berhasil diperbarui.')) {
-            return 'green' // Menambahkan kondisi ini
+            return 'green'
         } else {
             return 'red'
         }
@@ -354,7 +354,7 @@ const TableTanggal = () => {
                                                     onUpdateSuccess={() => {
                                                         setEditingDateId(null)
                                                         setRefreshData(true)
-                                                        setPatchMessage('Data berhasil diperbarui.') // Update patchMessage here
+                                                        setPatchMessage('Data berhasil diperbarui.')
                                                     }}
                                                     updateMessage={(message) => {
                                                         setEditFormMessage(message)

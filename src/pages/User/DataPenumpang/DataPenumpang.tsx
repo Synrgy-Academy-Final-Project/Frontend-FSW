@@ -2,7 +2,7 @@ import React from "react";
 import Footer from "../../../components/Footer.tsx";
 import DetailBooking from "../../../components/DetailSection.tsx";
 import DetailHarga from "../../../components/DetailHarga.tsx";
-import { Col, Container, Row, Form } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -50,7 +50,7 @@ const DataPenumpang: React.FC = () => {
           </Col>
           <Col lg={11} className="ps-3">
             <HeadText>
-              Ayo login dan pesan tiket jadi lebih mudah dan cepat lo!
+              Ayo masuk dan pesan tiket jadi lebih mudah dan cepat lo!
             </HeadText>
             <p>
               Masuk ke akun Anda dan nikmati layanan mudah dan cepat untuk
