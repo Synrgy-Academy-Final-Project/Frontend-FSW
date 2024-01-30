@@ -81,18 +81,6 @@ const SelanjutnyaButton = styled(PaginationButton)`
   }
 `;
 
-const ActionButton = styled.button`
-  margin: 0 4px;
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
-
-const Icon = styled.img`
-  width: 20px;
-  height: 20px;
-`;
-
 const PageNumber = styled.span`
   display: inline-block;
   min-width: 30px;
