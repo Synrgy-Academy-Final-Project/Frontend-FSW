@@ -32,6 +32,7 @@ import DropdownClass from "./components/DropdownPassenger";
 import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
 import DetailSectionPayment from "./components/DetailSectionPayment";
 import DetailPerjalanan from "./components/DetailPerjalanan.tsx";
+import ModalKonfirmasi from "./components/ModalKonfirmasi.tsx";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
         <Route path="/filterListTicket" element={<FilterListTicket />} />
         <Route path="/eticket-comp" element={<ETicket />} />
         <Route path="/detailperjalanan" element={<DetailPerjalanan />} />
+        <Route path="/modalkonfirmasi" element={<ModalKonfirmasi />} />
 
         {/*Admin*/}
         <Route path="/login-admin" element={<LoginAdmin />} />
