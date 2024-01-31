@@ -1,0 +1,27 @@
+.button-yes {
+  background-color: white;
+  border-color: #3e7bfa;
+  color: #3e7bfa;
+  width: 48%;
+  font-weight: 600;
+}
+
+.button-no {
+  background-color: #3e7bfa;
+  border-color: #3e7bfa;
+  color: white;
+  width: 48%;
+  font-weight: 600;
+}
+
+.modal-tittle{
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.modal-footer {
+  border: none; 
+}
+
+
