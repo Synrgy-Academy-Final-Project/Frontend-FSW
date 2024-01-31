@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
 import "./DetailHarga.css";
 
