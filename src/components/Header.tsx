@@ -26,6 +26,8 @@ export default function Header(props) {
           },
         })
 
+        if (response.status === 500) throw new Error('Token tidak valid!')
+
         const responseJson = await response.json()
 
         if (response.status === 200) {
@@ -36,7 +38,7 @@ export default function Header(props) {
         }
       } catch (error) {
         console.error(error)
-        alert('Harap Logout dan Login Kembali!')
+        alert('Harap Logout atau Login Kembali!')
       }
     }
 
