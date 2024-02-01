@@ -1,13 +1,49 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './Header.css'
 import TicketSearch from './TicketSearch'
 interface Header {
   label?: string
 }
+interface User {
+  firstName?: string
+  lastName?: string
+}
+
 export default function Header(props) {
   const token = localStorage.getItem('token')
 
+  const base_url = 'https://fly-id-1999ce14c36e.herokuapp.com'
+
+  const [user, setUser] = useState<User>({})
   const [dropdown, setDropdown] = useState<boolean>(false)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(base_url + '/user-detail/logged-in-user', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        const responseJson = await response.json()
+
+        if (response.status === 200) {
+          setUser({
+            firstName: responseJson.data.firstName,
+            lastName: responseJson.data.lastName,
+          })
+        }
+      } catch (error) {
+        console.error(error)
+        alert('Harap Logout dan Login Kembali!')
+      }
+    }
+
+    if (token) {
+      fetchUser()
+    }
+  }, [token])
 
   const handleDropdown = () => {
     setDropdown(!dropdown)
@@ -49,31 +85,29 @@ export default function Header(props) {
               {token ? (
                 <div className='profile'>
                   <div className='d-flex'>
-                    <span>Lorem</span>
+                    <span>{user.firstName}</span>
                     <i className='chevron-down' onClick={handleDropdown}></i>
                     <i className='user-avatar' onClick={handleDropdown}></i>
                   </div>
                   {dropdown && (
                     <div className='dropdown'>
-                      <div className='dropdown-account'>
-                        <div className='my-account'>
-                          <h5>Akun Saya</h5>
-                          <div className='information'>
-                            <p>Pesanan</p>
-                            <p>Notifikasi Harga</p>
-                            <p>Favorit</p>
-                            <p>Data Penumpang Tersimpan</p>
-                            <p>Ulasan</p>
-                            <p>Profil</p>
-                          </div>
+                      <div className='my-account'>
+                        <h5>Akun Saya</h5>
+                        <div className='information'>
+                          <p>Pesanan</p>
+                          <p>Notifikasi Harga</p>
+                          <p>Favorit</p>
+                          <p>Data Penumpang Tersimpan</p>
+                          <p>Ulasan</p>
+                          <p>Profil</p>
                         </div>
-                        <div className='my-account'>
-                          <h5>Pengaturan</h5>
-                          <div className='information'>
-                            <p>Pengaturan Akun</p>
-                            <p>Bahasa Indonesia</p>
-                            <p>IDR Rp</p>
-                          </div>
+                      </div>
+                      <div className='my-account'>
+                        <h5>Pengaturan</h5>
+                        <div className='information'>
+                          <p>Pengaturan Akun</p>
+                          <p>Bahasa Indonesia</p>
+                          <p>IDR Rp</p>
                         </div>
                       </div>
                       <button className='logout' onClick={handleLogout}>
