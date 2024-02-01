@@ -14,7 +14,7 @@ export default function Header(props) {
 
   const base_url = 'https://fly-id-1999ce14c36e.herokuapp.com'
 
-  const [user, setUser] = useState<User>({})
+  const [user, setUser] = useState<User>(null)
   const [dropdown, setDropdown] = useState<boolean>(false)
 
   useEffect(() => {
@@ -38,7 +38,6 @@ export default function Header(props) {
         }
       } catch (error) {
         console.error(error)
-        alert('Harap Logout atau Login Kembali!')
       }
     }
 
@@ -84,7 +83,7 @@ export default function Header(props) {
             </li>
             <li className='ms-auto'>
               {/* Tampilkan button Masuk atau Logout berdasarkan keberadaan token */}
-              {token ? (
+              {token && user ? (
                 <div className='profile'>
                   <div className='d-flex'>
                     <span>{user.firstName}</span>
@@ -127,7 +126,7 @@ export default function Header(props) {
             </li>
             <li className='register'>
               {/* Tampilkan button Daftar atau tidak ada jika token ada */}
-              {!token && <a href='/register'>Daftar</a>}
+              {!user && <a href='/register'>Daftar</a>}
             </li>
           </ul>
         </nav>
