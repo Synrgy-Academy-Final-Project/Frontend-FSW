@@ -33,6 +33,7 @@ import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
 import DetailSectionPayment from "./components/DetailSectionPayment";
 import DetailPerjalanan from "./components/DetailPerjalanan.tsx";
 import ModalKonfirmasi from "./components/ModalKonfirmasi.tsx";
+import FormProfile from "./components/FormProfile.tsx";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
         <Route path="/eticket-comp" element={<ETicket />} />
         <Route path="/detailperjalanan" element={<DetailPerjalanan />} />
         <Route path="/modalkonfirmasi" element={<ModalKonfirmasi />} />
+        <Route path="/formprofile" element={<FormProfile />} />
 
         {/*Admin*/}
         <Route path="/login-admin" element={<LoginAdmin />} />
