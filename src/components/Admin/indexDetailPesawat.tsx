@@ -1,13 +1,13 @@
-import React, {useEffect} from 'react';
-import Navbar from './Navbar';
-import Sidebar from './Sidebar';
-import styled from 'styled-components';
-import {CurrentPageProvider,useCurrentPage} from "./CurrentPageContext.tsx";
-import TableDetailPesawat from './Maskapai/Detail/tableDetailPesawat.tsx';
-import FormInputClass from './Maskapai/Detail/ClassAirplane/FormInputClass.tsx';
-import TableClass from './Maskapai/Detail/ClassAirplane/TableClass.tsx';
-import FormInputSchedule from './Maskapai/Detail/Schedule/FormInputSchedule.tsx';
-import TableSchedule from './Maskapai/Detail/Schedule/TableSchedule.tsx';
+import React, { useEffect } from "react";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
+import styled from "styled-components";
+import { CurrentPageProvider, useCurrentPage } from "./CurrentPageContext.tsx";
+import TableDetailPesawat from "./Maskapai/Detail/tableDetailPesawat.tsx";
+import FormInputClass from "./Maskapai/Detail/ClassAirplane/FormInputClass.tsx";
+import TableClass from "./Maskapai/Detail/ClassAirplane/tableClass.tsx";
+import FormInputSchedule from "./Maskapai/Detail/Schedule/FormInputSchedule.tsx";
+import TableSchedule from "./Maskapai/Detail/Schedule/tableSchedule.tsx";
 
 const PageLayout = styled.div`
   display: flex;
@@ -26,37 +26,37 @@ const TableWrapper = styled.div`
 `;
 
 const IndexDetailPesawatContent = () => {
-    const { setCurrentPage } = useCurrentPage();
+  const { setCurrentPage } = useCurrentPage();
 
-    useEffect(() => {
-        setCurrentPage('Detail Pesawat Airbus A320');
-    }, [setCurrentPage]);
+  useEffect(() => {
+    setCurrentPage("Detail Pesawat Airbus A320");
+  }, [setCurrentPage]);
 
-    return (
-        <>
-            <Sidebar />
-            <MainContent>
-                <Navbar />
-                <TableWrapper>
-                    <TableDetailPesawat/>
-                    <FormInputClass />
-                    <TableClass />
-                    <FormInputSchedule />
-                    <TableSchedule />
-                </TableWrapper>
-            </MainContent>
-        </>
-    );
+  return (
+    <>
+      <Sidebar />
+      <MainContent>
+        <Navbar />
+        <TableWrapper>
+          <TableDetailPesawat />
+          <FormInputClass />
+          <TableClass />
+          <FormInputSchedule />
+          <TableSchedule />
+        </TableWrapper>
+      </MainContent>
+    </>
+  );
 };
 
 const IndexDetailPesawat = () => {
-    return (
-        <CurrentPageProvider>
-            <PageLayout>
-                <IndexDetailPesawatContent />
-            </PageLayout>
-        </CurrentPageProvider>
-    );
+  return (
+    <CurrentPageProvider>
+      <PageLayout>
+        <IndexDetailPesawatContent />
+      </PageLayout>
+    </CurrentPageProvider>
+  );
 };
 
 export default IndexDetailPesawat;
