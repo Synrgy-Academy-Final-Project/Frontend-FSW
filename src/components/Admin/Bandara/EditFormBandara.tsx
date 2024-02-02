@@ -126,10 +126,7 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose }) => {
         setFormData({ ...formData, [name]: value });
     };
 
-    // const handleSelectChange = (selectedOption) => {
-    //     const name = "fromAirportId"; // Specify the name you want here
-    //     setFormData({ ...formData, [name]: selectedOption ? selectedOption.value : null });
-    // };
+
 
 
     const handleSubmit = async (e) => {
@@ -147,7 +144,7 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose }) => {
                 throw new Error('No token found');
             }
 
-            const response = await fetch(`https://backend-fsw.fly.dev/api/v1/airports/baseprice/${bandara.id}`, {
+            const response = await fetch(`https://backend-fsw.fly.dev/api/v1/airports/baseprice/{id}`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${token}`,
