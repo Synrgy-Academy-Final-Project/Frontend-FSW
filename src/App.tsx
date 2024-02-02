@@ -29,6 +29,10 @@ import CardTicket from './components/CardTicket'
 import DropdownClass from './components/DropdownPassenger'
 import OTPVerification from './pages/User/ForgetPassword/OTPVerification'
 import DetailSectionPayment from './components/DetailSectionPayment'
+import ETicket from './components/ETicket.tsx'
+import DetailPerjalanan from './components/DetailPerjalanan.tsx'
+import ModalKonfirmasi from './components/ModalKonfirmasi.tsx'
+import FormProfile from './components/FormProfile.tsx'
 
 function App() {
   return (
