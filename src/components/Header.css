@@ -1,90 +1,179 @@
 button {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
 .bg-plane {
-    background-image: url(../assets/images/plane-bg.png);
-    background-repeat: no-repeat;
-    object-fit: cover;
-    height: 850px;
-    background-position: 60% 39%;
+  background-image: url(../assets/images/plane-bg.png);
+  background-repeat: no-repeat;
+  object-fit: cover;
+  height: 850px;
+  background-position: 60% 39%;
 }
 
 .nav-list {
-    display: flex;
-    list-style-type: none;
-    justify-content: left;
-    align-items: center;
-    gap: 2.5rem;
-    padding: 3rem;
+  display: flex;
+  list-style-type: none;
+  justify-content: left;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 3rem;
 }
 
 .nav-list a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .nav-list span {
-    color: #3e7bfa;
-    font-size: 1.1rem;
-    font-weight: 700;
+  color: #3e7bfa;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 .login {
-    padding-inline: 1.5rem;
-    padding-block: 1rem;
-    text-decoration: none;
+  padding-inline: 2.5rem;
+  padding-block: 1rem;
+  text-decoration: none;
+  margin-right: -1rem;
+}
+
+.power-off {
+  background: url(../assets/icon/Power-Off.svg);
+  background-repeat: no-repeat;
+
+  display: inline-block;
+  height: 24px;
+  width: 24px;
 }
 
 .logout {
-    background-color: #3e7bfa;
-    text-decoration: none;
-    padding-inline: 1.5rem;
-    padding-block: 1rem;
-    color: white;
-    border-radius: 0.8rem;
+  background-color: #fff;
+  color: red;
+  text-decoration: none;
+  padding-inline: 1.5rem;
+  padding-block: 1rem;
+  border-radius: 0.8rem;
+  border: 1px solid red;
+  width: 268px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-inline: auto;
+  margin-top: 1.3rem;
+  font-weight: 600;
 }
 
 .register a {
-    background-color: #3e7bfa;
-    text-decoration: none;
-    padding-inline: 1.5rem;
-    padding-block: 1rem;
-    color: white;
-    border-radius: 0.8rem;
-    font-weight: 700;
+  background-color: #3e7bfa;
+  text-decoration: none;
+  padding-inline: 2.5rem;
+  padding-block: 1rem;
+  color: white;
+  border-radius: 0.8rem;
+  font-weight: 700;
 }
 
 .title {
-    color: #fff;
-    padding: 3rem;
-    display: flex;
-    flex-direction: column;
+  color: #fff;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .title h1 {
-    font-weight: 700;
-    font-size: 3rem;
-    text-shadow: 1px 4px 8px grey;
-    margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 3rem;
+  text-shadow: 1px 4px 8px grey;
+  margin-bottom: 1rem;
 }
 
 .title h3 {
-    text-shadow: 1px 4px 8px grey;
+  text-shadow: 1px 4px 8px grey;
+}
+
+.profile {
+  width: 143px;
+  height: 50px;
+}
+
+.profile i.chevron-down {
+  position: relative;
+  left: 0.5rem;
+  bottom: 0.1rem;
+}
+
+.chevron-down {
+  background: url(../assets/icon/Chevron-Down.svg);
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+
+.chevron-down:hover {
+  cursor: pointer;
+}
+
+.profile i.user-avatar {
+  position: relative;
+  left: 1.5rem;
+  bottom: 0.7rem;
+}
+
+.user-avatar {
+  background: url(../assets/icon/profile-user-avatar-man-person_svgrepo.com.svg);
+  background-repeat: no-repeat;
+
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+}
+
+.user-avatar:hover {
+  cursor: pointer;
+}
+
+.dropdown {
+  display: relative;
+  right: 10rem;
+  background-color: #ecf2ff;
+  width: 300px;
+  height: 600px;
+  border-radius: 15px;
+  z-index: 10;
+}
+
+.my-account h5 {
+  padding: 16px 16px 0px 16px;
+  font-weight: 700;
+}
+
+.my-account .information {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 0 16px;
+}
+
+.my-account .information:first-of-type {
+  padding-top: 16px;
 }
 
 @media screen and (min-width: 1440px) {
-    .bg-plane {
-        background-position: 0% 38.5%;
-    }
+  .bg-plane {
+    background-position: 0% 38.5%;
+  }
 }
 
 @media screen and (min-width: 1500px) {
-    .bg-plane {
-        background-size: cover;
-        height: 1200px;
-        background-position: 0% 41%;
-    }
+  .bg-plane {
+    background-size: cover;
+    height: 1200px;
+    background-position: 0% 41%;
+  }
 }
