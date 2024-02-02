@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './Header.css'
 import TicketSearch from './TicketSearch'
+import { Link } from 'react-router-dom'
 interface Header {
   label?: string
 }
