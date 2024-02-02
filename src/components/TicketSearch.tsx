@@ -11,7 +11,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./TicketSearch.css";
 import Select from "react-select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import axios from "axios";
 import DropdownPassenger from "./DropdownPassenger";
@@ -44,7 +44,7 @@ const getAirportData = async (): Promise<Option[]> => {
   }
 };
 
-const options: Option[] = await getAirportData();
+// const options: Option[] = await getAirportData();
 
 const customStylesStart = {
   control: (provided) => ({
@@ -160,6 +160,7 @@ export default function TicketSearch() {
   const [returnDate, setReturnDate] = useState<Date | null>(null);
   const [DepartureDay, setDepartureDay] = useState<string>("");
   const [ReturnDay, setReturnDay] = useState<string>("");
+  const [options, setOptions] = useState<Option[]>([]);
 
   const handleOriginChange = (selected: Option | null) => {
     setSelectedOriginOption(selected);
@@ -203,6 +204,19 @@ export default function TicketSearch() {
       setReturnDay("");
     }
   };
+  //coba dulu
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAirportData();
+        setOptions(data);
+      } catch (error) {
+        console.error("Error fetching airport data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
