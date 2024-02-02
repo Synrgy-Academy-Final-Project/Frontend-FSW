@@ -58,7 +58,7 @@ function App() {
                 <Route path='/airline' element={<IndexMaskapai />} />
                 <Route path='/departure-date' element={<IndexTanggal />} />
                 <Route path='/transaction' element={<IndexTransaksi />} />
-                <Route path='/detail-airline' element={<IndexDetailPesawat />} />
+                <Route path='/detail-airline/:id' element={<IndexDetailPesawat />} />
 
 
                 <Route path='/ticketsearch' element={<TicketSearch />} />

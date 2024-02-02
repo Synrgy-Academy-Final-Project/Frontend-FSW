@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import EditFormDetailPesawat from './EditFormDetailPesawat.tsx'
+import {useNavigate} from "react-router-dom";
 
 interface ShowProps {
     show: boolean;
@@ -159,7 +160,11 @@ const LoadingContainer = styled.div`
 
 const ITEMS_PER_PAGE = 5;
 const TableMaskapai = () => {
+    const navigate = useNavigate();
 
+    const viewDetails = (id) => {
+        navigate(`/detail-airline/${id}`);
+    };
     // GET API
     const [airplanes, setAirplanes] = useState([]);
     const [error, setError] = useState('');
@@ -323,7 +328,7 @@ const TableMaskapai = () => {
                                     <Td>{airplane.airplaneCode}</Td>
                                     <Td>{`Rp${airplane.airplanePrice.toLocaleString()}`}</Td>
                                     <Td>
-                                        <ActionButton title="View">
+                                        <ActionButton title="View" onClick={() => viewDetails(airplane.id)}>
                                             <Icon src="https://i.ibb.co/MpgsSYS/File-Alt.png" alt="View" />
                                         </ActionButton>
                                         <ActionButton title="Edit" onClick={() => openEditModal(airplane)}>
