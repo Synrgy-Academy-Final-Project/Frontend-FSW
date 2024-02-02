@@ -19,6 +19,7 @@ import IndexBandara from './components/Admin/indexBandara.tsx'
 import IndexMaskapai from './components/Admin/indexMaskapai.tsx'
 import IndexTanggal from './components/Admin/indexTanggal.tsx'
 import IndexTransaksi from './components/Admin/indexTransaksi.tsx'
+import IndexDetailPesawat from './components/Admin/indexDetailPesawat.tsx'
 import FilterListTicket from './components/FilterListTicket'
 import TicketSearch from './components/TicketSearch'
 import ModalPesanTiket from './components/ModalPesanTiket'
@@ -57,6 +58,9 @@ function App() {
                 <Route path='/airline' element={<IndexMaskapai />} />
                 <Route path='/departure-date' element={<IndexTanggal />} />
                 <Route path='/transaction' element={<IndexTransaksi />} />
+                <Route path='/detail-airline' element={<IndexDetailPesawat />} />
+
+
                 <Route path='/ticketsearch' element={<TicketSearch />} />
                 <Route path='/modalticket' element={<ModalPesanTiket />} />
                 <Route path='/detailticket' element={<DetailTicket />} />
