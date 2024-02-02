@@ -1,10 +1,13 @@
 import React, {useEffect} from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
-import FormInputMaskapai from './Maskapai/FormInputMaskapai';
-import TableMaskapai from './Maskapai/tableMaskapai.tsx';
 import styled from 'styled-components';
 import {CurrentPageProvider,useCurrentPage} from "./CurrentPageContext.tsx";
+import TableDetailPesawat from './Maskapai/Detail/tableDetailPesawat.tsx';
+import FormInputClass from './Maskapai/Detail/ClassAirplane/FormInputClass.tsx';
+import TableClass from './Maskapai/Detail/ClassAirplane/TableClass.tsx';
+import FormInputSchedule from './Maskapai/Detail/Schedule/FormInputSchedule.tsx';
+import TableSchedule from './Maskapai/Detail/Schedule/TableSchedule.tsx';
 
 const PageLayout = styled.div`
   display: flex;
@@ -15,20 +18,18 @@ const MainContent = styled.div`
   flex-grow: 1;
   overflow-y: auto;
   background: #f5f5f9;
-  //padding: 1rem;
 `;
+
 const TableWrapper = styled.div`
   margin-top: 16px;
   margin-bottom: 16px;
 `;
 
-
-
-const IndexMaskapaiContent = () => {
+const IndexDetailPesawatContent = () => {
     const { setCurrentPage } = useCurrentPage();
 
     useEffect(() => {
-        setCurrentPage('Data Maskapai');
+        setCurrentPage('Detail Pesawat Airbus A320');
     }, [setCurrentPage]);
 
     return (
@@ -37,21 +38,25 @@ const IndexMaskapaiContent = () => {
             <MainContent>
                 <Navbar />
                 <TableWrapper>
-                    <FormInputMaskapai />
-                    <TableMaskapai />
+                    <TableDetailPesawat/>
+                    <FormInputClass />
+                    <TableClass />
+                    <FormInputSchedule />
+                    <TableSchedule />
                 </TableWrapper>
             </MainContent>
         </>
     );
 };
-const IndexMaskapai = () => {
+
+const IndexDetailPesawat = () => {
     return (
         <CurrentPageProvider>
             <PageLayout>
-                <IndexMaskapaiContent />
+                <IndexDetailPesawatContent />
             </PageLayout>
         </CurrentPageProvider>
     );
 };
 
-export default IndexMaskapai;
+export default IndexDetailPesawat;
