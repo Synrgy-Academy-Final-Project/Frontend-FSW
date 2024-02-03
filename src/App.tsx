@@ -33,6 +33,7 @@ import ETicket from "./components/ETicket.tsx";
 import DetailPerjalanan from "./components/DetailPerjalanan.tsx";
 import ModalKonfirmasi from "./components/ModalKonfirmasi.tsx";
 import FormProfile from "./components/FormProfile.tsx";
+import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path="/verify-account" element={<VerifyAccount />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/pesanan" element={<PesananPage />} />
 
         {/* Components */}
         <Route path="/filterListTicket" element={<FilterListTicket />} />
