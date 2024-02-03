@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const TableContainer = styled.div`
@@ -47,7 +46,7 @@ const PaginationContainer = styled.div`
 `;
 
 
-const TableDetailPesawat = () => {
+const TableDetailPesawat = ({airplaneDetails }) => {
     return (
         <TableContainer>
             <Table>
@@ -60,12 +59,16 @@ const TableDetailPesawat = () => {
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <Td>1</Td>
-                    <Td>Airbus A320</Td>
-                    <Td>GT-123</Td>
-                    <Td>Rp1.000.000</Td>
-                </tr>
+                {airplaneDetails && (
+                    <tr>
+                        <Td>{1}</Td>
+                        <Td>{airplaneDetails.airplaneName}</Td>
+                        <Td>{airplaneDetails.airplaneCode}</Td>
+                        <Td>{`Rp${airplaneDetails.airplanePrice.toLocaleString()}`}</Td>
+                    </tr>
+                )}
+
+
                 </tbody>
             </Table>
             <PaginationContainer></PaginationContainer>

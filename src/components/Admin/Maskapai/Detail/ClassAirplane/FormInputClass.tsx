@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
 
 const Form = styled.form`
@@ -78,24 +78,71 @@ const Button = styled.button`
 `;
 
 
-const FormInputClass = () => {
+const FormInputClass = ({airplaneId }) => {
+    const [airplaneClassName, setAirplaneClassName] = useState('');
+    const [airplaneClassPrice, setAirplaneClassPrice] = useState('');
+    const [capacity, setCapacity] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('No token found');
+            return;
+        }
+
+        fetch('https://backend-fsw.fly.dev/api/v1/classes/airplane', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                airplaneId,
+                airplaneClassName,
+                airplaneClassPrice: parseInt(airplaneClassPrice, 10),
+                capacity: parseInt(capacity, 10)
+            })
+        })
+            .then(response => {
+                if (response.status === 201) {
+                    return response.json();
+                } else if (response.status === 401) {
+                    throw new Error('Invalid Token');
+                } else if (response.status === 500) {
+                    throw new Error('Internal Server Error');
+                } else {
+                    throw new Error('Class Airplane is already exist with this airplaneId');
+                }
+            })
+            .then(data => {
+                console.log('Success:', data);
+                alert('Class added successfully');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message);
+            });
+    };
+
     return (
-        <Form>
+        <Form onSubmit={handleSubmit}>
             <InputGroup>
                 <Label>Kelas Pesawat</Label>
-                <Select>
-                    <option>Ekonomi</option>
-                    <option>Bisnis</option>
-                    <option>Kelas Utama</option>
+                <Select onChange={(e) => setAirplaneClassName(e.target.value)}>
+                    <option value="Ekonomi">Ekonomi</option>
+                    <option value="Bisnis">Bisnis</option>
+                    <option value="Kelas Utama">Kelas Utama</option>
                 </Select>
             </InputGroup>
             <InputGroup>
                 <Label>Kapasitas</Label>
-                <Input type="number" placeholder="Jumlah" />
+                <Input type="number" placeholder="Jumlah" onChange={(e) => setCapacity(e.target.value)} />
             </InputGroup>
             <InputGroup>
                 <Label>Harga</Label>
-                <Input type="number" placeholder="Rp" />
+                <Input type="number" placeholder="Rp" onChange={(e) => setAirplaneClassPrice(e.target.value)} />
             </InputGroup>
             <ButtonContainer>
                 <Button type="submit">
