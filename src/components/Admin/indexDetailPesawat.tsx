@@ -88,16 +88,17 @@ const IndexDetailPesawatContent = () => {
             </MainContent>
         </>
     );
+  
 };
 
 const IndexDetailPesawat = () => {
-    return (
-        <CurrentPageProvider>
-            <PageLayout>
-                <IndexDetailPesawatContent />
-            </PageLayout>
-        </CurrentPageProvider>
-    );
+  return (
+    <CurrentPageProvider>
+      <PageLayout>
+        <IndexDetailPesawatContent />
+      </PageLayout>
+    </CurrentPageProvider>
+  );
 };
 
 export default IndexDetailPesawat;
