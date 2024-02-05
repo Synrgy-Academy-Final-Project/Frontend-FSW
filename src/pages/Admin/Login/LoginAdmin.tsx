@@ -1,11 +1,16 @@
 import React, { useState, ChangeEvent } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 interface LoginAdminProps {}
 
 const LoginAdmin: React.FC<LoginAdminProps> = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const BASE_URL = "https://backend-fsw.fly.dev";
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -14,6 +19,39 @@ const LoginAdmin: React.FC<LoginAdminProps> = () => {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+
+  const handleLogin = async () => {
+    try {
+      const payload = { email, password };
+
+      const response = await fetch(`${BASE_URL}/api/v1/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const responseJson = await response.json();
+
+      console.log(responseJson);
+
+      if (response.status !== 200) {
+        setError(responseJson.message || "Login gagal");
+      } else {
+        localStorage.setItem("token", responseJson.token);
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Terjadi kesalahan saat login");
+      }
+    }
+  };
+
   return (
     <Div>
       <Div2>
@@ -35,21 +73,22 @@ const LoginAdmin: React.FC<LoginAdminProps> = () => {
             <Div6>Masuk Admin</Div6>
             <Div7>Email</Div7>
             <Input
-              type="email"
-              placeholder="Masukkan email"
-              value={email}
-              onChange={handleEmailChange}
+                type="email"
+                placeholder="Masukkan email"
+                value={email}
+                onChange={handleEmailChange}
             />
             <Div9>Kata Sandi</Div9>
             <Div11>
               <Input
-                type="password"
-                placeholder="Masukkan kata sandi"
-                value={password}
-                onChange={handlePasswordChange}
+                  type="password"
+                  placeholder="Masukkan kata sandi"
+                  value={password}
+                  onChange={handlePasswordChange}
               />
             </Div11>
-            <Div13 className="btn">Masuk</Div13>
+            <Div13 className="btn" onClick={handleLogin}>Masuk</Div13>
+            {error && <div style={{ color: "red" }}>{error}</div>}
           </Div5>
         </Column2>
       </Div2>

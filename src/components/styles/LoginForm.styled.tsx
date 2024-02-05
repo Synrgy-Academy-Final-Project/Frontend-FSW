@@ -48,7 +48,8 @@ export const Input = styled.input`
   outline: none;
 `;
 
-export const Texth4 = styled.h4`
+export const Texth4 = styled.a`
+  text-decoration: none;
   width: 100%;
   color: #7b52ab;
   font-weight: 600;
@@ -74,7 +75,8 @@ export const Button = styled.button`
   margin-bottom: 24px;
 `;
 
-export const Span = styled.span`
+export const Span = styled.a`
+  text-decoration: none;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;

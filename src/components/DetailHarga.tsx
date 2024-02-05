@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
 import "./DetailHarga.css";
 
@@ -57,7 +56,7 @@ const DetailHarga = () => {
             </p>
             <Button
               style={{ backgroundColor: "#3e7bfa", borderColor: "#3e7bfa" }}
-              className="button-confirm"
+              className="button-harga"
             >
               Sumbit
             </Button>

@@ -2,14 +2,14 @@ import React, { FunctionComponent, useState } from "react";
 import styled from "styled-components";
 
 const Title = styled.div`
-  font-family: "Open Sans",sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: 28px; /* 140% */
   letter-spacing: -0.75px;
   margin-bottom: 10px;
-  color: #9E9E9E;
+  color: #9e9e9e;
 `;
 
 const PassengerType = styled.div`
@@ -39,7 +39,7 @@ const PassengerLabel = styled.div`
 
 const PassengerSubLabel = styled.div`
   font-size: 12px;
-  color: #9E9E9E;
+  color: #9e9e9e;
 `;
 
 const CounterButton = styled.button`
@@ -91,59 +91,91 @@ const JumlahPenumpangRoot = styled.div`
 `;
 
 const DropdownPassenger: FunctionComponent = () => {
-    const [adultCount, setAdultCount] = useState(1);
-    const [childCount, setChildCount] = useState(1);
-    const [babyCount, setBabyCount] = useState(1);
+  const [adultCount, setAdultCount] = useState(1);
+  const [childCount, setChildCount] = useState(1);
+  const [babyCount, setBabyCount] = useState(1);
 
-    const handleDecrease = (type: "adult" | "child" | "baby") => {
-        if (type === "adult" && adultCount > 0) setAdultCount(adultCount - 1);
-        if (type === "child" && childCount > 0) setChildCount(childCount - 1);
-        if (type === "baby" && babyCount > 0) setBabyCount(babyCount - 1);
-    };
+  const handleDecrease = (
+    type: "adult" | "child" | "baby",
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    if (type === "adult" && adultCount > 0) setAdultCount(adultCount - 1);
+    if (type === "child" && childCount > 0) setChildCount(childCount - 1);
+    if (type === "baby" && babyCount > 0) setBabyCount(babyCount - 1);
+  };
 
-    const handleIncrease = (type: "adult" | "child" | "baby") => {
-        if (type === "adult") setAdultCount(adultCount + 1);
-        if (type === "child") setChildCount(childCount + 1);
-        if (type === "baby") setBabyCount(babyCount + 1);
-    };
+  const handleIncrease = (
+    type: "adult" | "child" | "baby",
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    if (type === "adult") setAdultCount(adultCount + 1);
+    if (type === "child") setChildCount(childCount + 1);
+    if (type === "baby") setBabyCount(babyCount + 1);
+  };
 
-    return (
-        <JumlahPenumpangRoot>
-            <Title>Jumlah Penumpang</Title>
-            <PassengerType>
-                <Icon style={{ backgroundImage: "url('https://i.ibb.co/J7GDYSF/User-Tie.png')" }} />
-                <PassengerInfo>
-                    <PassengerLabel>Dewasa</PassengerLabel>
-                    <PassengerSubLabel>(12 tahun ke atas)</PassengerSubLabel>
-                </PassengerInfo>
-                <CounterButton onClick={() => handleDecrease("adult")}>-</CounterButton>
-                <CountDisplay>{adultCount}</CountDisplay>
-                <CounterButton onClick={() => handleIncrease("adult")}>+</CounterButton>
-            </PassengerType>
+  return (
+    <JumlahPenumpangRoot>
+      <Title>Jumlah Penumpang</Title>
+      <PassengerType>
+        <Icon
+          style={{
+            backgroundImage: "url('https://i.ibb.co/J7GDYSF/User-Tie.png')",
+          }}
+        />
+        <PassengerInfo>
+          <PassengerLabel>Dewasa</PassengerLabel>
+          <PassengerSubLabel>(12 tahun ke atas)</PassengerSubLabel>
+        </PassengerInfo>
+        <CounterButton onClick={(event) => handleDecrease("adult", event)}>
+          -
+        </CounterButton>
+        <CountDisplay>{adultCount}</CountDisplay>
+        <CounterButton onClick={(event) => handleIncrease("adult", event)}>
+          +
+        </CounterButton>
+      </PassengerType>
 
-            <PassengerType>
-                <Icon style={{ backgroundImage: "url('https://i.ibb.co/NKs7K2C/Child-2.png')" }} />
-                <PassengerInfo>
-                    <PassengerLabel>Anak-anak</PassengerLabel>
-                    <PassengerSubLabel>(2 - 11 tahun)</PassengerSubLabel>
-                </PassengerInfo>
-                <CounterButton onClick={() => handleDecrease("child")}>-</CounterButton>
-                <CountDisplay>{childCount}</CountDisplay>
-                <CounterButton onClick={() => handleIncrease("child")}>+</CounterButton>
-            </PassengerType>
+      <PassengerType>
+        <Icon
+          style={{
+            backgroundImage: "url('https://i.ibb.co/NKs7K2C/Child-2.png')",
+          }}
+        />
+        <PassengerInfo>
+          <PassengerLabel>Anak-anak</PassengerLabel>
+          <PassengerSubLabel>(2 - 11 tahun)</PassengerSubLabel>
+        </PassengerInfo>
+        <CounterButton onClick={(event) => handleDecrease("child", event)}>
+          -
+        </CounterButton>
+        <CountDisplay>{childCount}</CountDisplay>
+        <CounterButton onClick={(event) => handleIncrease("child", event)}>
+          +
+        </CounterButton>
+      </PassengerType>
 
-            <PassengerType>
-                <Icon style={{ backgroundImage: "url('https://i.ibb.co/ykBTKPd/Baby.png')" }} />
-                <PassengerInfo>
-                    <PassengerLabel>Bayi</PassengerLabel>
-                    <PassengerSubLabel>(di bawah 2 tahun)</PassengerSubLabel>
-                </PassengerInfo>
-                <CounterButton onClick={() => handleDecrease("baby")}>-</CounterButton>
-                <CountDisplay>{babyCount}</CountDisplay>
-                <CounterButton onClick={() => handleIncrease("baby")}>+</CounterButton>
-            </PassengerType>
-        </JumlahPenumpangRoot>
-    );
+      <PassengerType>
+        <Icon
+          style={{
+            backgroundImage: "url('https://i.ibb.co/ykBTKPd/Baby.png')",
+          }}
+        />
+        <PassengerInfo>
+          <PassengerLabel>Bayi</PassengerLabel>
+          <PassengerSubLabel>(di bawah 2 tahun)</PassengerSubLabel>
+        </PassengerInfo>
+        <CounterButton onClick={(event) => handleDecrease("baby", event)}>
+          -
+        </CounterButton>
+        <CountDisplay>{babyCount}</CountDisplay>
+        <CounterButton onClick={(event) => handleIncrease("baby", event)}>
+          +
+        </CounterButton>
+      </PassengerType>
+    </JumlahPenumpangRoot>
+  );
 };
 
 export default DropdownPassenger;

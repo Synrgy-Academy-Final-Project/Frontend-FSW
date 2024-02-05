@@ -1,0 +1,63 @@
+.form-profile {
+  padding: 10px 10px 10px 10px;
+}
+
+.form-tittle {
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  color: #1c1c1e;
+}
+.form-input {
+  border-color: #3e7bfa;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.form-input-country {
+  border-top-color: #3e7bfa;
+  border-left-color: #3e7bfa;
+  border-bottom-color: #3e7bfa;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.icon-flag {
+  border-color: #3e7bfa;
+  background-color: white;
+}
+
+.button-simpan {
+  width: 100%;
+  background-color: #3e7bfa;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.button-keluar {
+  width: 100%;
+  background-color: white;
+  border-color: #cb3a31;
+  color: #cb3a31;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.button-keluar:hover {
+  width: 100%;
+  background-color: #cb3a31;
+  color: white;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.icon-power-off {
+  width: 22px;
+  height: 22px;
+  margin-right: 5px;
+}

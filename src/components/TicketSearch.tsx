@@ -1,7 +1,8 @@
 import {
+  Accordion,
+  AccordionHeader,
   Button,
   Col,
-  Container,
   FloatingLabel,
   Form,
   Row,
@@ -10,8 +11,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./TicketSearch.css";
 import Select from "react-select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
+import axios from "axios";
+import DropdownPassenger from "./DropdownPassenger";
 
 interface Option {
   value: string;
@@ -19,15 +22,29 @@ interface Option {
   detailLabel: string;
 }
 
-const options: Option[] = [
-  { value: "soekarno hatta", label: "Jakarta", detailLabel: "Soekarno Hatta" },
-  {
-    value: "ngurah rai",
-    label: "Bali",
-    detailLabel: "I Gusti Ngurah Rai International Airport",
-  },
-  { value: "adi sumarmo", label: "Solo", detailLabel: "Adi Sumarmo" },
-];
+// Fungsi untuk mendapatkan data dari API
+const getAirportData = async (): Promise<Option[]> => {
+  try {
+    const response = await axios.get(
+      "https://fly-id-1999ce14c36e.herokuapp.com/airports"
+    );
+    const airportData = response.data.data.content;
+
+    // Transformasi data dari API menjadi bentuk yang diinginkan
+    const transformedData: Option[] = airportData.map((airport) => ({
+      value: airport.code,
+      label: airport.city,
+      detailLabel: airport.name,
+    }));
+
+    return transformedData;
+  } catch (error) {
+    console.error("Error fetching airport data:", error);
+    return [];
+  }
+};
+
+// const options: Option[] = await getAirportData();
 
 const customStylesStart = {
   control: (provided) => ({
@@ -66,11 +83,11 @@ const customStylesStart = {
 };
 
 const customStylesEnd = {
-  control: (provided, state) => ({
+  control: (provided) => ({
     ...provided,
     position: "relative",
     border: "none",
-    padding: "20px 0 0 10px",
+    padding: "20px 0 0 20px",
     borderRadius: "0rem 0.75rem 0.75rem 0rem",
     height: "110px",
     "&:hover": {
@@ -143,6 +160,7 @@ export default function TicketSearch() {
   const [returnDate, setReturnDate] = useState<Date | null>(null);
   const [DepartureDay, setDepartureDay] = useState<string>("");
   const [ReturnDay, setReturnDay] = useState<string>("");
+  const [options, setOptions] = useState<Option[]>([]);
 
   const handleOriginChange = (selected: Option | null) => {
     setSelectedOriginOption(selected);
@@ -176,126 +194,154 @@ export default function TicketSearch() {
     }
   };
 
+  const [isReturnTicket, setIsReturnTicket] = useState(false);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsReturnTicket(event.target.checked);
+    // Clear the return date when unchecking the checkbox
+    if (!event.target.checked) {
+      setReturnDate(null);
+      setReturnDay("");
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAirportData();
+        setOptions(data);
+      } catch (error) {
+        console.error("Error fetching airport data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
-      <Container fluid className="bg-color">
-        <div className="card-search">
-          <Form>
-            <Row>
-              <Col></Col>
-              <Col></Col>
-              <Col></Col>
-              <Col>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                  <Form.Check type="checkbox" label="Tiket Pulang?" />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row className="mx-3 mb-3">
-              <Col className="pe-0 form-position">
-                <div className="border-field-start">
-                  <span className="placeholder-field">Asal</span>
-                  <Select
-                    options={options}
-                    value={selectedOriginOption}
-                    onChange={handleOriginChange}
-                    styles={customStylesStart}
-                    placeholder="Masukkan Asal"
-                    formatOptionLabel={formatOptionLabel}
-                  />
-                </div>
-              </Col>
-              <Col className="ps-0 pe-1">
-                <Button className="switch-button" onClick={handleSwitch}>
-                  <HiOutlineSwitchHorizontal />
-                </Button>
-                <div className="border-field-end">
-                  <span className="placeholder-field">Tujuan</span>
-                  <Select
-                    options={options}
-                    value={selectedDestinationOption}
-                    onChange={handleDestinationChange}
-                    styles={customStylesEnd}
-                    placeholder="Masukkan Tujuan"
-                    formatOptionLabel={formatOptionLabel}
-                  />
-                </div>
-              </Col>
-              <Col className="pe-0 ps-1">
-                <div className="border-field-start">
-                  <span className="placeholder-field">Tanggal pergi</span>
-                  <DatePicker
-                    selected={departureDate}
-                    onChange={handleDepartureDateChange}
-                    className="border-0 date-start"
-                    placeholderText="Pilih tanggal"
-                  />
-                  {departureDate && (
-                    <p className="detail-date">{`${DepartureDay}`}</p>
-                  )}
-                </div>
-              </Col>
-              <Col className="ps-0">
-                <div className="border-field-end">
-                  <span className="placeholder-field">Tanggal pergi</span>
-                  <DatePicker
-                    selected={returnDate}
-                    onChange={handleReturnDateChange}
-                    className="border-0 date-end"
-                    placeholderText="Pilih tanggal"
-                  />
-                  {returnDate && (
-                    <p className="detail-date">{`${ReturnDay}`}</p>
-                  )}
-                </div>
-              </Col>
-            </Row>
-            <Row className="mb-3 pt-2">
-              <Col></Col>
-              <Col className="pe-0">
-                <FloatingLabel
-                  className="rounded-start"
-                  controlId="floatingSelectGrid"
-                  label="Jumlah Penumpang"
-                >
-                  <Form.Select
-                    aria-label="Floating label select example"
-                    className="border-0"
-                  >
-                    <option>Penumpang</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </Form.Select>
-                </FloatingLabel>
-              </Col>
-              <Col className="ps-0 border-r">
-                <FloatingLabel
-                  className="rounded-end"
-                  controlId="floatingSelectGrid"
-                  label="Kelas"
-                >
-                  <Form.Select
-                    aria-label="Floating label select example"
-                    className="border-0"
-                  >
-                    <option>Penumpang</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </Form.Select>
-                </FloatingLabel>
-              </Col>
-              <Col></Col>
-            </Row>
-            <div className="text-center">
-              <Button className="">
-                <span className="px-4">Cari Tiket</span>
+      <div className="card-search">
+        <Form>
+          <Row>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col>
+              <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                <Form.Check
+                  type="checkbox"
+                  label="Tiket Pulang?"
+                  onChange={handleCheckboxChange}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="mx-3 mb-3">
+            <Col className="pe-0 form-position">
+              <div className="border-field-start">
+                <span className="placeholder-field">Asal</span>
+                <Select
+                  options={options}
+                  value={selectedOriginOption}
+                  onChange={handleOriginChange}
+                  styles={customStylesStart}
+                  placeholder="Masukkan Asal"
+                  formatOptionLabel={formatOptionLabel}
+                />
+              </div>
+            </Col>
+            <Col className="ps-0 pe-1">
+              <Button className="switch-button" onClick={handleSwitch}>
+                <HiOutlineSwitchHorizontal />
               </Button>
-            </div>
-          </Form>
-        </div>
-      </Container>
+              <div className="border-field-end">
+                <span className="placeholder-field ms-2">Tujuan</span>
+                <Select
+                  options={options}
+                  value={selectedDestinationOption}
+                  onChange={handleDestinationChange}
+                  styles={customStylesEnd}
+                  placeholder="Masukkan Tujuan"
+                  formatOptionLabel={formatOptionLabel}
+                />
+              </div>
+            </Col>
+            <Col className="pe-0 ps-1">
+              <div className="border-field-start">
+                <span className="placeholder-field">Tanggal pergi</span>
+                <DatePicker
+                  selected={departureDate}
+                  onChange={handleDepartureDateChange}
+                  className="border-0 date-start"
+                  placeholderText="Pilih tanggal"
+                />
+                {departureDate && (
+                  <p className="detail-date">{`${DepartureDay}`}</p>
+                )}
+              </div>
+            </Col>
+            <Col className="ps-0">
+              <div className="border-field-end">
+                <span className="placeholder-field">Tanggal pulang</span>
+                <DatePicker
+                  selected={returnDate}
+                  onChange={handleReturnDateChange}
+                  className="border-0 date-end"
+                  placeholderText="Pilih tanggal"
+                  disabled={!isReturnTicket}
+                />
+                {returnDate && <p className="detail-date">{`${ReturnDay}`}</p>}
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-3 pt-2">
+            <Col></Col>
+            <Col className="pe-0">
+              <Accordion defaultActiveKey="null" className="rounded-star">
+                <Accordion.Item
+                  eventKey="0"
+                  className="d-flex flex-column border-0"
+                >
+                  <AccordionHeader className="p-0 justify-content-between ">
+                    <div className="d-flex flex-column mt-1 pt-2 ms-3">
+                      <p className="accordeoon-label">Jumlah Penumpang</p>
+                    </div>
+                    <div className="d-flex position-absolute flex-column pt-4 mt-2 ms-3">
+                      <p>Penumpang</p>
+                    </div>
+                  </AccordionHeader>
+                  <Accordion.Body className="p-0">
+                    <DropdownPassenger />
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            </Col>
+            <Col className="ps-0 border-r">
+              <FloatingLabel
+                className="rounded-end"
+                controlId="floatingSelectGrid"
+                label="Kelas"
+              >
+                <Form.Select
+                  aria-label="Floating label select example"
+                  className="border-0"
+                >
+                  <option>Kelas</option>
+                  <option value="1">Ekonomi</option>
+                  <option value="2">Bisnis</option>
+                  <option value="3">Kelas Utama</option>
+                </Form.Select>
+              </FloatingLabel>
+            </Col>
+            <Col></Col>
+          </Row>
+          <div className="text-center">
+            <Button className="">
+              <span className="px-4 text-white">Cari Tiket</span>
+            </Button>
+          </div>
+        </Form>
+      </div>
     </div>
   );
 }
