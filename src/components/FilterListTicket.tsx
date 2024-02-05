@@ -59,9 +59,9 @@ const FilterListTicket: React.FC = () => {
               onChange={(values: number | number[] | null) => {
                 if (values !== null && !Array.isArray(values)) {
                   setValues([values, MAX]);
-                  console.log("log 1",values)
+                  console.log("log 1", values)
                 } else if (Array.isArray(values)) {
-                  setValues([values[0],values[1]]);
+                  setValues([values[0], values[1]]);
                   console.log("log 2", values);
                 }
               }}

@@ -86,52 +86,22 @@ export default function Header(props) {
             </li>
             <li className='ms-auto'>
               {/* Tampilkan button Masuk atau Logout berdasarkan keberadaan token */}
-              {token && user ? (
-                <div className='profile'>
-                  <div className='d-flex'>
-                    <span>{user.firstName}</span>
-                    <i className='chevron-down' onClick={handleDropdown}></i>
-                    <i className='user-avatar' onClick={handleDropdown}></i>
-                  </div>
-                  {dropdown && (
-                    <div className='dropdown'>
-                      <div className='my-account'>
-                        <h5>Akun Saya</h5>
-                        <div className='information'>
-                          <p>
-                            <a href='/pesanan'>Pesanan</a>
-                          </p>
-                          <p>Notifikasi Harga</p>
-                          <p>Favorit</p>
-                          <p>Data Penumpang Tersimpan</p>
-                          <p>Ulasan</p>
-                          <p>Profil</p>
-                        </div>
-                      </div>
-                      <div className='my-account'>
-                        <h5>Pengaturan</h5>
-                        <div className='information'>
-                          <p>Pengaturan Akun</p>
-                          <p>Bahasa Indonesia</p>
-                          <p>IDR Rp</p>
-                        </div>
-                      </div>
-                      <Button variant='danger' className='logout' onClick={handleLogout}>
-                        <BsPower className='icon-power-off' />
-                        Keluar
-                      </Button>
-                    </div>
-                  )}
-                </div>
+              {token ? (
+                <button className="logout" onClick={handleLogout}>
+                  Logout
+                </button>
               ) : (
-                <Link to='/login' className='login bg-white bg-opacity-50 rounded-4'>
+                <a
+                  className="login bg-white bg-opacity-50 rounded-4"
+                  href="/login"
+                >
                   <span>Masuk</span>
                 </Link>
               )}
             </li>
             <li className='register'>
               {/* Tampilkan button Daftar atau tidak ada jika token ada */}
-              {!user && <Link to='/register'>Daftar</Link>}
+              {!token && <a href="/register">Daftar</a>}
             </li>
           </ul>
         </nav>
