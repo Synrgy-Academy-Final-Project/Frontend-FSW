@@ -11,40 +11,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./TicketSearch.css";
 import Select from "react-select";
-import { useState } from "react";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
-import axios from "axios";
 import DropdownPassenger from "./DropdownPassenger";
-
-interface Option {
-  value: string;
-  label: string;
-  detailLabel: string;
-}
-
-// Fungsi untuk mendapatkan data dari API
-const getAirportData = async (): Promise<Option[]> => {
-  try {
-    const response = await axios.get(
-      "https://fly-id-1999ce14c36e.herokuapp.com/airports"
-    );
-    const airportData = response.data.data.content;
-
-    // Transformasi data dari API menjadi bentuk yang diinginkan
-    const transformedData: Option[] = airportData.map((airport) => ({
-      value: airport.code,
-      label: airport.city,
-      detailLabel: airport.name,
-    }));
-
-    return transformedData;
-  } catch (error) {
-    console.error("Error fetching airport data:", error);
-    return [];
-  }
-};
-
-const options: Option[] = await getAirportData();
+import useTicketSearch from "../pages/User/TicketList/TicketList.Hooks";
 
 const customStylesStart = {
   control: (provided) => ({
@@ -129,80 +98,28 @@ const formatOptionLabel = ({ label, detailLabel }) => (
   </div>
 );
 
-interface TicketSearch {
-  selectedOption: Option | null;
-}
-
-const getHariFromDate = (date: Date | null): string => {
-  if (date) {
-    const days = [
-      "Minggu",
-      "Senin",
-      "Selasa",
-      "Rabu",
-      "Kamis",
-      "Jumat",
-      "Sabtu",
-    ];
-    const dayIndex = date.getDay();
-    return days[dayIndex];
-  }
-  return "";
-};
-
 export default function TicketSearch() {
-  const [selectedOriginOption, setSelectedOriginOption] =
-    useState<Option | null>(null);
-  const [selectedDestinationOption, setSelectedDestinationOption] =
-    useState<Option | null>(null);
-
-  const [departureDate, setDepartureDate] = useState<Date | null>(null);
-  const [returnDate, setReturnDate] = useState<Date | null>(null);
-  const [DepartureDay, setDepartureDay] = useState<string>("");
-  const [ReturnDay, setReturnDay] = useState<string>("");
-
-  const handleOriginChange = (selected: Option | null) => {
-    setSelectedOriginOption(selected);
-  };
-  const handleDestinationChange = (selected: Option | null) => {
-    setSelectedDestinationOption(selected);
-  };
-
-  const handleSwitch = () => {
-    // Swap the values of selectedOriginOption and selectedDestinationOption
-    const temp = selectedOriginOption;
-    setSelectedOriginOption(selectedDestinationOption);
-    setSelectedDestinationOption(temp);
-  };
-
-  const handleDepartureDateChange = (date: Date | null) => {
-    setDepartureDate(date);
-
-    if (date) {
-      const day = getHariFromDate(date);
-      setDepartureDay(day);
-    }
-  };
-
-  const handleReturnDateChange = (date: Date | null) => {
-    setReturnDate(date);
-
-    if (date) {
-      const day = getHariFromDate(date);
-      setReturnDay(day);
-    }
-  };
-
-  const [isReturnTicket, setIsReturnTicket] = useState(false);
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsReturnTicket(event.target.checked);
-    // Clear the return date when unchecking the checkbox
-    if (!event.target.checked) {
-      setReturnDate(null);
-      setReturnDay("");
-    }
-  };
+  const {
+    options,
+    isReturnTicket,
+    selectedOriginOption,
+    selectedDestinationOption,
+    departureDate,
+    returnDate,
+    DepartureDay,
+    ReturnDay,
+    handleOriginChange,
+    handleDestinationChange,
+    handleDepartureDateChange,
+    handleReturnDateChange,
+    handleSwitch,
+    handleCheckboxChange,
+    handleClassChange,
+    handleSearch,
+    loading,
+    tickets,
+    // Other state variables and functions from useTicketSearch...
+  } = useTicketSearch();
 
   return (
     <div>
@@ -311,18 +228,20 @@ export default function TicketSearch() {
                 <Form.Select
                   aria-label="Floating label select example"
                   className="border-0"
+                  onChange={handleClassChange}
                 >
                   <option>Kelas</option>
-                  <option value="1">Ekonomi</option>
-                  <option value="2">Bisnis</option>
-                  <option value="3">Kelas Utama</option>
+                  <option value="Economy">Ekonomi</option>
+                  <option value="Premium Economy">Premium Ekonomi</option>
+                  <option value="Business">Bisnis</option>
+                  <option value="First Class">Kelas Utama</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
             <Col></Col>
           </Row>
           <div className="text-center">
-            <Button className="">
+            <Button className="" onClick={handleSearch}>
               <span className="px-4 text-white">Cari Tiket</span>
             </Button>
           </div>

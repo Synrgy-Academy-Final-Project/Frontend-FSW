@@ -1,0 +1,24 @@
+.r-16-s {
+  color: #3e7bfa;
+
+  text-align: center;
+  /* website/regular/16 */
+  font-family: "Open Sans";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.5rem; /* 150% */
+  letter-spacing: 0.00938rem;
+}
+
+.r-16-g {
+  color: #8c8d89;
+  text-align: center;
+  /* website/regular/16 */
+  font-family: "Open Sans";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.5rem; /* 150% */
+  letter-spacing: 0.00938rem;
+}
