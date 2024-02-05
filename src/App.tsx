@@ -2,10 +2,11 @@ import { Route, Routes } from "react-router-dom";
 
 import RegisterUser from "./pages/User/Register/RegisterUser";
 import LoginUser from "./pages/User/Login/LoginUser";
+import NewPassword from "./pages/User/NewPassword/NewPassword";
 import DataPenumpang from "./pages/User/DataPenumpang/DataPenumpang";
 import Header from "./components/Header";
 import "./App.css";
-import TicketList from "./pages/User/TicketList.tsx";
+import TicketList from "./pages/User/TicketList/TicketList.tsx";
 import VerifyAccount from "./pages/User/VerifyAccount/VerifyAccount";
 import ForgetPassword from "./pages/User/ForgetPassword/ForgetPassword";
 import ResetPassword from "./pages/User/ForgetPassword/ResetPassword";
@@ -36,6 +37,20 @@ import FormProfile from "./components/FormProfile.tsx";
 import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
 
 function App() {
+  return (
+    <>
+      <Routes>
+        {/* page */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/header" element={<Header />} />
+        <Route path="/login" element={<LoginUser />} />
+        <Route path="/register" element={<RegisterUser />} />
+        <Route path="/newpassword" element={<NewPassword />} />
+        <Route path="/list-ticket" element={<TicketList />} />
+        <Route path="/datapenumpang" element={<DataPenumpang />} />
+        <Route path="/verify-account" element={<VerifyAccount />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
   return (
     <>
       <Routes>
