@@ -91,9 +91,9 @@ export default function Header(props) {
                   Logout
                 </button>
               ) : (
-                <a
+                <Link
+                  to="/login"
                   className="login bg-white bg-opacity-50 rounded-4"
-                  href="/login"
                 >
                   <span>Masuk</span>
                 </Link>

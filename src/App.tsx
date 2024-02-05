@@ -5,7 +5,7 @@ import LoginUser from "./pages/User/Login/LoginUser";
 import DataPenumpang from "./pages/User/DataPenumpang/DataPenumpang";
 import Header from "./components/Header";
 import "./App.css";
-import TicketList from "./pages/User/TicketList.tsx";
+import TicketList from "./pages/User/TicketList/TicketList.tsx";
 import VerifyAccount from "./pages/User/VerifyAccount/VerifyAccount";
 import ForgetPassword from "./pages/User/ForgetPassword/ForgetPassword";
 import ResetPassword from "./pages/User/ForgetPassword/ResetPassword";
@@ -70,7 +70,6 @@ function App() {
 
         <Route path="/ticketsearch" element={<TicketSearch />} />
         <Route path="/modalticket" element={<ModalPesanTiket />} />
-        <Route path="/detailticket" element={<DetailTicket />} />
         <Route path="/detailsection" element={<DetailSection />} />
         <Route path="/detailharga" element={<DetailHarga />} />
         <Route path="/cardtiket" element={<CardTicket />} />
