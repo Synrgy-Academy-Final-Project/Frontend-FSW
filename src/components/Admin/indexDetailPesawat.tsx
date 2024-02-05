@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import styled from 'styled-components';
@@ -81,9 +81,9 @@ const IndexDetailPesawatContent = () => {
                 <TableWrapper>
                     <TableDetailPesawat airplaneDetails={airplaneDetails} />
                     <FormInputClass airplaneId={id} />
-                    <TableClass />
+                    <TableClass airplaneId={id} />
                     <FormInputSchedule airplaneId={id} />
-                    <TableSchedule />
+                    <TableSchedule airplaneId={id}/>
                 </TableWrapper>
             </MainContent>
         </>

@@ -1,5 +1,38 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import EditFormSchedule from "./EditFormSchedule.tsx";
+
+interface ShowProps {
+    show: boolean;
+}
+
+interface TableScheduleProps {
+    airplaneId: string;
+}
+
+const Overlay = styled.div<ShowProps>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: ${(props) => (props.show ? 'block' : 'none')};
+`;
+
+const ModalContainer = styled.div<ShowProps>`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  display: ${(props) => (props.show ? 'block' : 'none')};
+`;
 
 const TableContainer = styled.div`
   margin: 16px;
@@ -19,23 +52,12 @@ const Th = styled.th`
   background-color: #fff;
   padding: 8px;
   border-bottom: 2px solid #f2f2f2;
-  &:first-child {
-    border-top-left-radius: 8px; 
-  }
-  &:last-child {
-    border-top-right-radius: 8px;
-  }
 `;
 
 const Td = styled.td`
   padding: 8px;
   background-color: #fff;
   border-bottom: 1px solid #f2f2f2;
-  &:first-child {
-    border-bottom-left-radius: 8px;
-  &:last-child {
-    border-bottom-right-radius: 8px; 
-  }
 `;
 
 const PaginationContainer = styled.div`
@@ -55,20 +77,19 @@ const PaginationButton = styled.button`
   align-items: center;
   border-radius: 10px;
   border: 1px solid #3E7BFA;
-  box-shadow: 0px 24px 12px 0px rgba(88, 154, 228, 0.04);
   cursor: pointer;
 `;
 
 const KembaliButton = styled(PaginationButton)`
-  background: #E1E7EE;
+  background: #FFF;
   color: #3E7BFA;
   &:hover {
     background-color: #cad4e0;
   }
   &:disabled {
     background-color: #ccc;
+    border: none;
     cursor: not-allowed;
-    border: 1px solid #ccc;
     color: #666;
   }
 `;
@@ -78,6 +99,12 @@ const SelanjutnyaButton = styled(PaginationButton)`
   color: #3E7BFA;
   &:hover {
     background-color: #e6f0fd;
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    border: none;
+    color: #666;
   }
 `;
 
@@ -99,58 +126,179 @@ const PageNumber = styled.span`
   text-align: center;
 `;
 
-const TableSchedule = () => {
+const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId }) => {
+
+    const [flightTimes, setFlightTimes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [editModalVisible, setEditModalVisible] = useState(false);
+    const [selectedFlight, setSelectedFlight] = useState(null);
+    const [formDataToEdit, setFormDataToEdit] = useState({
+        flightTime: '',
+        airplaneFlightTimePrice: 0
+    });
+
+    const ITEMS_PER_PAGE = 3;
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setError('No token found');
+            setLoading(false);
+            return;
+        }
+
+        fetch(`https://backend-fsw.fly.dev/api/v1/flightimes/airplane/${airplaneId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status === 401 ? 'Invalid Token' : 'Error fetching data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 200) {
+                    setFlightTimes(data.data);
+                } else {
+                    throw new Error(data.message);
+                }
+            })
+            .catch(error => {
+                setError(error.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [airplaneId]);
+
+    const totalPages = Math.ceil(flightTimes.length / ITEMS_PER_PAGE);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const currentFlightTimes = flightTimes.slice(startIndex, endIndex);
+
+    const handlePrevious = () => {
+        setCurrentPage(current => Math.max(current - 1, 1));
+    };
+
+    const handleNext = () => {
+        setCurrentPage(current => Math.min(current + 1, totalPages));
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    const handleDelete = (flightId) => {
+        const confirmDelete = window.confirm('Apakah Anda yakin ingin menghapus data ini?');
+        if (!confirmDelete) {
+            return;
+        }
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('No token found');
+            return;
+        }
+
+        fetch(`https://backend-fsw.fly.dev/api/v1/flightimes/airplane/${flightId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.status === 401 ? 'Invalid Token' : response.status === 404 ? 'ID Airplane Not Found' : 'Error performing delete');
+                }
+            })
+            .then(data => {
+                console.log('Delete successful:', data.message);
+                setFlightTimes(flightTimes.filter(flight => flight.id !== flightId));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message);
+            });
+    };
+
+    const openEditModal = (flight) => {
+        setSelectedFlight(flight);
+        setEditModalVisible(true);
+    };
+
+    const closeEditModal = () => {
+        setEditModalVisible(false);
+        setSelectedFlight(null);
+    };
+    const handleOverlayClick = (event) => {
+        if (event.target === event.currentTarget) {
+            closeEditModal();
+        }
+    };
+
     return (
-        <TableContainer>
-            <Table>
-                <thead>
-                <tr>
-                    <Th>No</Th>
-                    <Th>Nama Pesawat</Th>
-                    <Th>Jadwal Terbang</Th>
-                    <Th>Harga</Th>
-                    <Th>Aksi</Th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <Td>1</Td>
-                    <Td>Airbus A320</Td>
-                    <Td>07:00:00</Td>
-                    <Td>Rp1.000.000</Td>
-                    <Td>
-                        <ActionButton title="Edit">
-                            <Icon src="https://i.ibb.co/WFKh40T/Pen.png" alt="Edit" />
-                        </ActionButton>
-                        <ActionButton title="Delete">
-                            <Icon src="https://i.ibb.co/phm3fMy/Trash-Alt.png" alt="Delete" />
-                        </ActionButton>
-                    </Td>
-                </tr>
-                <tr>
-                    <Td>2</Td>
-                    <Td>Airbus A320</Td>
-                    <Td>07:00:00</Td>
-                    <Td>Rp1.000.000</Td>
-                    <Td>
-                        <ActionButton title="Edit">
-                            <Icon src="https://i.ibb.co/WFKh40T/Pen.png" alt="Edit" />
-                        </ActionButton>
-                        <ActionButton title="Delete">
-                            <Icon src="https://i.ibb.co/phm3fMy/Trash-Alt.png" alt="Delete" />
-                        </ActionButton>
-                    </Td>
-                </tr>
-                </tbody>
-            </Table>
-            <PaginationContainer>
-                <KembaliButton disabled>{' < Kembali'}</KembaliButton>
-                <PageNumber>1</PageNumber>
-                <SelanjutnyaButton>{'Selanjutnya > '}</SelanjutnyaButton>
-            </PaginationContainer>
-        </TableContainer>
+        <>
+            {editModalVisible && (
+                <Overlay show={editModalVisible} onClick={handleOverlayClick}>
+                    <ModalContainer show={editModalVisible}>
+                        <EditFormSchedule flightData={selectedFlight} closeModal={closeEditModal} refreshData={() => {}} />
+                    </ModalContainer>
+                </Overlay>
+
+
+            )}
+
+            <TableContainer>
+                <Table>
+                    <thead>
+                    <tr>
+                        <Th>No</Th>
+                        <Th>Nama Pesawat</Th>
+                        <Th>Jadwal Terbang</Th>
+                        <Th>Harga</Th>
+                        <Th>Aksi</Th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {currentFlightTimes.map((flight, index) => (
+                        <tr key={flight.id}>
+                            <Td>{startIndex + index + 1}</Td>
+                            <Td>{flight.airplaneName}</Td>
+                            <Td>{flight.flightTime}</Td>
+                            <Td>{`Rp${flight.airplaneFlightTimePrice.toLocaleString()}`}</Td>
+                            <Td>
+                                <ActionButton title="Edit" onClick={() => openEditModal(flight)}>
+                                    <Icon src="https://i.ibb.co/WFKh40T/Pen.png" alt="Edit" />
+                                </ActionButton>
+                                <ActionButton title="Delete" onClick={() => handleDelete(flight.id)}>
+                                    <Icon src="https://i.ibb.co/phm3fMy/Trash-Alt.png" alt="Delete" />
+                                </ActionButton>
+                            </Td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </Table>
+                <PaginationContainer>
+                    <KembaliButton onClick={handlePrevious} disabled={currentPage === 1}>
+                        {' < Kembali'}
+                    </KembaliButton>
+                    <PageNumber>{currentPage}</PageNumber>
+                    <SelanjutnyaButton onClick={handleNext} disabled={currentPage >= totalPages}>
+                        {'Selanjutnya > '}
+                    </SelanjutnyaButton>
+                </PaginationContainer>
+            </TableContainer>
+        </>
     );
 };
-
 
 export default TableSchedule;
