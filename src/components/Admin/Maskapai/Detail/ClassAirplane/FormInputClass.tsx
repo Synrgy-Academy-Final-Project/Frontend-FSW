@@ -1,5 +1,6 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import Select from 'react-select';
 
 const Form = styled.form`
   width: 97%;
@@ -32,23 +33,6 @@ const Input = styled.input`
   font-size: 14px;
 `;
 
-const Select = styled.select`
-  padding: 10px;
-  padding-right: 30px; /* Make padding larger on the right to accommodate the icon */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  background: white url('https://i.ibb.co/brG0Rbk/Chevron-Down.png') no-repeat right 10px center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-
-  &::-ms-expand {
-    display: none; /
-  }
-`;
-
 const ButtonContainer = styled.div`
   grid-column: 1 / -1;
   display: flex;
@@ -66,19 +50,19 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('https://i.ibb.co/qDj4NNC/Plus.png');
-  background-repeat: no-repeat;
-  background-position: 10px center;
-  background-size: 20px;
-  text-indent: 20px;
 
   &:hover {
     background-color: #2a5db0;
   }
 `;
 
+const classOptions = [
+    { value: 'Ekonomi', label: 'Ekonomi' },
+    { value: 'Bisnis', label: 'Bisnis' },
+    { value: 'Kelas Utama', label: 'Kelas Utama' },
+];
 
-const FormInputClass = ({airplaneId }) => {
+const FormInputClass = ({ airplaneId }) => {
     const [airplaneClassName, setAirplaneClassName] = useState('');
     const [airplaneClassPrice, setAirplaneClassPrice] = useState('');
     const [capacity, setCapacity] = useState('');
@@ -130,11 +114,12 @@ const FormInputClass = ({airplaneId }) => {
         <Form onSubmit={handleSubmit}>
             <InputGroup>
                 <Label>Kelas Pesawat</Label>
-                <Select onChange={(e) => setAirplaneClassName(e.target.value)}>
-                    <option value="Ekonomi">Ekonomi</option>
-                    <option value="Bisnis">Bisnis</option>
-                    <option value="Kelas Utama">Kelas Utama</option>
-                </Select>
+                <Select
+                    options={classOptions}
+                    onChange={(option) => setAirplaneClassName(option ? option.value : '')}
+                    isClearable
+                    isSearchable
+                />
             </InputGroup>
             <InputGroup>
                 <Label>Kapasitas</Label>
@@ -145,9 +130,7 @@ const FormInputClass = ({airplaneId }) => {
                 <Input type="number" placeholder="Rp" onChange={(e) => setAirplaneClassPrice(e.target.value)} />
             </InputGroup>
             <ButtonContainer>
-                <Button type="submit">
-                    Tambah
-                </Button>
+                <Button type="submit">Tambah</Button>
             </ButtonContainer>
         </Form>
     );

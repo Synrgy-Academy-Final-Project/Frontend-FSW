@@ -1,5 +1,34 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 import styled from 'styled-components';
+import EditFormClass from "./EditFormClass.tsx";
+
+interface ShowProps {
+    show: boolean;
+}
+
+const Overlay = styled.div<ShowProps>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: ${(props) => (props.show ? 'block' : 'none')};
+`;
+
+const ModalContainer = styled.div<ShowProps>`
+  position: fixed;
+  top: 45%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  display: ${(props) => (props.show ? 'block' : 'none')};
+`;
 
 const TableContainer = styled.div`
   margin: 16px;
@@ -60,7 +89,7 @@ const PaginationButton = styled.button`
 `;
 
 const KembaliButton = styled(PaginationButton)`
-  background: #E1E7EE;
+  background: #FFF;
   color: #3E7BFA;
   &:hover {
     background-color: #cad4e0;
@@ -78,6 +107,12 @@ const SelanjutnyaButton = styled(PaginationButton)`
   color: #3E7BFA;
   &:hover {
     background-color: #e6f0fd;
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    border: 1px solid #ccc;
+    color: #666;
   }
 `;
 
@@ -99,61 +134,198 @@ const PageNumber = styled.span`
   text-align: center;
 `;
 
-const TableClass = () => {
+const itemsPerPage = 3;
+
+const TableClass = ({ airplaneId }) => {
+    const [classData, setClassData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [selectedClassData, setSelectedClassData] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            setError('No token found');
+            setLoading(false);
+            return;
+        }
+
+        fetch(`https://backend-fsw.fly.dev/api/v1/classes/airplane/${airplaneId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else if (response.status === 401) {
+                    throw new Error('Invalid Token');
+                } else if (response.status === 404) {
+                    throw new Error('ID Airplane Not Found');
+                } else if (response.status === 400) {
+                    throw new Error('Bad Request');
+                } else {
+                    throw new Error('Internal Server Error');
+                }
+            })
+            .then(data => {
+                if (data.status === 200) {
+                    setClassData(data.data);
+                    setLoading(false);
+                } else {
+                    setError(data.message);
+                    setLoading(false);
+                }
+            })
+            .catch(error => {
+                setError(error.message);
+                setLoading(false);
+            });
+    }, [airplaneId]);
+
+    const totalPages = Math.ceil(classData.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    const displayedData = classData.slice(startIndex, endIndex);
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    // ##############################################################################################
+    // #DELETE
+    const handleDelete = (id) => {
+        const confirmDelete = window.confirm('Apakah Anda yakin ingin menghapus data ini?');
+        if (!confirmDelete) {
+            return;
+        }
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            setError('No token found');
+            return;
+        }
+
+        fetch(`https://backend-fsw.fly.dev/api/v1/classes/airplane/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('Item deleted successfully');
+                } else if (response.status === 401) {
+                    throw new Error('Invalid Token');
+                } else if (response.status === 404) {
+                    throw new Error('ID Airplane Not Found');
+                } else if (response.status === 400) {
+                    throw new Error('Bad Request');
+                } else if (response.status === 500) {
+                    throw new Error('Internal Server Error');
+                } else {
+                    throw new Error('Unknown Error');
+                }
+            })
+            .catch(error => {
+                setError(error.message);
+            });
+    };
+
+    // ################################################
+    // PATCH API
+    const openEditModal = (classData) => {
+        setSelectedClassData(classData);
+        setShowEditModal(true);
+    };
+
+    const closeEditModal = () => {
+        setShowEditModal(false);
+        setSelectedClassData(null);
+    };
+
     return (
-        <TableContainer>
-            <Table>
-                <thead>
-                <tr>
-                    <Th>No</Th>
-                    <Th>Nama Pesawat</Th>
-                    <Th>Kelas</Th>
-                    <Th>Kapasitas</Th>
-                    <Th>Harga</Th>
-                    <Th>Aksi</Th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <Td>1</Td>
-                    <Td>Airbus A320</Td>
-                    <Td>Ekonomi</Td>
-                    <Td>393</Td>
-                    <Td>Rp1.000.000</Td>
-                    <Td>
-                        <ActionButton title="Edit">
-                            <Icon src="https://i.ibb.co/WFKh40T/Pen.png" alt="Edit" />
-                        </ActionButton>
-                        <ActionButton title="Delete">
-                            <Icon src="https://i.ibb.co/phm3fMy/Trash-Alt.png" alt="Delete" />
-                        </ActionButton>
-                    </Td>
-                </tr>
-                <tr>
-                    <Td>2</Td>
-                    <Td>Airbus A320</Td>
-                    <Td>Ekonomi</Td>
-                    <Td>393</Td>
-                    <Td>Rp1.000.000</Td>
-                    <Td>
-                        <ActionButton title="Edit">
-                            <Icon src="https://i.ibb.co/WFKh40T/Pen.png" alt="Edit" />
-                        </ActionButton>
-                        <ActionButton title="Delete">
-                            <Icon src="https://i.ibb.co/phm3fMy/Trash-Alt.png" alt="Delete" />
-                        </ActionButton>
-                    </Td>
-                </tr>
-                </tbody>
-            </Table>
-            <PaginationContainer>
-                <KembaliButton disabled>{' < Kembali'}</KembaliButton>
-                <PageNumber>1</PageNumber>
-                <SelanjutnyaButton>{'Selanjutnya > '}</SelanjutnyaButton>
-            </PaginationContainer>
-        </TableContainer>
+        <>
+            <Overlay show={showEditModal} onClick={closeEditModal} />
+            <ModalContainer show={showEditModal}>
+                {selectedClassData && (
+                    <EditFormClass
+                        airplaneClassData={selectedClassData}
+                        closeModal={closeEditModal}
+                    />
+                )}
+            </ModalContainer>
+            <TableContainer>
+                <Table>
+                    <thead>
+                    <tr>
+                        <Th>No</Th>
+                        <Th>Nama Pesawat</Th>
+                        <Th>Kelas</Th>
+                        <Th>Kapasitas</Th>
+                        <Th>Harga</Th>
+                        <Th>Aksi</Th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {displayedData.map((item, index) => (
+                        <tr key={index}>
+                            <Td>{startIndex + index + 1}</Td>
+                            <Td>{item.airplaneName}</Td>
+                            <Td>{item.airplaneClassName}</Td>
+                            <Td>{item.capacity}</Td>
+                            <Td>{item.airplaneClassPrice}</Td>
+                            <Td>
+                                <ActionButton title="Edit" onClick={() => openEditModal(item)}>
+                                    <Icon src="https://i.ibb.co/WFKh40T/Pen.png" alt="Edit" />
+                                </ActionButton>
+
+                                <ActionButton title="Delete" onClick={() => handleDelete(item.id)}>
+                                    <Icon src="https://i.ibb.co/phm3fMy/Trash-Alt.png" alt="Delete" />
+                                </ActionButton>
+                            </Td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </Table>
+                <PaginationContainer>
+                    <KembaliButton
+                        disabled={currentPage === 1}
+                        onClick={handlePreviousPage}
+                    >
+                        {' < Kembali'}
+                    </KembaliButton>
+                    <PageNumber>{currentPage}</PageNumber>
+                    <SelanjutnyaButton
+                        disabled={currentPage === totalPages}
+                        onClick={handleNextPage}
+                    >
+                        {'Selanjutnya > '}
+                    </SelanjutnyaButton>
+                </PaginationContainer>
+            </TableContainer>
+        </>
     );
 };
-
 
 export default TableClass;
