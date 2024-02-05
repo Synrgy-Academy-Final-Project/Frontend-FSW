@@ -81,27 +81,27 @@ const PopularPlaces: React.FC = () => {
       <div ref={sliderRef} className="keen-slider">
         <StyledImage
           className="keen-slider__slide"
-          src={"src/assets/images/Popular1.png"}
+          src="https://i.ibb.co/gmcBTry/Popular1.png"
         />
         <StyledImage
           className="keen-slider__slide"
-          src={"src/assets/images/Popular2.png"}
+          src="https://i.ibb.co/8X2zBs8//Popular2.png"
         />
         <StyledImage
           className="keen-slider__slide"
-          src={"src/assets/images/Popular1.png"}
+          src="https://i.ibb.co/gmcBTry/Popular1.png"
         />
         <StyledImage
           className="keen-slider__slide"
-          src={"src/assets/images/Popular2.png"}
+          src="https://i.ibb.co/8X2zBs8//Popular2.png"
         />
         <StyledImage
           className="keen-slider__slide"
-          src={"src/assets/images/Popular1.png"}
+          src="https://i.ibb.co/gmcBTry/Popular1.png"
         />
         <StyledImage
           className="keen-slider__slide"
-          src={"src/assets/images/Popular2.png"}
+          src="https://i.ibb.co/8X2zBs8//Popular2.png"
         />
       </div>
     </Container>
