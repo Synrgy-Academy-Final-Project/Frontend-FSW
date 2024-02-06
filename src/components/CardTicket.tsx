@@ -1,7 +1,7 @@
 import Time from "../assets/images/Time.png";
 import Garuda from "../assets/images/garuda.png";
 import DetailTicket from "./DetailTicket";
-type Props = {};
+type Props = { tickets: any;};
 
 const CardTicket = (props: Props) => {
   return (
