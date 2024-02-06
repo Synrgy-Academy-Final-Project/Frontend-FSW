@@ -56,7 +56,7 @@ const classOptions = [
     { value: 'Kelas Utama', label: 'Kelas Utama' },
 ];
 
-const EditFormClass = ({ airplaneClassData, closeModal }) => {
+const EditFormClass = ({ airplaneClassData, closeModal,onRefresh  }) => {
     const [formData, setFormData] = useState({
         airplaneClassName: airplaneClassData.airplaneClassName || "",
         airplaneClassPrice: airplaneClassData.airplaneClassPrice || 0,
@@ -90,7 +90,8 @@ const EditFormClass = ({ airplaneClassData, closeModal }) => {
         event.preventDefault();
 
         const updatedData = {
-            ...formData
+            ...formData,
+            airplaneId: airplaneClassData.airplaneId,
         };
 
         const token = localStorage.getItem('token');
@@ -118,6 +119,7 @@ const EditFormClass = ({ airplaneClassData, closeModal }) => {
                 console.log('PATCH request successful. Response:', data);
                 alert(data.message);
                 closeModal();
+                onRefresh();
             } else {
                 console.error('PATCH request failed. Response:', data);
                 alert(data.message);
@@ -143,18 +145,6 @@ const EditFormClass = ({ airplaneClassData, closeModal }) => {
                 />
             </InputGroup>
             <InputGroup>
-                <Label>Harga Kelas</Label>
-                <Input
-                    id="airplaneClassPrice"
-                    name="airplaneClassPrice"
-                    type="number"
-                    value={formData.airplaneClassPrice}
-                    placeholder="Harga Kelas"
-                    onChange={handleChange}
-                    required
-                />
-            </InputGroup>
-            <InputGroup>
                 <Label>Kapasitas</Label>
                 <Input
                     id="capacity"
@@ -162,6 +152,18 @@ const EditFormClass = ({ airplaneClassData, closeModal }) => {
                     type="number"
                     value={formData.capacity}
                     placeholder="Kapasitas"
+                    onChange={handleChange}
+                    required
+                />
+            </InputGroup>
+            <InputGroup>
+                <Label>Harga Kelas</Label>
+                <Input
+                    id="airplaneClassPrice"
+                    name="airplaneClassPrice"
+                    type="number"
+                    value={formData.airplaneClassPrice}
+                    placeholder="Harga Kelas"
                     onChange={handleChange}
                     required
                 />
