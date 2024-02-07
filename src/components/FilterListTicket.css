@@ -123,6 +123,11 @@ label {
   width: 100%;
 }
 
+.timeCard.selected {
+  border: 1px solid #3e7bfa;
+  background-color: #dae3f5;
+}
+
 .lsPrice {
   display: flex;
   flex-direction: column;

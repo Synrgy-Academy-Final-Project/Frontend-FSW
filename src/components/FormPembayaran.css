@@ -24,3 +24,7 @@
   line-height: 1.75rem; /* 140% */
   letter-spacing: -0.04688rem;
 }
+
+.mwa {
+  max-width: 1800px !important;
+}

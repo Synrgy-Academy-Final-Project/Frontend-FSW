@@ -176,9 +176,7 @@ const OrdererDetailPayment: React.FC = () => {
                 Asuransi Perjalanan
               </RegulerTextBold>
               <div style={{ marginLeft: "auto" }}>
-                <Form.Check
-                  checked={true}
-                />
+                <Form.Check checked={true} />
                 <i className="w-25"></i>
               </div>
             </div>

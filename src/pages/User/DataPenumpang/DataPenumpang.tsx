@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Footer from "../../../components/Footer.tsx";
 import DetailBooking from "../../../components/DetailSection.tsx";
 import DetailHarga from "../../../components/DetailHarga.tsx";
@@ -18,10 +18,10 @@ const DataPenumpang: React.FC = () => {
       .find((part) => part.type === "month").value;
     const day = departureDate.getDate();
     const year = departureDate.getFullYear();
-  
+
     const hour = departureDate.getHours();
     const minute = departureDate.getMinutes();
-  
+
     return {
       formattedDate: `${day} ${monthNames} ${year}`,
       formattedTime: `${hour.toString().padStart(2, "0")}:${minute
@@ -33,16 +33,18 @@ const DataPenumpang: React.FC = () => {
   const calculateDuration = (departureTime: string, arrivalTime: string) => {
     const departureDate = new Date(departureTime);
     const arrivalDate = new Date(arrivalTime);
-  
+
     // Calculate the difference in milliseconds
     const durationInMilliseconds = arrivalDate - departureDate;
-  
+
     // Convert milliseconds to hours and minutes
-    const durationInHours = Math.floor(durationInMilliseconds / (60 * 60 * 1000));
+    const durationInHours = Math.floor(
+      durationInMilliseconds / (60 * 60 * 1000)
+    );
     const durationInMinutes = Math.floor(
       (durationInMilliseconds % (60 * 60 * 1000)) / (60 * 1000)
     );
-  
+
     return `${durationInHours} j ${durationInMinutes} m`;
   };
 
@@ -78,15 +80,15 @@ const DataPenumpang: React.FC = () => {
     arrivalTime: "2024-01-10T03:45:00.000+00:00",
     totalPrice: 1919504,
   };
-  
+
   const [detail, setDetail] = useState({
-    pemesan:{
+    pemesan: {
       nama: "",
       ponsel: "",
       email: "",
-      dateOfBirth: ""
+      dateOfBirth: "",
     },
-    penumpang:{    
+    penumpang: {
       nameAdult: "",
       nameKids: "",
       nameBaby: "",
@@ -97,13 +99,13 @@ const DataPenumpang: React.FC = () => {
       genKids: "",
       genBaby: "",
       phone: "",
-    }
+    },
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDetailChange = (detailData: any) => {
     setDetail(detailData);
-    console.log('data detail >>>', detail);    
+    console.log("data detail >>>", detail);
   };
 
   return (
@@ -232,9 +234,7 @@ const DataPenumpang: React.FC = () => {
               <div className="col-8">
                 <div className="title-dp">
                   <h4 className="sb-16-b">{data?.departureCityCode}</h4>
-                  <p className="r-14-g mb-1">
-                    {data?.departureNameAirport}
-                  </p>
+                  <p className="r-14-g mb-1">{data?.departureNameAirport}</p>
                 </div>
                 <svg height="2" width="480">
                   <line
@@ -428,14 +428,12 @@ const DataPenumpang: React.FC = () => {
                 </svg>
                 <div className="title-dp">
                   <h4 className="sb-16-b">{data?.arrivalCityCode}</h4>
-                  <p className="r-14-g">
-                    {data?.arrivalNameAirport}
-                  </p>
+                  <p className="r-14-g">{data?.arrivalNameAirport}</p>
                 </div>
               </div>
             </div>
           </div>
-          <DetailHarga price={data?.totalPrice} data={detail}/>
+          <DetailHarga price={data?.totalPrice} data={detail} />
         </Col>
       </Row>
 

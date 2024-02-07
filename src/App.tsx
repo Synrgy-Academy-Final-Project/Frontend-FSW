@@ -35,6 +35,7 @@ import ModalKonfirmasi from "./components/ModalKonfirmasi.tsx";
 import FormProfile from "./components/FormProfile.tsx";
 import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
 import SidebarAkun from "./components/SidebarAkun.tsx";
+import PembayaranPage from "./pages/User/PembayaranPage/PembayaranPage.tsx";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
         <Route path="/verify-account-forgot" element={<OTPVerification />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/pesanan" element={<PesananPage />} />
+        <Route path="/detailpembayaran" element={<PembayaranPage />} />
 
         {/* Components */}
         <Route path="/filterListTicket" element={<FilterListTicket />} />
@@ -62,7 +64,10 @@ function App() {
         <Route path="/sidebarakun" element={<SidebarAkun />} />
         <Route path="/ticketsearch" element={<TicketSearch />} />
         <Route path="/modalticket" element={<ModalPesanTiket />} />
-        <Route path="/detailsectionpayment" element={<DetailSectionPayment />}/>
+        <Route
+          path="/detailsectionpayment"
+          element={<DetailSectionPayment />}
+        />
 
         {/*Admin*/}
 
@@ -73,7 +78,6 @@ function App() {
         <Route path="/departure-date" element={<IndexTanggal />} />
         <Route path="/transaction" element={<IndexTransaksi />} />
         <Route path="/detail-airline/:id" element={<IndexDetailPesawat />} />
-
       </Routes>
     </>
   );
