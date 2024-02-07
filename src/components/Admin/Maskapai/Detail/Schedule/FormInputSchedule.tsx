@@ -2,11 +2,10 @@ import{ useState } from 'react';
 import styled from 'styled-components';
 
 const Form = styled.form`
-  width: 97%;
-  margin-left: 15px;
+  width: calc(100% - 30px);
+  margin: 0 auto;
   display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(3, 1fr); // 3 columns
+  grid-template-columns: 1fr 1fr auto;
   gap: 16px;
   background: #FFFFFF;
   padding: 16px;
@@ -24,6 +23,14 @@ const Label = styled.label`
   color: #333;
   margin-bottom: 8px;
 `;
+const Heading = styled.h2`
+  grid-column: 1 / -1; 
+  color: #1C1C1E;
+  font-size: 16px;
+  margin-bottom: 3px;
+  font-weight: bold;
+`;
+
 
 const Input = styled.input`
   padding: 10px;
@@ -129,6 +136,7 @@ const FormInputSchedule = ({airplaneId,onAddSuccess }) => {
 
     return (
         <Form onSubmit={handleSubmit}>
+            <Heading>Jadwal Penerbangan</Heading>
             <InputGroup>
                 <Label>Waktu Terbang (HH:mm:ss)</Label>
                 <TimeInput

@@ -20,7 +20,7 @@ const DashboardContent = () => {
     const { setCurrentPage } = useCurrentPage();
     useEffect(() => {
         const userProfile = JSON.parse(localStorage.getItem("userProfile") || '{}');
-        setCurrentPage(`Hello ${userProfile.fist_name} ${userProfile.last_name}!`);
+        setCurrentPage(`Hello ${userProfile.first_name} ${userProfile.last_name}!`);
     }, [setCurrentPage]);
 
     return (
