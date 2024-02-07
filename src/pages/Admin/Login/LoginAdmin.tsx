@@ -19,7 +19,27 @@ const LoginAdmin: React.FC<LoginAdminProps> = () => {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-
+  const fetchUserProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const profileResponse = await fetch(`https://backend-fsw.fly.dev/api/v1/users/profile`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+      const profileJson = await profileResponse.json();
+      if (profileResponse.status === 200) {
+        console.log(profileJson)
+        localStorage.setItem("userProfile", JSON.stringify(profileJson));
+      } else {
+        throw new Error("Gagal mendapatkan profil pengguna");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const handleLogin = async () => {
     try {
       const payload = { email, password };
@@ -41,8 +61,10 @@ const LoginAdmin: React.FC<LoginAdminProps> = () => {
         setError(responseJson.message || "Login gagal");
       } else {
         localStorage.setItem("token", responseJson.token);
+        await fetchUserProfile();
         navigate("/dashboard");
       }
+
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);

@@ -128,7 +128,7 @@ const getStatusClassName = (status) => {
             return 'sukses';
         case 'refund':
             return 'refund';
-        case 'fail':
+        case 'failure':
             return 'gagal';
         default:
             return '';

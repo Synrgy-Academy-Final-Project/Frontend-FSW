@@ -18,9 +18,9 @@ const MainContent = styled.div`
 
 const DashboardContent = () => {
     const { setCurrentPage } = useCurrentPage();
-
     useEffect(() => {
-        setCurrentPage('Hello Admin!');
+        const userProfile = JSON.parse(localStorage.getItem("userProfile") || '{}');
+        setCurrentPage(`Hello ${userProfile.fist_name} ${userProfile.last_name}!`);
     }, [setCurrentPage]);
 
     return (

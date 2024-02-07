@@ -193,9 +193,11 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId,refreshTable  
         return <div>Loading...</div>;
     }
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    // if (error) {
+    //     return <div>Error: {error}</div>;
+    // }
+
+
 
     const handleDelete = (flightId) => {
         const confirmDelete = window.confirm('Apakah Anda yakin ingin menghapus data ini?');

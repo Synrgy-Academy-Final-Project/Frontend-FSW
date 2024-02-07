@@ -207,9 +207,9 @@ const TableClass = ({ airplaneId,refreshTable,onRefresh   }) => {
         return <div>Loading...</div>;
     }
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    // if (error) {
+    //     return <div>Error: {error}</div>;
+    // }
 
     // ##############################################################################################
     // #DELETE
