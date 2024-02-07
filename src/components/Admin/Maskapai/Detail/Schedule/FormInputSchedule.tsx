@@ -60,23 +60,19 @@ const Button = styled.button`
   }
 `;
 
-const TimeInput = styled.input`
+
+const TimeInput = styled.input.attrs({ type: 'time', step: 1 })`
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
 `;
 
-
-const FormInputSchedule = ({airplaneId}) => {
+const FormInputSchedule = ({airplaneId,onAddSuccess }) => {
     // const [flightTime, setFlightTime] = useState('');
     const [airplaneFlightTimePrice, setAirplaneFlightTimePrice] = useState('');
-    const [flightTime, setTime] = useState('');
-    const handleTimeChange = (e) => {
-        const inputTime = e.target.value;
-        // Validasi input waktu di sini sesuai kebutuhan Anda
-        setTime(inputTime);
-    };
+    const [flightTime, setFlightTime] = useState('00:00:00');
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -119,6 +115,7 @@ const FormInputSchedule = ({airplaneId}) => {
                 if (data.status === 201) {
                     console.log('Success:', data);
                     alert( data.message);
+                    onAddSuccess();
                 } else {
                     console.error('Error:', data.message);
                     alert(data.message);
@@ -133,13 +130,13 @@ const FormInputSchedule = ({airplaneId}) => {
     return (
         <Form onSubmit={handleSubmit}>
             <InputGroup>
-                <Label>Waktu Terbang</Label>
+                <Label>Waktu Terbang (HH:mm:ss)</Label>
                 <TimeInput
-                    type="text"
-                    placeholder="HH:mm:ss"
                     value={flightTime}
-                    onChange={handleTimeChange}
+                    onChange={(e) => setFlightTime(e.target.value)}
+                    placeholder="HH:mm:ss"
                 />
+
             </InputGroup>
             <InputGroup>
                 <Label>Harga</Label>

@@ -62,7 +62,7 @@ const classOptions = [
     { value: 'Kelas Utama', label: 'Kelas Utama' },
 ];
 
-const FormInputClass = ({ airplaneId }) => {
+const FormInputClass = ({ airplaneId, onAddSuccess })  => {
     const [airplaneClassName, setAirplaneClassName] = useState('');
     const [airplaneClassPrice, setAirplaneClassPrice] = useState('');
     const [capacity, setCapacity] = useState('');
@@ -103,6 +103,7 @@ const FormInputClass = ({ airplaneId }) => {
             .then(data => {
                 console.log('Success:', data);
                 alert('Class added successfully');
+                onAddSuccess();
             })
             .catch(error => {
                 console.error('Error:', error);

@@ -32,6 +32,10 @@ const IndexDetailPesawatContent = () => {
     const [airplaneDetails, setAirplaneDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [refreshTable, setRefreshTable] = useState(false);
+    const handleAddSuccess = () => {
+        setRefreshTable(!refreshTable);
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -73,6 +77,9 @@ const IndexDetailPesawatContent = () => {
     if (error) {
         return <div>Error: {error}</div>;
     }
+    const handleRefresh = () => {
+        setRefreshTable(prevState => !prevState);
+    };
     return (
         <>
             <Sidebar />
@@ -80,10 +87,10 @@ const IndexDetailPesawatContent = () => {
                 <Navbar />
                 <TableWrapper>
                     <TableDetailPesawat airplaneDetails={airplaneDetails} />
-                    <FormInputClass airplaneId={id} />
-                    <TableClass airplaneId={id} />
-                    <FormInputSchedule airplaneId={id} />
-                    <TableSchedule airplaneId={id}/>
+                    <FormInputClass airplaneId={id} onAddSuccess={handleAddSuccess} />
+                    <TableClass airplaneId={id} refreshTable={refreshTable} onRefresh={handleRefresh} />
+                    <FormInputSchedule airplaneId={id} onAddSuccess={handleRefresh} />
+                    <TableSchedule airplaneId={id} refreshTable={refreshTable} />
                 </TableWrapper>
             </MainContent>
         </>

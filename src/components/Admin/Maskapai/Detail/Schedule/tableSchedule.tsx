@@ -8,6 +8,7 @@ interface ShowProps {
 
 interface TableScheduleProps {
     airplaneId: string;
+    refreshTable: boolean;
 }
 
 const Overlay = styled.div<ShowProps>`
@@ -126,7 +127,7 @@ const PageNumber = styled.span`
   text-align: center;
 `;
 
-const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId }) => {
+const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId,refreshTable  }) => {
 
     const [flightTimes, setFlightTimes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -173,7 +174,7 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId }) => {
             .finally(() => {
                 setLoading(false);
             });
-    }, [airplaneId]);
+    }, [airplaneId,refreshTable]);
 
     const totalPages = Math.ceil(flightTimes.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;

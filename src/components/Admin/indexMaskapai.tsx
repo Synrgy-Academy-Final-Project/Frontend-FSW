@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import FormInputMaskapai from './Maskapai/FormInputMaskapai';
@@ -26,6 +26,13 @@ const TableWrapper = styled.div`
 
 const IndexMaskapaiContent = () => {
     const { setCurrentPage } = useCurrentPage();
+    const [refreshData, setRefreshData] = useState<number | boolean>(false);
+
+
+    const handleRefreshData = () => {
+        setRefreshData(Date.now());
+    };
+
 
     useEffect(() => {
         setCurrentPage('Data Maskapai');
@@ -37,13 +44,18 @@ const IndexMaskapaiContent = () => {
             <MainContent>
                 <Navbar />
                 <TableWrapper>
-                    <FormInputMaskapai />
-                    <TableMaskapai />
+                    <FormInputMaskapai onRefreshData={handleRefreshData} />
+                    <TableMaskapai key={refreshData.toString()} refreshData={refreshData} onRefresh={handleRefreshData} />
+
+
+
+
                 </TableWrapper>
             </MainContent>
         </>
     );
 };
+
 const IndexMaskapai = () => {
     return (
         <CurrentPageProvider>

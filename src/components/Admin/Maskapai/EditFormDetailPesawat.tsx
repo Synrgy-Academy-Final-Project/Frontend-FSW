@@ -50,7 +50,7 @@ const Button = styled.button`
   }
 `;
 
-const EditFormDetailPesawat = ({ closeModal, airplane }) => {
+const EditFormDetailPesawat = ({ closeModal, airplane,onPatchSuccess  }) => {
     const [airlineOptions, setAirlineOptions] = useState([]);
     const [selectedAirline, setSelectedAirline] = useState(null);
 
@@ -128,6 +128,7 @@ const EditFormDetailPesawat = ({ closeModal, airplane }) => {
             if (response.status === 200) {
                 console.log('PATCH request successful. Response:', data);
                 alert(data.message);
+                onPatchSuccess();
                 closeModal();
             } else {
                 console.error('PATCH request failed. Response:', data);

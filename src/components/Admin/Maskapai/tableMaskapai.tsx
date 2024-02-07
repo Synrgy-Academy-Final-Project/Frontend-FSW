@@ -157,9 +157,14 @@ const LoadingContainer = styled.div`
   padding: 16px;
   text-align: center;
 `;
+// Di dalam TableMaskapai component
+interface TableMaskapaiProps {
+    refreshData: number | boolean;
+    onRefresh: () => void; // Tambahkan definisi tipe untuk onRefresh
+}
 
 const ITEMS_PER_PAGE = 5;
-const TableMaskapai = () => {
+const TableMaskapai = ({ refreshData, onRefresh }) => {
     const navigate = useNavigate();
 
     const viewDetails = (id) => {
@@ -179,33 +184,30 @@ const TableMaskapai = () => {
             return;
         }
 
-        fetch('https://backend-fsw.fly.dev/api/v1/airplanes', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else if (response.status === 401) {
-                    throw new Error('Invalid Token');
-                } else if (response.status === 404) {
-                    throw new Error('Airplanes Not Found');
-                } else if (response.status === 500) {
-                    throw new Error('Internal Server Error');
-                } else {
-                    throw new Error('Something went wrong');
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetch('https://backend-fsw.fly.dev/api/v1/airplanes', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error fetching airplanes');
                 }
-            })
-            .then(data => {
+
+                const data = await response.json();
                 setAirplanes(data.data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
                 setIsLoading(false);
-            })
-            .catch(error => {
-                setError(error.message);
-                setIsLoading(false);
-            });
-    }, []);
+            }
+        };
+
+        fetchData();
+    }, [refreshData]);
 
     const totalPages = Math.ceil(airplanes.length / ITEMS_PER_PAGE);
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
@@ -284,6 +286,11 @@ const TableMaskapai = () => {
         setSelectedAirplane(null);
         setShowEditModal(false);
     };
+    const handlePatchSuccess = () => {
+        if (onRefresh) {
+            onRefresh(); // Memanggil fungsi refresh
+        }
+    };
     return (
         <>
             <Overlay show={showEditModal} onClick={closeEditModal} />
@@ -292,6 +299,7 @@ const TableMaskapai = () => {
                     <EditFormDetailPesawat
                         airplane={selectedAirplane}
                         closeModal={closeEditModal}
+                        onPatchSuccess={handlePatchSuccess}
                     />
                 )}
             </ModalContainer>
