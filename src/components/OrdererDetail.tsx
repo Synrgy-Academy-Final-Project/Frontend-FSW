@@ -1,20 +1,67 @@
 import React from "react";
+import {useState} from "react";
 import {
+  OrdererData,
+  OrdererDataWrapper,
   DetailForm,
   DetailWrapper,
-  FormInput,
-  Input,
-  InputRadio,
-  Label,
   OrdererHead,
-  RadioContent,
-  RadioGroup,
+  RegulerText,
   RegulerTextNeutral,
+  RegulerTextBold,
   SemiBoldText,
-  StarIcon,
 } from "./styles/DetailSection.styled";
 
-const OrdererDetail: React.FC = () => {
+interface PemesanData {
+  nama: string;
+  ponsel: string;
+  email: string;
+  gender: string;
+  dateOfBirth: string;
+}
+
+interface OrdererDetailProps {
+  Pemesan: (pemesan: PemesanData) => void;
+}
+
+const OrdererDetail: React.FC<OrdererDetailProps> = ({ Pemesan }) => {
+  const [userdata, setUserdata] = useState<PemesanData>(null);
+  
+  const token = localStorage.getItem('token')
+  const base_url = 'https://fly-id-1999ce14c36e.herokuapp.com'
+
+  const fetchUser = async () => {
+    try {
+      const response = await fetch(base_url + '/user-detail/logged-in-user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      const responseJson = await response.json()
+
+      if (response.status === 500) {
+        localStorage.removeItem('token');
+      } else if (response.status === 200) {
+        const name: string = responseJson.data.usersDetails.firstName + " " +responseJson.data.usersDetails.lastName
+        const formattedDate = new Date(responseJson.data.usersDetails.dateOfBirth).toISOString().split('T')[0];
+        setUserdata({
+          nama: name,
+          ponsel: responseJson.data.usersDetails.phoneNumber,
+          email: responseJson.data.email,
+          gender: responseJson.data.usersDetails.gender,
+          dateOfBirth: formattedDate,
+        })
+        Pemesan(userdata)
+      }
+    } catch (error) {
+      console.error("ada eror >>>", error)
+      return
+    }
+  }
+  if (token) {
+    fetchUser()
+  }
+
   return (
     <>
       <DetailWrapper>
@@ -27,46 +74,25 @@ const OrdererDetail: React.FC = () => {
         </OrdererHead>
 
         <DetailForm>
-          <RadioGroup>
-            <RadioContent>
-              <InputRadio type="radio" id="tuan" name="pemesan" />
-              <Label htmlFor="tuan">Tuan</Label>
-            </RadioContent>
+          <OrdererDataWrapper>
+            <OrdererData>
+              <img src="./images/ic_user_check.png" alt="user_check" />
+              <RegulerTextBold>Nama pemesan</RegulerTextBold>
+              <RegulerTextBold>: {token && userdata ? userdata.nama : ''} </RegulerTextBold>
+            </OrdererData>
+          </OrdererDataWrapper>
 
-            <RadioContent>
-              <InputRadio type="radio" id="nyonya" name="pemesan" />
-              <Label htmlFor="nyonya">Nyonya</Label>
-            </RadioContent>
+          <OrdererData>
+            <img src="./images/ic_phone_alt.png" alt="phone" />
+            <RegulerText>No ponsel</RegulerText>
+            <RegulerText>: {token && userdata ? userdata.ponsel : ''}</RegulerText>
+          </OrdererData>
 
-            <RadioContent>
-              <InputRadio type="radio" id="nona" name="pemesan" />
-              <Label htmlFor="nona">Nona</Label>
-            </RadioContent>
-          </RadioGroup>
-
-          <FormInput>
-            <RegulerTextNeutral>
-              Isi sesuai KTP/SIM/Paspor (tanpa tanda baca dan gelar)
-              <StarIcon>*</StarIcon>
-            </RegulerTextNeutral>
-            <Input type="text" placeholder="Nama Lengkap" />
-          </FormInput>
-
-          <FormInput>
-            <RegulerTextNeutral>
-              Nomor Ponsel
-              <StarIcon>*</StarIcon>
-            </RegulerTextNeutral>
-            <Input type="number" placeholder="Nomor Ponsel" />
-          </FormInput>
-
-          <FormInput>
-            <RegulerTextNeutral>
-              Email digunakan untuk mengirim e-tiket
-              <StarIcon>*</StarIcon>
-            </RegulerTextNeutral>
-            <Input type="text" placeholder="Email" />
-          </FormInput>
+          <OrdererData>
+            <img src="./images/ic_envelope.png" alt="envelope" />
+            <RegulerText>Email</RegulerText>
+            <RegulerText>: {token && userdata ? userdata.email : ''}</RegulerText>
+          </OrdererData>
         </DetailForm>
       </DetailWrapper>
     </>
