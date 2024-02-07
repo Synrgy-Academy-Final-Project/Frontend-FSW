@@ -22,10 +22,10 @@ import IndexDetailPesawat from "./components/Admin/indexDetailPesawat.tsx";
 import FilterListTicket from "./components/FilterListTicket";
 import TicketSearch from "./components/TicketSearch";
 import ModalPesanTiket from "./components/ModalPesanTiket";
-import DetailTicket from "./components/DetailTicket";
+// import DetailTicket from "./components/DetailTicket";
 import DetailSection from "./components/DetailSection";
 import DetailHarga from "./components/DetailHarga";
-import CardTicket from "./components/CardTicket";
+// import CardTicket from "./components/CardTicket";
 import DropdownClass from "./components/DropdownPassenger";
 import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
 import DetailSectionPayment from "./components/DetailSectionPayment";
@@ -34,6 +34,7 @@ import DetailPerjalanan from "./components/DetailPerjalanan.tsx";
 import ModalKonfirmasi from "./components/ModalKonfirmasi.tsx";
 import FormProfile from "./components/FormProfile.tsx";
 import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
+import SidebarAkun from "./components/SidebarAkun.tsx";
 
 function App() {
   return (
@@ -57,22 +58,23 @@ function App() {
         <Route path="/detailperjalanan" element={<DetailPerjalanan />} />
         <Route path="/modalkonfirmasi" element={<ModalKonfirmasi />} />
         <Route path="/formprofile" element={<FormProfile />} />
+        <Route path="/sidebarakun" element={<SidebarAkun />} />
 
         {/*Admin*/}
 
-        <Route path='/login-admin' element={<LoginAdmin />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/airport' element={<IndexBandara />} />
-        <Route path='/airline' element={<IndexMaskapai />} />
-        <Route path='/departure-date' element={<IndexTanggal />} />
-        <Route path='/transaction' element={<IndexTransaksi />} />
-        <Route path='/detail-airline/:id' element={<IndexDetailPesawat />} />
+        <Route path="/login-admin" element={<LoginAdmin />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/airport" element={<IndexBandara />} />
+        <Route path="/airline" element={<IndexMaskapai />} />
+        <Route path="/departure-date" element={<IndexTanggal />} />
+        <Route path="/transaction" element={<IndexTransaksi />} />
+        <Route path="/detail-airline/:id" element={<IndexDetailPesawat />} />
 
         <Route path="/ticketsearch" element={<TicketSearch />} />
         <Route path="/modalticket" element={<ModalPesanTiket />} />
         <Route path="/detailsection" element={<DetailSection />} />
         <Route path="/detailharga" element={<DetailHarga />} />
-        <Route path="/cardtiket" element={<CardTicket />} />
+        {/* <Route path="/cardtiket" element={<CardTicket />} /> */}
         <Route path="/cek2" element={<DropdownClass />} />
         <Route path="/verify-account-forgot" element={<OTPVerification />} />
         <Route

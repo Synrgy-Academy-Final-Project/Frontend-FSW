@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { ITickets, ITicketsMinPrice } from "../../../services/types";
 
@@ -8,33 +8,34 @@ interface Option {
   detailLabel: string;
 }
 
-const getAirportData = async (): Promise<Option[]> => {
-  try {
-    const response = await axios.get(
-      "https://fly-id-1999ce14c36e.herokuapp.com/airports"
-    );
-    const airportData = response.data.data.content;
+// const getAirportData = async (): Promise<Option[]> => {
+//   try {
+//     const response = await axios.get(
+//       "https://fly-id-1999ce14c36e.herokuapp.com/airports"
+//     );
+//     const airportData = response.data.data.content;
 
-    // Transform the data from the API into the desired format
-    const transformedData: Option[] = airportData.map((airport) => ({
-      value: airport.airportCode,
-      label: airport.airportCityCountry,
-      detailLabel: airport.airportCodeName,
-    }));
+//     // Transform the data from the API into the desired format
+//     const transformedData: Option[] = airportData.map((airport) => ({
+//       value: airport.airportCode,
+//       label: airport.airportCityCountry,
+//       detailLabel: airport.airportCodeName,
+//     }));
 
-    return transformedData;
-  } catch (error) {
-    console.error("Error fetching airport data:", error);
-    return [];
-  }
-};
+//     return transformedData;
+//   } catch (error) {
+//     console.error("Error fetching airport data:", error);
+//     return [];
+//   }
+// };
 
-const options: Option[] = await getAirportData();
+// const options: Option[] = await getAirportData();
 
 export const useTicketSearch = () => {
   const [tickets, setTickets] = useState<ITickets[]>([]);
   const [minprice, setMinimumPrice] = useState<ITicketsMinPrice[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [options, setOptions] = useState<Option[]>([]);
 
   const [selectedOriginOption, setSelectedOriginOption] =
     useState<Option | null>(null);
@@ -45,6 +46,31 @@ export const useTicketSearch = () => {
   const [returnDate, setReturnDate] = useState<Date | null>(null);
   const [DepartureDay, setDepartureDay] = useState<string>("");
   const [ReturnDay, setReturnDay] = useState<string>("");
+
+  useEffect(() => {
+    const fetchAirportData = async () => {
+      try {
+        const response = await axios.get(
+          "https://fly-id-1999ce14c36e.herokuapp.com/airports"
+        );
+        const airportData = response.data.data.content;
+
+        // Transform the data from the API into the desired format
+        const transformedData: Option[] = airportData.map((airport) => ({
+          value: airport.airportCode,
+          label: airport.airportCityCountry,
+          detailLabel: airport.airportCodeName,
+        }));
+
+        setOptions(transformedData);
+      } catch (error) {
+        console.error("Error fetching airport data:", error);
+        setOptions([]);
+      }
+    };
+
+    fetchAirportData();
+  }, []);
 
   const handleOriginChange = (selected: Option | null) => {
     setSelectedOriginOption(selected);
