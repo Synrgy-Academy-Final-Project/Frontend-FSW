@@ -116,7 +116,6 @@ export default function Header(props) {
                         <div className='information'>
                           <p>Pengaturan Akun</p>
                           <p>Bahasa Indonesia</p>
-                          <p>IDR Rp</p>
                         </div>
                       </div>
                       <Button variant='danger' className='logout' onClick={handleLogout}>
