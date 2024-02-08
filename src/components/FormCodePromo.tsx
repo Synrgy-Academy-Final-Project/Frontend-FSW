@@ -1,5 +1,4 @@
 import { Button, Card, Form, InputGroup } from "react-bootstrap";
-import "./FormCodePromo.css";
 
 export default function FormCodePromo() {
   return (
