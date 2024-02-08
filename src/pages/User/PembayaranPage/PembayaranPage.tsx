@@ -9,6 +9,7 @@ import PesananHeader from "../../../components/PesananHeader";
 import styled from "styled-components";
 import FormPembayaran from "../../../components/FormPembayaran";
 import Footer from "../../../components/Footer";
+import FormCodePromo from "../../../components/FormCodePromo";
 
 const TextBullet = styled.p`
   font: var(--fwregular) 16px/110% Open Sans, sans-serif;
@@ -93,7 +94,8 @@ export default function PembayaranPage() {
             <DetailSectionPayment />
           </Col>
           <Col lg={5}>
-            <DetailPerjalanan />;
+            <DetailPerjalanan />
+            <FormCodePromo />
             <DetailHarga />
           </Col>
         </Row>
