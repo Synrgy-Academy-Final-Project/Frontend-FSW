@@ -84,7 +84,7 @@ export default function ResetPassword() {
       const emailFromToken = decryptedData.email;
 
       const response = await fetch(
-        base_url + `/api/v1/auth/change-password?email=${emailFromToken}`,
+        base_url + `/auth/change-password?email=${emailFromToken}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

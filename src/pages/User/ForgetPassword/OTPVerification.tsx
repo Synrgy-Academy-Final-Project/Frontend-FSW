@@ -36,7 +36,7 @@ function OTPVerification() {
       const emailFromToken = decryptedData.email;
 
       const response = await fetch(
-        `https://fly-id-1999ce14c36e.herokuapp.com/api/v1/auth/verify-account-forgot?email=${emailFromToken}`,
+        `https://fly-id-1999ce14c36e.herokuapp.com/auth/verify-account-forgot?email=${emailFromToken}`,
         {
           method: "PUT",
           headers: {
