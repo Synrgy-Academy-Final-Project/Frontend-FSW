@@ -36,6 +36,8 @@ import SidebarAkun from "./components/SidebarAkun.tsx";
 import ProfilePage from "./pages/User/ProfilePage/ProfilePage.tsx";
 import ProfileEdit from "./pages/User/ProfilePage/ProfileEdit/ProfileEdit.tsx";
 import ProtectedRoute from "./utils/ProtectedRoute.tsx";
+import PembayaranPage from "./pages/User/PembayaranPage/PembayaranPage.tsx";
+
 
 function App() {
   return (
@@ -56,6 +58,9 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />
         {/* <ProtectedRoute path="/profile-edit" element={<ProfileEdit />} /> */}
+
+        <Route path="/detailpembayaran" element={<PembayaranPage />} />
+
 
         {/* Components */}
         <Route path="/filterListTicket" element={<FilterListTicket />} />
