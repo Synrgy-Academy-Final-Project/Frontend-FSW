@@ -31,10 +31,11 @@ import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
 import DetailSectionPayment from "./components/DetailSectionPayment";
 import ETicket from "./components/ETicket.tsx";
 import DetailPerjalanan from "./components/DetailPerjalanan.tsx";
-import ModalKonfirmasi from "./components/ModalKonfirmasi.tsx";
-import FormProfile from "./components/FormProfile.tsx";
 import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
 import SidebarAkun from "./components/SidebarAkun.tsx";
+import ProfilePage from "./pages/User/ProfilePage/ProfilePage.tsx";
+import ProfileEdit from "./pages/User/ProfilePage/ProfileEdit/ProfileEdit.tsx";
+import ProtectedRoute from "./utils/ProtectedRoute.tsx";
 
 function App() {
   return (
@@ -51,13 +52,14 @@ function App() {
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/pesanan" element={<PesananPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile-edit" element={<ProfileEdit />} />
+        {/* <ProtectedRoute path="/profile-edit" element={<ProfileEdit />} /> */}
 
         {/* Components */}
         <Route path="/filterListTicket" element={<FilterListTicket />} />
         <Route path="/eticket-comp" element={<ETicket />} />
         <Route path="/detailperjalanan" element={<DetailPerjalanan />} />
-        <Route path="/modalkonfirmasi" element={<ModalKonfirmasi />} />
-        <Route path="/formprofile" element={<FormProfile />} />
         <Route path="/sidebarakun" element={<SidebarAkun />} />
 
         {/*Admin*/}

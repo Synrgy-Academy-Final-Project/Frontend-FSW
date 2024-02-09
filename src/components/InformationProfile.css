@@ -1,37 +1,50 @@
-.card-form {
+.card-profile {
+  border-radius: 10px;
   margin: 0;
   box-shadow: none;
 }
 
-.form-profile {
-  /* padding: 10px 10px 10px 10px; */
-}
-
-.form-tittle {
-  font-size: 16px;
-  font-family: "Open Sans", sans-serif;
+.tittle {
   color: #1c1c1e;
-}
-.form-input {
-  border-color: #3e7bfa;
-  height: 48px;
-  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 500;
+  padding-top: 12px;
 }
 
-.form-input-country {
-  border-top-color: #3e7bfa;
-  border-left-color: #3e7bfa;
-  border-bottom-color: #3e7bfa;
-  height: 48px;
-  border-radius: 10px;
+.icon {
+  color: #3e7bfa;
+  margin-right: 16px;
 }
 
-.icon-flag {
-  border-color: #3e7bfa;
-  background-color: white;
+.label {
+  font-size: 16px;
+  color: #1c1c1e;
+  margin-right: 16px;
+  width: 200px;
 }
 
-.button-simpan {
+.item {
+  padding-bottom: 16px;
+}
+
+.profile-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.profile-table td {
+  padding: 8px;
+}
+
+.profile-table tr {
+  padding-bottom: 10px;
+}
+
+.profile-table .icon {
+  vertical-align: middle;
+}
+
+.button-edit {
   width: 100%;
   background-color: #3e7bfa;
   height: 48px;
