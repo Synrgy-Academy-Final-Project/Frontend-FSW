@@ -136,14 +136,13 @@ const PageNumber = styled.span`
 
 const itemsPerPage = 3;
 
-const TableClass = ({ airplaneId }) => {
-    const [classData, setClassData] = useState([]);
+const TableClass = ({ airplaneId,refreshTable,onRefresh   }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedClassData, setSelectedClassData] = useState(null);
-
+    const [classData, setClassData] = useState([]);
     useEffect(() => {
         const token = localStorage.getItem('token');
 
@@ -184,7 +183,7 @@ const TableClass = ({ airplaneId }) => {
                 setError(error.message);
                 setLoading(false);
             });
-    }, [airplaneId]);
+    }, [airplaneId,refreshTable]);
 
     const totalPages = Math.ceil(classData.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -208,9 +207,9 @@ const TableClass = ({ airplaneId }) => {
         return <div>Loading...</div>;
     }
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    // if (error) {
+    //     return <div>Error: {error}</div>;
+    // }
 
     // ##############################################################################################
     // #DELETE
@@ -235,6 +234,7 @@ const TableClass = ({ airplaneId }) => {
             .then(response => {
                 if (response.status === 200) {
                     console.log('Item deleted successfully');
+                    onRefresh();
                 } else if (response.status === 401) {
                     throw new Error('Invalid Token');
                 } else if (response.status === 404) {
@@ -272,6 +272,7 @@ const TableClass = ({ airplaneId }) => {
                     <EditFormClass
                         airplaneClassData={selectedClassData}
                         closeModal={closeEditModal}
+                        onRefresh={onRefresh}
                     />
                 )}
             </ModalContainer>

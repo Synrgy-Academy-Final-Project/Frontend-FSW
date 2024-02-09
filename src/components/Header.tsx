@@ -38,9 +38,9 @@ export default function Header(props) {
 
         if (response.status === 200) {
           setUser({
-            firstName: responseJson.data.usersDetails.firstName,
-            lastName: responseJson.data.usersDetails.lastName,
-          });
+            firstName: responseJson.data.firstName,
+            lastName: responseJson.data.lastName,
+          })
         }
       } catch (error) {
         console.error(error);
@@ -114,46 +114,10 @@ export default function Header(props) {
             </li>
             <li className="ms-auto">
               {/* Tampilkan button Masuk atau Logout berdasarkan keberadaan token */}
-              {token && user ? (
-                <div className="profile">
-                  <div className="d-flex">
-                    <span>{user.firstName}</span>
-                    <i className="chevron-down" onClick={handleDropdown}></i>
-                    <i className="user-avatar" onClick={handleDropdown}></i>
-                  </div>
-                  {dropdown && (
-                    <div className="dropdown">
-                      <div className="my-account">
-                        <h5>Akun Saya</h5>
-                        <div className="information">
-                          <p>
-                            <a href="/pesanan">Pesanan</a>
-                          </p>
-                          <p>Notifikasi Harga</p>
-                          <p>Favorit</p>
-                          <p>Data Penumpang Tersimpan</p>
-                          <p>Ulasan</p>
-                          <p>Profil</p>
-                        </div>
-                      </div>
-                      <div className="my-account">
-                        <h5>Pengaturan</h5>
-                        <div className="information">
-                          <p>Pengaturan Akun</p>
-                          <p>Bahasa Indonesia</p>
-                        </div>
-                      </div>
-                      <Button
-                        variant="danger"
-                        className="logout"
-                        onClick={handleLogout}
-                      >
-                        <BsPower className="icon-power-off" />
-                        Keluar
-                      </Button>
-                    </div>
-                  )}
-                </div>
+              {token ? (
+                <button className="logout" onClick={handleLogout}>
+                  Logout
+                </button>
               ) : (
                 <Link
                   to="/login"
@@ -165,7 +129,7 @@ export default function Header(props) {
             </li>
             <li className="register">
               {/* Tampilkan button Daftar atau tidak ada jika token ada */}
-              {!user && <Link to="/register">Daftar</Link>}
+              {!token && <a href="/register">Daftar</a>}
             </li>
           </ul>
         </nav>

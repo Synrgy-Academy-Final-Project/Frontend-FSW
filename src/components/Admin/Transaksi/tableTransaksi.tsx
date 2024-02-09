@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {useEffect, useState} from "react";
 
 const TableContainer = styled.div`
   margin: 16px;
@@ -60,7 +61,7 @@ const PaginationButton = styled.button`
 `;
 
 const KembaliButton = styled(PaginationButton)`
-  background: #E1E7EE;
+  background: #FFF;
   color: #3E7BFA;
   &:hover {
     background-color: #cad4e0;
@@ -79,6 +80,12 @@ const SelanjutnyaButton = styled(PaginationButton)`
   &:hover {
     background-color: #e6f0fd;
   }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    border: 1px solid #ccc;
+    color: #666;
+  }
 `;
 
 const PageNumber = styled.span`
@@ -88,12 +95,13 @@ const PageNumber = styled.span`
 `;
 
 const StatusBadge = styled.span`
-  display: inline-block;
-  padding: 5px 10px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px;
   border-radius: 5px;
   color: white;
   font-weight: bold;
-  text-align: center;
   width: 100px;
 
   &.sukses {
@@ -102,7 +110,7 @@ const StatusBadge = styled.span`
 
   &.refund {
     background-color: #ffc107;
-    color: black; // For better contrast
+    color: black;
   }
 
   &.gagal {
@@ -110,7 +118,73 @@ const StatusBadge = styled.span`
   }
 `;
 
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price);
+};
+
+const getStatusClassName = (status) => {
+    switch (status.toLowerCase()) {
+        case 'settlement':
+            return 'sukses';
+        case 'refund':
+            return 'refund';
+        case 'failure':
+            return 'gagal';
+        default:
+            return '';
+    }
+};
+
 const TableTransaksi = () => {
+    const [transactions, setTransactions] = useState([]);
+    const [error, setError] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setError('Token tidak ditemukan, silakan login kembali.');
+            return;
+        }
+
+        fetch('https://backend-fsw.fly.dev/api/v1/transactions/report', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (response.ok) return response.json();
+                throw response;
+            })
+            .then(data => {
+                setTransactions(data.data);
+                console.log(data)
+            })
+            .catch(error => {
+                if (error.status === 401) {
+                    setError('Invalid token. Silakan login kembali.');
+                } else if (error.status === 403) {
+                    setError('Forbidden. Anda tidak memiliki akses.');
+                } else if (error.status === 500) {
+                    setError('Internal Server Error. Silakan coba lagi nanti.');
+                } else {
+                    setError('Terjadi kesalahan saat menghubungi server.');
+                }
+            });
+    }, []);
+
+    const pageCount = Math.ceil(transactions.length / itemsPerPage);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentTransactions = transactions.slice(indexOfFirstItem, indexOfLastItem);
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     return (
         <TableContainer>
             <Table>
@@ -127,44 +201,24 @@ const TableTransaksi = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {/* Example rows */}
-                <tr>
-                    <Td>1</Td>
-                    <Td>123456</Td>
-                    <Td>Ariella Lia Lie</Td>
-                    <Td>JKT - DPS</Td>
-                    <Td>24/02/2024 06:00 AM</Td>
-                    <Td>Garuda Indonesia Ekonomi</Td>
-                    <Td>Rp1.000.000</Td>
-                    <Td><StatusBadge className="sukses">Sukses</StatusBadge></Td>
-                </tr>
-                <tr>
-                    <Td>2</Td>
-                    <Td>123451</Td>
-                    <Td>Alia Lia Lie</Td>
-                    <Td>JKT - DPS</Td>
-                    <Td>24/02/2024 06:00 AM</Td>
-                    <Td>Garuda Indonesia Ekonomi</Td>
-                    <Td>Rp1.000.000</Td>
-                    <Td><StatusBadge className="refund">Refund</StatusBadge></Td>
-                </tr>
-                <tr>
-                    <Td>3</Td>
-                    <Td>123452</Td>
-                    <Td>Anita Lia Lie</Td>
-                    <Td>JKT - DPS</Td>
-                    <Td>24/02/2024 06:00 AM</Td>
-                    <Td>Garuda Indonesia Ekonomi</Td>
-                    <Td>Rp1.000.000</Td>
-                    <Td><StatusBadge className="gagal">Gagal</StatusBadge></Td>
-                </tr>
-                {/* Additional rows would be dynamically generated here */}
+                {currentTransactions.map((transaction, index) => (
+                    <tr key={transaction.id}>
+                        <Td>{indexOfFirstItem + index + 1}</Td>
+                        <Td>{transaction.id}</Td>
+                        <Td>{`${transaction.first_name} ${transaction.last_name}`}</Td>
+                        <Td>{`${transaction.departure_code} - ${transaction.arrival_code}`}</Td>
+                        <Td>{new Date(transaction.transaction_time).toLocaleString('id-ID')}</Td>
+                        <Td>{transaction.airline}</Td>
+                        <Td>{formatPrice(transaction.total_price)}</Td>
+                        <Td><StatusBadge className={getStatusClassName(transaction.transaction_status)}>{transaction.transaction_status}</StatusBadge></Td>
+                    </tr>
+                ))}
                 </tbody>
             </Table>
             <PaginationContainer>
-                <KembaliButton>{' < Kembali'}</KembaliButton>
-                <PageNumber>1</PageNumber>
-                <SelanjutnyaButton>{'Selanjutnya > '}</SelanjutnyaButton>
+                <KembaliButton onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage <= 1}>{' < Kembali'}</KembaliButton>
+                <PageNumber>{currentPage}</PageNumber>
+                <SelanjutnyaButton onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage >= pageCount}>{'Selanjutnya > '}</SelanjutnyaButton>
             </PaginationContainer>
         </TableContainer>
     );

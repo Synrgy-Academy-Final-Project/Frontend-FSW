@@ -10,6 +10,7 @@ export const DetailContainer = styled.div`
 `;
 
 export const DetailWrapper = styled.div`
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 16px;

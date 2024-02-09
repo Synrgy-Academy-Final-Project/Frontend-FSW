@@ -50,6 +50,7 @@ function App() {
         <Route path="/datapenumpang" element={<DataPenumpang />} />
         <Route path="/verify-account" element={<VerifyAccount />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/verify-account-forgot" element={<OTPVerification />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/pesanan" element={<PesananPage />} />
         <Route path="/profile" element={<ProfilePage />} />
@@ -61,6 +62,12 @@ function App() {
         <Route path="/eticket-comp" element={<ETicket />} />
         <Route path="/detailperjalanan" element={<DetailPerjalanan />} />
         <Route path="/sidebarakun" element={<SidebarAkun />} />
+        <Route path="/ticketsearch" element={<TicketSearch />} />
+        <Route path="/modalticket" element={<ModalPesanTiket />} />
+        <Route
+          path="/detailsectionpayment"
+          element={<DetailSectionPayment />}
+        />
 
         {/*Admin*/}
 
@@ -71,18 +78,6 @@ function App() {
         <Route path="/departure-date" element={<IndexTanggal />} />
         <Route path="/transaction" element={<IndexTransaksi />} />
         <Route path="/detail-airline/:id" element={<IndexDetailPesawat />} />
-
-        <Route path="/ticketsearch" element={<TicketSearch />} />
-        <Route path="/modalticket" element={<ModalPesanTiket />} />
-        <Route path="/detailsection" element={<DetailSection />} />
-        <Route path="/detailharga" element={<DetailHarga />} />
-        {/* <Route path="/cardtiket" element={<CardTicket />} /> */}
-        <Route path="/cek2" element={<DropdownClass />} />
-        <Route path="/verify-account-forgot" element={<OTPVerification />} />
-        <Route
-          path="/detailsectionpayment"
-          element={<DetailSectionPayment />}
-        />
       </Routes>
     </>
   );

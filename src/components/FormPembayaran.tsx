@@ -15,8 +15,8 @@ export default function FormPembayaran() {
             </h3>
           </div>
         </div>
-        <div className="row mt-4">
-          <Card className="px-0">
+        <div className="row mt-4 px-2">
+          <Card className="px-0 mwa">
             <Card.Header className="bg-primary text-white">
               <h5 className="sb-20-w pt-2">Pembayaran</h5>
             </Card.Header>

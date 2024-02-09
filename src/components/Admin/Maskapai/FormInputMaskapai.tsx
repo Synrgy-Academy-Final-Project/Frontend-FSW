@@ -72,7 +72,7 @@ const ResponseMessage = styled.div`
     font-weight: bold;
 `;
 
-const FormInputMaskapai = () => {
+const FormInputMaskapai = ({ onRefreshData }) => {
     const [airlineOptions, setAirlineOptions] = useState([]);
     const [selectedAirline, setSelectedAirline] = useState(null);
     const [apiResponseMessage, setApiResponseMessage] = useState({
@@ -169,6 +169,7 @@ const FormInputMaskapai = () => {
                         isError: false,
                     });
                 }, 3000);
+                onRefreshData();
 
             } else {
                 setApiResponseMessage({
