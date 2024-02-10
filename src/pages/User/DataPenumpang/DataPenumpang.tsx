@@ -433,7 +433,7 @@ const DataPenumpang: React.FC = () => {
               </div>
             </div>
           </div>
-          <DetailHarga price={data?.totalPrice} data={detail} />
+          <DetailHarga planeData={data} bookingData={detail}/>
         </Col>
       </Row>
 

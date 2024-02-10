@@ -86,6 +86,11 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({ Penumpang, Pemesan }) =
     }
   };
 
+  const today = new Date();
+  const minDateKids = new Date(today.getFullYear() - 9, today.getMonth(), today.getDate()).toISOString().split('T')[0];
+  const minDateBaby = new Date(today.getFullYear() - 2, today.getMonth(), today.getDate()).toISOString().split('T')[0];
+  
+
   return (
     <>
       <DetailWrapper>
@@ -220,13 +225,14 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({ Penumpang, Pemesan }) =
               placeholder="dd/mm/yy"
               value={dateKids}
               onChange={(e) => setDateKids(e.target.value)}
-              
+              min={minDateKids}
+              max={today.toISOString().split('T')[0]}
             />
           </FormInput>
         </DetailForm>
 
         <DetailForm>
-          <SemiBoldText>Penumpang 1: Bayi</SemiBoldText>
+          <SemiBoldText>Penumpang 3: Bayi</SemiBoldText>
 
           <RadioGroup>
             <RadioContent>
@@ -264,7 +270,6 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({ Penumpang, Pemesan }) =
               placeholder="Nama Lengkap"
               value={nameBaby}
               onChange={(e) => setNameBaby(e.target.value)}
-              
             />
           </FormInput>
 
@@ -278,7 +283,8 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({ Penumpang, Pemesan }) =
               placeholder="dd/mm/yy"
               value={dateBaby}
               onChange={(e) => setDateBaby(e.target.value)}
-              
+              min={minDateBaby}
+              max={today.toISOString().split('T')[0]}              
             />
           </FormInput>
         </DetailForm>

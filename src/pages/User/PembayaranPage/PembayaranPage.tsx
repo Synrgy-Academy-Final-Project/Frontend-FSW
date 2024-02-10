@@ -1,12 +1,10 @@
 import { Col, Container, Row } from "react-bootstrap";
-import DetailHarga from "../../../components/DetailHarga";
-import DetailPerjalanan from "../../../components/DetailPerjalanan";
-import DetailSection from "../../../components/DetailSection";
-import DetailSectionPayment from "../../../components/DetailSectionPayment";
-import OrdererDetailPayment from "../../../components/OrdererDetailPayment";
-import PesananContent from "../../../components/PesananContent";
-import PesananHeader from "../../../components/PesananHeader";
 import styled from "styled-components";
+import { useState } from "react";
+
+import DetailHargaPay from "../../../components/DetailHargaPay";
+import DetailPerjalanan from "../../../components/DetailPerjalanan";
+import DetailSectionPayment from "../../../components/DetailSectionPayment";
 import FormPembayaran from "../../../components/FormPembayaran";
 import Footer from "../../../components/Footer";
 import FormCodePromo from "../../../components/FormCodePromo";
@@ -49,6 +47,26 @@ const Line = styled.div`
 
 export default function PembayaranPage() {
   const token = localStorage.getItem("token");
+  const bookingDataString = localStorage.getItem("bookingData");
+  const bookingData = JSON.parse(bookingDataString);
+  const [discount, setDiscount] = useState({
+    value: 0,
+    promoCode: ""
+  });
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleDiscountChange = (discountData: any) => {
+    setDiscount(discountData);
+  };
+
+  const hargaDiscount =  parseInt((bookingData?.harga.base * (discount?.value/100)).toFixed(0))
+  const hargaAwal = {
+    pajak: 500000,
+    asuransi: 75000
+  };
+  const totalHarga = (bookingData?.harga.adult + bookingData?.harga.kids + bookingData?.harga.baby + hargaAwal?.pajak + hargaAwal?.asuransi)
+  const bayar = totalHarga - hargaDiscount
+  
   return (
     <>
       <Container className="mt-3">
@@ -61,9 +79,9 @@ export default function PembayaranPage() {
           </Col>
           <Col lg={8}>
             <Row className="align-items-center flex-lg-row flex-column justify-content-center">
-              <Circle style={{ backgroundColor: "var(--blue)" }}>1</Circle>
+              <Circle style={{ backgroundColor: "var(--neutral05)" }}>1</Circle>
               <Line></Line>
-              <Circle style={{ backgroundColor: "var(--neutral05)" }}>2</Circle>
+              <Circle style={{ backgroundColor: "var(--blue)" }}>2</Circle>
               <Line></Line>
               <Circle style={{ backgroundColor: "var(--neutral05)" }}>3</Circle>
             </Row>
@@ -90,17 +108,17 @@ export default function PembayaranPage() {
           </Col>
         </Row>
         <Row className="mt-3">
-          <Col lg={7}>
-            <DetailSectionPayment />
+          <Col lg={6}>
+            <DetailSectionPayment bookingData={bookingData}/>
           </Col>
-          <Col lg={5}>
-            <DetailPerjalanan />
-            <FormCodePromo />
-            <DetailHarga />
+          <Col lg={6}>
+            <DetailPerjalanan pesawat={bookingData?.pesawat}/>
+            <FormCodePromo onDiscountChange={handleDiscountChange} />
+            <DetailHargaPay harga={bookingData?.harga} diskon={hargaDiscount} total={totalHarga} />
           </Col>
         </Row>
         <Row>
-          <FormPembayaran />
+          <FormPembayaran bookingData={bookingData} discount={discount} bayar={bayar}/>
         </Row>
         {/* </div>
       <div className="row">

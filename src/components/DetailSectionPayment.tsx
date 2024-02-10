@@ -1,13 +1,14 @@
-import React from "react";
-import { DetailContainer } from "./styles/DetailSection.styled";
 import OrdererDetailPayment from "./OrdererDetailPayment";
 import PassengerDetailPayment from "./PassengerDetailPayment";
 
-const DetailSectionPayment: React.FC = () => {
+const DetailSectionPayment = ({ bookingData }) => {
+  const pemesan = bookingData?.pemesan
+  const penumpang = bookingData?.penumpang
+  
   return (
     <>
-      <PassengerDetailPayment />
-      <OrdererDetailPayment />
+      <OrdererDetailPayment pemesan={pemesan}/>
+      <PassengerDetailPayment penumpang={penumpang}/>
     </>
   );
 };
