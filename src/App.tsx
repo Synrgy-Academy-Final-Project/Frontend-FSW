@@ -60,7 +60,6 @@ function App() {
         {/* Components */}
         <Route path="/filterListTicket" element={<FilterListTicket />} />
         <Route path="/eticket-comp" element={<ETicket />} />
-        <Route path="/modalkonfirmasi" element={<ModalKonfirmasi />} />
         <Route path="/formprofile" element={<FormProfile />} />
         <Route path="/sidebarakun" element={<SidebarAkun />} />
         <Route path="/ticketsearch" element={<TicketSearch />} />
