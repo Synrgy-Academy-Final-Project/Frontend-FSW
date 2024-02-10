@@ -28,7 +28,11 @@ import ModalKonfirmasi from "./components/ModalKonfirmasi.tsx";
 import FormProfile from "./components/FormProfile.tsx";
 import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
 import SidebarAkun from "./components/SidebarAkun.tsx";
+import ProfilePage from "./pages/User/ProfilePage/ProfilePage.tsx";
+import ProfileEdit from "./pages/User/ProfilePage/ProfileEdit/ProfileEdit.tsx";
+import ProtectedRoute from "./utils/ProtectedRoute.tsx";
 import PembayaranPage from "./pages/User/PembayaranPage/PembayaranPage.tsx";
+
 
 function App() {
   return (
@@ -46,7 +50,12 @@ function App() {
         <Route path="/verify-account-forgot" element={<OTPVerification />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/pesanan" element={<PesananPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile-edit" element={<ProfileEdit />} />
+        {/* <ProtectedRoute path="/profile-edit" element={<ProfileEdit />} /> */}
+
         <Route path="/detailpembayaran" element={<PembayaranPage />} />
+
 
         {/* Components */}
         <Route path="/filterListTicket" element={<FilterListTicket />} />
