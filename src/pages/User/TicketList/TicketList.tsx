@@ -16,8 +16,16 @@ import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import DatePicker from "react-datepicker";
 import DropdownPassenger from "../../../components/DropdownPassenger";
 import MinimumPrice from "../../../components/MinPrice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
+import { Link } from "react-router-dom";
+import { BsPower } from "react-icons/bs";
+
+interface User {
+  firstName?: string;
+  lastName?: string;
+}
+
 
 const customStylesStart = {
   control: (provided) => ({
@@ -116,12 +124,51 @@ export default function TicketList() {
   } = useTicketSearch();
 
   const token = localStorage.getItem("token");
+  const [user, setUser] = useState<User>(null);
+  const [dropdown, setDropdown] = useState<boolean>(false);
+  const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
   const handleLogout = () => {
     // Hapus token dari local storage
     localStorage.removeItem("token");
     window.location.reload();
   };
   const label = "LIST-TICKET";
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(base_url + "/user-detail/logged-in-user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status === 500) {
+          localStorage.removeItem("token");
+          throw new Error("Token tidak valid!");
+        }
+
+        const responseJson = await response.json();
+
+        if (response.status === 200) {
+          setUser({
+            firstName: responseJson.data.usersDetails.firstName,
+            lastName: responseJson.data.usersDetails.lastName,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (token) {
+      fetchUser();
+    }
+  }, [token]);
+
+  const handleDropdown = () => {
+    setDropdown(!dropdown);
+  };
 
   const renderLoading = () => {
     return (
@@ -260,17 +307,53 @@ export default function TicketList() {
               </li>
               <li className="ms-auto">
                 {/* Tampilkan button Masuk atau Logout berdasarkan keberadaan token */}
-                {token ? (
-                  <button className="logout" onClick={handleLogout}>
-                    Logout
-                  </button>
+                {token && user ? (
+                  <div className="profile">
+                    <div className="d-flex">
+                      <span>{user.firstName}</span>
+                      <i className="chevron-down" onClick={handleDropdown}></i>
+                      <i className="user-avatar" onClick={handleDropdown}></i>
+                    </div>
+                    {dropdown && (
+                      <div className="dropdown">
+                        <div className="my-account">
+                          <h5>Akun Saya</h5>
+                          <div className="information">
+                            <p>
+                              <a href="/pesanan">Pesanan</a>
+                            </p>
+                            <p>Notifikasi Harga</p>
+                            <p>Favorit</p>
+                            <p>Data Penumpang Tersimpan</p>
+                            <p>Ulasan</p>
+                            <p>Profil</p>
+                          </div>
+                        </div>
+                        <div className="my-account">
+                          <h5>Pengaturan</h5>
+                          <div className="information">
+                            <p>Pengaturan Akun</p>
+                            <p>Bahasa Indonesia</p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="danger"
+                          className="logout"
+                          onClick={handleLogout}
+                        >
+                          <BsPower className="icon-power-off" />
+                          Keluar
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 ) : (
-                  <a
+                  <Link
+                    to="/login"
                     className="login bg-white bg-opacity-50 rounded-4"
-                    href="/login"
                   >
                     <span>Masuk</span>
-                  </a>
+                  </Link>
                 )}
               </li>
               <li className="register">
