@@ -37,7 +37,6 @@ const DataPenumpang: React.FC = () => {
     // Calculate the difference in milliseconds
     const durationInMilliseconds =
       arrivalDate.getTime() - departureDate.getTime();
-
     // Convert milliseconds to hours and minutes
     const durationInHours = Math.floor(
       durationInMilliseconds / (60 * 60 * 1000)
