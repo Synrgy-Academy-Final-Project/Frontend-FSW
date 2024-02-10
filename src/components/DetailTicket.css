@@ -8,7 +8,6 @@
   line-height: 2.5rem;
   letter-spacing: -0.03125rem;
 }
-
 .b-20-b {
   color: #3e7bfa;
   font-size: 1.25rem;
@@ -145,7 +144,6 @@
   /* Shadow 2 */
   box-shadow: 0px 24px 12px 0px rgba(88, 154, 228, 0.04);
 }
-
 .icon-plane {
   width: 36px;
   position: absolute;
@@ -157,6 +155,10 @@
   background-color: #fff !important;
 }
 
+.accordion-button collapsed {
+  width: 100% !important;
+}
+
 .accordion-button {
   padding: 0 !important;
   background-image: none !important;
@@ -164,12 +166,15 @@
 
 .accordion-button::after {
   background-image: none !important;
-  width: 0 !important;
-  height: 0 !important;
+  width: 0%;
 }
 
 .interval {
   position: absolute;
   top: 80%;
   left: 38%;
+}
+
+.card-ticket {
+  max-width: 2000px !important;
 }

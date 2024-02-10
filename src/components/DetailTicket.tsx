@@ -1,4 +1,4 @@
-import { Accordion, Card, Container } from "react-bootstrap";
+import { Accordion, Card } from "react-bootstrap";
 import "./DetailTicket.css";
 import { ITickets } from "../services/types";
 
@@ -27,8 +27,7 @@ const calculateDuration = (departureTime: string, arrivalTime: string) => {
   const arrivalDate = new Date(arrivalTime);
 
   // Calculate the difference in milliseconds
-  const durationInMilliseconds =
-    arrivalDate.getTime() - departureDate.getTime();
+  const durationInMilliseconds = arrivalDate - departureDate;
 
   // Convert milliseconds to hours and minutes
   const durationInHours = Math.floor(durationInMilliseconds / (60 * 60 * 1000));
@@ -57,7 +56,7 @@ const DetailTicket = ({ tickets }) => {
         <Accordion className="mb-3">
           <Accordion.Item eventKey={record.airplaneId}>
             <Accordion.Header>
-              <Card className="w-100 d-flex">
+              <Card className="w-100 d-flex card-ticket">
                 <Card.Body>
                   <div className="row">
                     <div className="col text-center my-auto">
