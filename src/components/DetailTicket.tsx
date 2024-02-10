@@ -1,6 +1,8 @@
 import { Accordion, Card } from "react-bootstrap";
 import "./DetailTicket.css";
 import { ITickets } from "../services/types";
+import { useState } from "react";
+import ModalPesanTiket from "./ModalPesanTiket";
 
 const formatDate = (dateTimeString: string) => {
   const departureDate = new Date(dateTimeString);
@@ -50,19 +52,34 @@ const formatPrice = (price: number) => {
 };
 
 const DetailTicket = ({ tickets }) => {
+  const [selectedTicket, setSelectedTicket] = useState(null);
+
+  const handleSelectTicket = (ticket) => {
+    setSelectedTicket(ticket);
+    // Additional logic to set the number of passengers if needed
+  };
+
   console.log("tick : ", tickets);
   return (
     <div>
-      {tickets?.map((record: ITickets) => (
-        <Accordion className="mb-3">
-          <Accordion.Item eventKey={record.airplaneId}>
+      <Accordion className="mb-3">
+        {tickets?.map((record: ITickets, index: number) => (
+          <Accordion.Item
+            key={index}
+            eventKey={index.toString()}
+            className="mb-3"
+          >
             <Accordion.Header>
               <Card className="w-100 d-flex card-ticket">
                 <Card.Body>
                   <div className="row">
                     <div className="col text-center my-auto">
                       <div className="maskapai">
-                        <img src={record.urlLogo} width={"120px"} alt="" />
+                        <img
+                          src={record.urlLogo}
+                          width={"120px"}
+                          alt={record.companyName}
+                        />
                       </div>
                     </div>
                     <div className="col text-center my-auto">
@@ -193,12 +210,12 @@ const DetailTicket = ({ tickets }) => {
                         </div>
                         <div className="row">
                           <div className="d-grid gap-2">
-                            <button
-                              className=" button-primary-small"
-                              type="button"
+                            <div
+                              className="button-primary-small"
+                              onClick={() => handleSelectTicket(record)}
                             >
                               Pilih
-                            </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -307,7 +324,7 @@ const DetailTicket = ({ tickets }) => {
                     <div className="title-dp">
                       <h4 className="sb-16-b">{record.departureCityCode}</h4>
                       <p className="r-14-g mb-1">
-                        Soekarno Hatta International Airport
+                        {record.departureNameAirport}
                       </p>
                     </div>
                     <svg height="2" width="480">
@@ -502,17 +519,22 @@ const DetailTicket = ({ tickets }) => {
                     </svg>
                     <div className="title-dp">
                       <h4 className="sb-16-b">{record.arrivalCityCode}</h4>
-                      <p className="r-14-g">
-                        I Gusti Ngurah Rai International Airport
-                      </p>
+                      <p className="r-14-g">{record.arrivalNameAirport}</p>
                     </div>
                   </div>
                 </div>
               </div>
             </Accordion.Body>
           </Accordion.Item>
-        </Accordion>
-      ))}
+        ))}
+      </Accordion>
+      {selectedTicket && (
+        <ModalPesanTiket
+          show={true}
+          onHide={() => setSelectedTicket(null)}
+          ticket={selectedTicket}
+        />
+      )}
     </div>
   );
 };

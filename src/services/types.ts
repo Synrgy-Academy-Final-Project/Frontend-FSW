@@ -27,8 +27,10 @@ export interface ITickets {
   flightTime?: number;
   departureCode?: string;
   departureCityCode?: string;
+  departureNameAirport?: string;
   arrivalCode?: string;
   arrivalCityCode?: string;
+  arrivalNameAirport?: string;
   departureTime?: string;
   arrivalTime?: string;
   totalPrice?: number;

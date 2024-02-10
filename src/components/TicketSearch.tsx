@@ -241,7 +241,7 @@ export default function TicketSearch() {
             <Col></Col>
           </Row>
           <div className="text-center">
-            <Button className="" onClick={handleSearch}>
+            <Button className="" onClick={() => handleSearch("")}>
               <span className="px-4 text-white">Cari Tiket</span>
             </Button>
           </div>

@@ -2,15 +2,64 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "./ModalPesanTiket.css";
+import { ITickets } from "../services/types";
 
-interface MyVerticallyCenteredModalProps {
+const formatDate = (dateTimeString: string) => {
+  const departureDate = new Date(dateTimeString);
+  const monthNames = new Intl.DateTimeFormat("id-ID", { month: "long" })
+    .formatToParts(departureDate)
+    .find((part) => part.type === "month").value;
+  const day = departureDate.getDate();
+  const year = departureDate.getFullYear();
+
+  // Extract hour and minute from departureTime
+  const hour = departureDate.getHours();
+  const minute = departureDate.getMinutes();
+
+  return {
+    formattedDate: `${day} ${monthNames} ${year}`,
+    formattedTime: `${hour.toString().padStart(2, "0")}:${minute
+      .toString()
+      .padStart(2, "0")}`,
+  };
+};
+
+const calculateDuration = (departureTime: string, arrivalTime: string) => {
+  const departureDate = new Date(departureTime);
+  const arrivalDate = new Date(arrivalTime);
+
+  // Calculate the difference in milliseconds
+  const durationInMilliseconds =
+    arrivalDate.getTime() - departureDate.getTime();
+
+  // Convert milliseconds to hours and minutes
+  const durationInHours = Math.floor(durationInMilliseconds / (60 * 60 * 1000));
+  const durationInMinutes = Math.floor(
+    (durationInMilliseconds % (60 * 60 * 1000)) / (60 * 1000)
+  );
+
+  return `${durationInHours} j ${durationInMinutes} m`;
+};
+
+const formatPrice = (price: number) => {
+  const formattedPrice = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(price);
+
+  return formattedPrice;
+};
+
+interface ModalTicketProps {
   show: boolean;
   onHide: () => void;
+  ticket: ITickets;
 }
 
-const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
-  props
-) => {
+const ModalPesanTiket: React.FC<ModalTicketProps> = (props) => {
+  const { ticket } = props;
+  console.log(ticket);
   return (
     <Modal
       {...props}
@@ -29,7 +78,11 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
         <div className="row">
           <div className="col text-center my-auto">
             <div className="maskapai">
-              <img src="src/assets/images/XMLID_29_.png" alt="" />
+              <img
+                src={ticket.urlLogo}
+                width={"120px"}
+                alt={ticket.companyName}
+              />
             </div>
           </div>
           <div className="col text-center my-auto">
@@ -37,10 +90,14 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
               <h6 className="sb-16-g">Keberangkatan</h6>
             </div>
             <div>
-              <h4 className="sb-20-b">20:15</h4>
+              <h4 className="sb-20-b">
+                {formatDate(ticket.departureTime).formattedTime}
+              </h4>
             </div>
             <div className="date-detail">
-              <h5 className="r-16-b">4 Oktober 2023</h5>
+              <h5 className="r-16-b">
+                {formatDate(ticket.departureTime).formattedDate}
+              </h5>
             </div>
           </div>
           <div className="col">
@@ -103,10 +160,14 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
               <h6 className="sb-16-g">Tiba</h6>
             </div>
             <div>
-              <h4 className="sb-20-b">20:15</h4>
+              <h4 className="sb-20-b">
+                {formatDate(ticket.arrivalTime).formattedTime}
+              </h4>
             </div>
             <div className="date-detail">
-              <h5 className="r-16-b">4 Oktober 2023</h5>
+              <h5 className="r-16-b">
+                {formatDate(ticket.arrivalTime).formattedDate}
+              </h5>
             </div>
           </div>
         </div>
@@ -116,15 +177,24 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
             <div className="col-3 text-center">
               <div className="row mt-3 mb-120">
                 <div className="time-detail">
-                  <h4 className="sb-20-b">20:15</h4>
+                  <h4 className="sb-20-b">
+                    {formatDate(ticket.departureTime).formattedTime}
+                  </h4>
                 </div>
                 <div className="date-detail">
-                  <h5 className="r-16-b">4 Oktober 2023</h5>
+                  <h5 className="r-16-b">
+                    {formatDate(ticket.departureTime).formattedDate}
+                  </h5>
                 </div>
               </div>
               <div className="row mb-120">
                 <div className="time-detail-count">
-                  <h4 className="sb-16-g">2 j 0 m</h4>
+                  <h4 className="sb-16-g">
+                    {calculateDuration(
+                      ticket.departureTime,
+                      ticket.arrivalTime
+                    )}
+                  </h4>
                 </div>
                 <div className="date-detail">
                   <h5 className="r-16-g">Non stop</h5>
@@ -132,10 +202,14 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
               </div>
               <div className="row mt-5">
                 <div className="time-detail">
-                  <h4 className="sb-20-b">20:15</h4>
+                  <h4 className="sb-20-b">
+                    {formatDate(ticket.arrivalTime).formattedTime}
+                  </h4>
                 </div>
                 <div className="date-detail">
-                  <h5 className="r-16-b">4 Oktober 2023</h5>
+                  <h5 className="r-16-b">
+                    {formatDate(ticket.arrivalTime).formattedDate}
+                  </h5>
                 </div>
               </div>
             </div>
@@ -191,10 +265,8 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
             </div>
             <div className="col-8">
               <div className="title-dp">
-                <h4 className="sb-16-b">Jakarta (CGK)</h4>
-                <p className="r-14-g mb-1">
-                  Soekarno Hatta International Airport
-                </p>
+                <h4 className="sb-16-b">{ticket.departureCityCode}</h4>
+                <p className="r-14-g mb-1">{ticket.departureNameAirport}</p>
               </div>
               <svg height="2" width="480">
                 <line
@@ -210,66 +282,157 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
               <div className="content-dp">
                 <div className="row list-dp">
                   <div className="col-1 justify-content-center">
-                    <img src="src/assets/images/Shopping Bag.png" alt="" />
+                    <img
+                      src="src/assets/images/Shopping Bag.png"
+                      alt=""
+                      className="pt-1"
+                    />
                   </div>
                   <div className="col-11">
-                    <p className="r-14-b my-2">Bagasi kabin 1 item (7 kg)</p>
+                    <p className="r-14-b my-2">
+                      Bagasi kabin 1 item (
+                      {ticket.airplaneServices.cabinBaggage} kg)
+                    </p>
                   </div>
                 </div>
                 <div className="row list-dp">
                   <div className="col-1 justify-content-center">
-                    <img src="src/assets/images/Shopping Bag.png" alt="" />
+                    <img
+                      src="src/assets/images/Shopping Bag.png"
+                      alt=""
+                      className="pt-1"
+                    />
                   </div>
                   <div className="col-11">
-                    <p className="r-14-b my-2">Bagasi 1 item (20 kg)</p>
+                    <p className="r-14-b my-2">
+                      Bagasi 1 item ({ticket.airplaneServices.baggage} kg)
+                    </p>
                   </div>
                 </div>
                 <div className="row list-dp">
                   <div className="col-1 justify-content-center">
-                    <img src="src/assets/images/Utensils.png" alt="" />
+                    <img
+                      src="src/assets/images/Utensils.png"
+                      alt=""
+                      className="pt-1"
+                    />
                   </div>
                   <div className="col-11">
-                    <p className="r-14-b my-2">Makanan di pesawat</p>
+                    <p
+                      className={
+                        ticket.airplaneServices.meals
+                          ? "r-14-b my-2"
+                          : "r-14-g my-2"
+                      }
+                    >
+                      Makanan di pesawat
+                    </p>
                   </div>
                 </div>
                 <div className="row list-dp">
                   <div className="col-1 justify-content-center">
-                    <img src="src/assets/images/File Minus.png" alt="" />
+                    <img
+                      src="src/assets/images/File Minus.png"
+                      alt=""
+                      className="pt-1"
+                    />
                   </div>
                   <div className="col-11">
-                    <p className="r-14-g my-2">Tanpa ansuransi perjalanan</p>
+                    <p
+                      className={
+                        ticket.airplaneServices.travelInsurance
+                          ? "r-14-b my-2"
+                          : "r-14-g my-2"
+                      }
+                    >
+                      {ticket.airplaneServices.travelInsurance
+                        ? "Dengan "
+                        : "Tanpa "}
+                      ansuransi perjalanan
+                    </p>
                   </div>
                 </div>
                 <div className="row list-dp">
                   <div className="col-1 justify-content-center">
-                    <img src="src/assets/images/youtube square.png" alt="" />
+                    <img
+                      src="src/assets/images/youtube square.png"
+                      alt=""
+                      className="pt-1"
+                    />
                   </div>
                   <div className="col-11">
-                    <p className="r-14-g my-2">Hiburan di pesawat</p>
+                    <p
+                      className={
+                        ticket.airplaneServices.inflightEntertainment
+                          ? "r-14-b my-2"
+                          : "r-14-g my-2"
+                      }
+                    >
+                      Hiburan di pesawat
+                    </p>
                   </div>
                 </div>
                 <div className="row list-dp">
                   <div className="col-1 justify-content-center">
-                    <img src="src/assets/images/usb.png" alt="" />
+                    <img
+                      src="src/assets/images/usb.png"
+                      alt=""
+                      className="pt-1"
+                    />
                   </div>
                   <div className="col-11">
-                    <p className="r-14-g my-2">Stopkontak atau USB</p>
+                    <p
+                      className={
+                        ticket.airplaneServices.electricSocket
+                          ? "r-14-b my-2"
+                          : "r-14-g my-2"
+                      }
+                    >
+                      Stopkontak atau USB
+                    </p>
                   </div>
                 </div>
                 <div className="row list-dp">
                   <div className="col-1 justify-content-center">
-                    <img src="src/assets/images/Wifi Slash.png" alt="" />
+                    <img
+                      src="src/assets/images/Wifi Slash.png"
+                      alt=""
+                      className="pt-1"
+                    />
                   </div>
                   <div className="col-11">
-                    <p className="r-14-g my-2">WiFi</p>
+                    <p
+                      className={
+                        ticket.airplaneServices.wifi
+                          ? "r-14-b my-2"
+                          : "r-14-g my-2"
+                      }
+                    >
+                      WiFi
+                    </p>
                   </div>
                 </div>
                 <div className="row list-dp">
                   <div className="col-1">
-                    <img src="src/assets/images/Calendar Alt.png" alt="" />
+                    <img
+                      src="src/assets/images/Calendar Alt.png"
+                      alt=""
+                      className="pt-1"
+                    />
                   </div>
                   <div className="col-4">
-                    <p className="r-14-s my-1">Bisa reschedule</p>
+                    <p
+                      className={
+                        ticket.airplaneServices.reschedule
+                          ? "r-14-s my-1"
+                          : "r-14-g my-1"
+                      }
+                    >
+                      {ticket.airplaneServices.reschedule
+                        ? "Bisa "
+                        : "Tidak bisa "}
+                      reschedule
+                    </p>
                   </div>
                   <div className="col-1">
                     <img
@@ -278,7 +441,9 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
                     />
                   </div>
                   <div className="col-6">
-                    <p className="r-14-s my-1">Bisa refund 83%</p>
+                    <p className="r-14-s my-1">
+                      Bisa refund {ticket.airplaneServices.refund}%
+                    </p>
                   </div>
                 </div>
               </div>
@@ -294,10 +459,8 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
                 />
               </svg>
               <div className="title-dp">
-                <h4 className="sb-16-b">Bali (DPS)</h4>
-                <p className="r-14-g">
-                  I Gusti Ngurah Rai International Airport
-                </p>
+                <h4 className="sb-16-b">{ticket.arrivalCityCode}</h4>
+                <p className="r-14-g">{ticket.arrivalNameAirport}</p>
               </div>
             </div>
           </div>
@@ -307,7 +470,7 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
             <h4 className="sb-16-b mb-0">Harga total untuk 1 orang</h4>
           </div>
           <div className="title-dp mt-0">
-            <h4 className="b-20-b">Rp1.500.000</h4>
+            <h4 className="b-20-b">{formatPrice(ticket.totalPrice)}</h4>
           </div>
         </div>
         <div className="d-grid gap-2">
@@ -316,26 +479,10 @@ const MyVerticallyCenteredModal: React.FC<MyVerticallyCenteredModalProps> = (
           </button>
         </div>
       </Modal.Body>
-      {/* <Modal.Footer> */}
-      {/* <Button onClick={props.onHide}>Lanjut</Button> */}
-      {/* </Modal.Footer> */}
+      {/* <Modal.Footer>
+        <Button onClick={props.onHide}>Lanjut</Button>
+      </Modal.Footer> */}
     </Modal>
-  );
-};
-
-const ModalPesanTiket: React.FC = () => {
-  const [modalShow, setModalShow] = useState(false);
-
-  return (
-    <>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
-        Launch vertically centered modal
-      </Button>
-      <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
-    </>
   );
 };
 
