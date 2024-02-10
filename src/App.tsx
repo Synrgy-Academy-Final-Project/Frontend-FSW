@@ -22,15 +22,10 @@ import IndexDetailPesawat from "./components/Admin/indexDetailPesawat.tsx";
 import FilterListTicket from "./components/FilterListTicket";
 import TicketSearch from "./components/TicketSearch";
 import ModalPesanTiket from "./components/ModalPesanTiket";
-// import DetailTicket from "./components/DetailTicket";
-import DetailSection from "./components/DetailSection";
-import DetailHarga from "./components/DetailHarga";
-// import CardTicket from "./components/CardTicket";
-import DropdownClass from "./components/DropdownPassenger";
 import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
-import DetailSectionPayment from "./components/DetailSectionPayment";
 import ETicket from "./components/ETicket.tsx";
-import DetailPerjalanan from "./components/DetailPerjalanan.tsx";
+import ModalKonfirmasi from "./components/ModalKonfirmasi.tsx";
+import FormProfile from "./components/FormProfile.tsx";
 import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
 import SidebarAkun from "./components/SidebarAkun.tsx";
 import ProfilePage from "./pages/User/ProfilePage/ProfilePage.tsx";
@@ -65,14 +60,10 @@ function App() {
         {/* Components */}
         <Route path="/filterListTicket" element={<FilterListTicket />} />
         <Route path="/eticket-comp" element={<ETicket />} />
-        <Route path="/detailperjalanan" element={<DetailPerjalanan />} />
+        <Route path="/formprofile" element={<FormProfile />} />
         <Route path="/sidebarakun" element={<SidebarAkun />} />
         <Route path="/ticketsearch" element={<TicketSearch />} />
         <Route path="/modalticket" element={<ModalPesanTiket />} />
-        <Route
-          path="/detailsectionpayment"
-          element={<DetailSectionPayment />}
-        />
 
         {/*Admin*/}
 
