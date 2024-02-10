@@ -25,7 +25,8 @@ const DetailPerjalanan = ({ pesawat }) => {
     const arrivalDate = new Date(arrivalTime);
 
     // Calculate the difference in milliseconds
-    const durationInMilliseconds = arrivalDate - departureDate;
+    const durationInMilliseconds =
+      arrivalDate.getTime() - departureDate.getTime();
 
     // Convert milliseconds to hours and minutes
     const durationInHours = Math.floor(
