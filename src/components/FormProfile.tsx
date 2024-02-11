@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const FormProfile = () => {
   const [showModal, setShowModal] = useState(false);
-  
+
   const navigate = useNavigate();
 
   const handleSimpanClick = () => {
@@ -22,7 +22,7 @@ const FormProfile = () => {
   };
   return (
     <div className="form-profile">
-      <Card className="card-form">
+      <Card className="card-form mx-0">
         <Card.Body>
           <Form>
             <Form.Group className="mb-2">
