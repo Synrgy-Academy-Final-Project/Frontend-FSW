@@ -32,6 +32,7 @@ import ProfilePage from "./pages/User/ProfilePage/ProfilePage.tsx";
 import ProfileEdit from "./pages/User/ProfilePage/ProfileEdit/ProfileEdit.tsx";
 import ProtectedRoute from "./utils/ProtectedRoute.tsx";
 import PembayaranPage from "./pages/User/PembayaranPage/PembayaranPage.tsx";
+import InformationProfile from "./components/InformationProfile.tsx";
 
 
 function App() {
@@ -52,18 +53,18 @@ function App() {
         <Route path="/pesanan" element={<PesananPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />
+        <Route path="/informasiProfile" element={<InformationProfile />} />
         {/* <ProtectedRoute path="/profile-edit" element={<ProfileEdit />} /> */}
 
         <Route path="/detailpembayaran" element={<PembayaranPage />} />
 
-
         {/* Components */}
-        <Route path="/filterListTicket" element={<FilterListTicket />} />
+        {/* <Route path="/filterListTicket" element={<FilterListTicket />} /> */}
         <Route path="/eticket-comp" element={<ETicket />} />
         <Route path="/formprofile" element={<FormProfile />} />
-        <Route path="/sidebarakun" element={<SidebarAkun />} />
+        {/* <Route path="/sidebarakun" element={<SidebarAkun />} /> */}
         <Route path="/ticketsearch" element={<TicketSearch />} />
-        <Route path="/modalticket" element={<ModalPesanTiket />} />
+        {/* <Route path="/modalticket" element={<ModalPesanTiket />} /> */}
 
         {/*Admin*/}
 
