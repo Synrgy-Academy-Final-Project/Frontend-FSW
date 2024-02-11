@@ -172,6 +172,35 @@ export default function TicketList() {
     }
   }, [token]);
 
+  const [passengersData, setPassengersData] = useState([
+    { type: "adult", count: 1 },
+  ]);
+
+  // Fungsi untuk menangani perubahan jumlah penumpang
+  const handlePassengerCountChange = (count, type) => {
+    // Dapatkan data penumpang yang saat ini tersimpan dalam state
+    const updatedPassengersData = [...passengersData];
+
+    // Temukan indeks penumpang dengan tipe yang sesuai
+    const index = updatedPassengersData.findIndex(
+      (passenger) => passenger.type === type
+    );
+
+    // Jika penumpang dengan tipe yang sama sudah ada, perbarui jumlahnya
+    if (index !== -1) {
+      updatedPassengersData[index].count = count;
+    } else {
+      // Jika tidak, tambahkan penumpang baru dengan tipe dan jumlah yang sesuai
+      updatedPassengersData.push({ type, count });
+    }
+
+    console.log(updatedPassengersData.length);
+
+    // Simpan kembali data penumpang yang diperbarui ke dalam state
+    setPassengersData(updatedPassengersData);
+    handleSearch("", {}, updatedPassengersData);
+  };
+
   const handleDropdown = () => {
     setDropdown(!dropdown);
   };
@@ -234,7 +263,10 @@ export default function TicketList() {
           </p>
         </div>
         <div>
-          <DetailTicket tickets={currentTickets} />
+          <DetailTicket
+            tickets={currentTickets}
+            passengersData={passengersData}
+          />
           <Stack spacing={2}>
             <Pagination
               count={Math.ceil(tickets.length / itemsPerPage)}
@@ -260,13 +292,22 @@ export default function TicketList() {
 
   const handleDepartureTimeChange = (selectedTime, amenities) => {
     console.log("Waktu keberangkatan yang dipilih:", selectedTime, amenities);
-    handleSearch(selectedTime, amenities);
+    handleSearch(selectedTime, amenities, []);
   };
 
   const handleAmenitiesChange = (amenities, selectedTime) => {
     console.log("Fasilitas yang dipilih:", amenities, selectedTime);
-    handleSearch(selectedTime, amenities);
+    handleSearch(selectedTime, amenities, []);
   };
+
+  // const passengersData = [];
+  // const handlePassengerCountChange = (count: number, type: string) => {
+  //   // Lakukan sesuatu dengan data jumlah penumpang dan typenya, misalnya simpan ke state atau lakukan operasi lain
+  //   console.log(`Jumlah penumpang ${type}: ${count}`);
+  //   if (count > 0) {
+  //     passengersData.push({ type, count });
+  //   }
+  // };
 
   return (
     <div>
@@ -496,7 +537,11 @@ export default function TicketList() {
                             </div>
                           </AccordionHeader>
                           <Accordion.Body className="p-0">
-                            <DropdownPassenger />
+                            <DropdownPassenger
+                              onChangeCount={(count, type) =>
+                                handlePassengerCountChange(count, type)
+                              }
+                            />
                           </Accordion.Body>
                         </Accordion.Item>
                       </Accordion>
@@ -525,7 +570,10 @@ export default function TicketList() {
                     <Col></Col>
                   </Row>
                   <div className="text-center">
-                    <Button className="" onClick={() => handleSearch("")}>
+                    <Button
+                      className=""
+                      onClick={() => handleSearch("", {}, [])}
+                    >
                       <span className="px-4 text-white">Cari Tiket</span>
                     </Button>
                   </div>

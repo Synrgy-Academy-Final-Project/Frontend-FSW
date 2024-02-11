@@ -90,19 +90,30 @@ const JumlahPenumpangRoot = styled.div`
   width: 320px;
 `;
 
-const DropdownPassenger: FunctionComponent = () => {
+const DropdownPassenger: FunctionComponent<{
+  onChangeCount: (count: number, type: string) => void;
+}> = ({ onChangeCount }) => {
   const [adultCount, setAdultCount] = useState(1);
-  const [childCount, setChildCount] = useState(1);
-  const [babyCount, setBabyCount] = useState(1);
+  const [childCount, setChildCount] = useState(0);
+  const [babyCount, setBabyCount] = useState(0);
 
   const handleDecrease = (
     type: "adult" | "child" | "baby",
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
-    if (type === "adult" && adultCount > 0) setAdultCount(adultCount - 1);
-    if (type === "child" && childCount > 0) setChildCount(childCount - 1);
-    if (type === "baby" && babyCount > 0) setBabyCount(babyCount - 1);
+    if (type === "adult" && adultCount > 0) {
+      setAdultCount(adultCount - 1);
+      onChangeCount(adultCount - 1, "adult"); // Meneruskan jumlah penumpang dan typenya ke TicketList
+    }
+    if (type === "child" && childCount > 0) {
+      setChildCount(childCount - 1);
+      onChangeCount(childCount - 1, "child"); // Meneruskan jumlah penumpang dan typenya ke TicketList
+    }
+    if (type === "baby" && babyCount > 0) {
+      setBabyCount(babyCount - 1);
+      onChangeCount(babyCount - 1, "baby"); // Meneruskan jumlah penumpang dan typenya ke TicketList
+    }
   };
 
   const handleIncrease = (
@@ -110,9 +121,18 @@ const DropdownPassenger: FunctionComponent = () => {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
-    if (type === "adult") setAdultCount(adultCount + 1);
-    if (type === "child") setChildCount(childCount + 1);
-    if (type === "baby") setBabyCount(babyCount + 1);
+    if (type === "adult") {
+      setAdultCount(adultCount + 1);
+      onChangeCount(adultCount + 1, "adult"); // Meneruskan jumlah penumpang dan typenya ke TicketList
+    }
+    if (type === "child") {
+      setChildCount(childCount + 1);
+      onChangeCount(childCount + 1, "child"); // Meneruskan jumlah penumpang dan typenya ke TicketList
+    }
+    if (type === "baby") {
+      setBabyCount(babyCount + 1);
+      onChangeCount(babyCount + 1, "baby"); // Meneruskan jumlah penumpang dan typenya ke TicketList
+    }
   };
 
   return (

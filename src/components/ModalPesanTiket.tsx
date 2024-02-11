@@ -54,12 +54,13 @@ const formatPrice = (price: number) => {
 interface ModalTicketProps {
   show: boolean;
   onHide: () => void;
-  ticket: ITickets;
+  data: { ticket: ITickets; passengers: { type: string; count: number }[] };
 }
 
 const ModalPesanTiket: React.FC<ModalTicketProps> = (props) => {
-  const { ticket } = props;
-  console.log(ticket);
+  const { data } = props;
+  const { ticket, passengers } = data;
+  console.log(data);
   return (
     <Modal
       {...props}

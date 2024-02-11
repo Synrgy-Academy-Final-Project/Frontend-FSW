@@ -51,7 +51,7 @@ const formatPrice = (price: number) => {
   return formattedPrice;
 };
 
-const DetailTicket = ({ tickets }) => {
+const DetailTicket = ({ tickets, passengersData }) => {
   const [selectedTicket, setSelectedTicket] = useState(null);
 
   const handleSelectTicket = (ticket) => {
@@ -59,7 +59,14 @@ const DetailTicket = ({ tickets }) => {
     // Additional logic to set the number of passengers if needed
   };
 
-  console.log("tick : ", tickets);
+  const combinedData = selectedTicket
+    ? {
+        ticket: selectedTicket,
+        passengers: passengersData,
+      }
+    : null;
+  console.log("passenger data : ", passengersData);
+  console.log("combinedData : ", combinedData);
   return (
     <div>
       <Accordion className="mb-3">
@@ -532,7 +539,7 @@ const DetailTicket = ({ tickets }) => {
         <ModalPesanTiket
           show={true}
           onHide={() => setSelectedTicket(null)}
-          ticket={selectedTicket}
+          data={combinedData}
         />
       )}
     </div>

@@ -117,7 +117,8 @@ export const useTicketSearch = () => {
 
   const handleSearch = async (
     selectedTime: string,
-    amenities: Record<string, boolean> = {}
+    amenities: Record<string, boolean> = {},
+    passengersData: { type: string; count: number }[]
   ) => {
     if (
       selectedOriginOption &&
@@ -188,8 +189,6 @@ export const useTicketSearch = () => {
 
         // Handle flightData (e.g., display it, store it in state, etc.)
         console.log("Flight Data:", flightData);
-
-        setTickets(airplanes);
 
         // Jika ini adalah pencarian tiket pulang dan returnDate tidak null
         if (isReturnTicket && returnDate) {
