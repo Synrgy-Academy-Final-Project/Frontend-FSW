@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as Yup from "yup";
@@ -19,6 +19,14 @@ const RegisterUser = () => {
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      alert("Please logout first");
+      navigate("/");
+    }
+  }, []);
 
   const handleRegister = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -265,9 +273,10 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   border: 1px solid #c2c2c2;
-  border-radius: 0.5em;
+  border-radius: 10px;
   padding: 0.5em;
   font-size: 14px;
+  height: 56px;
 `;
 
 const Button = styled.button`

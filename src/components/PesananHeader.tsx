@@ -7,6 +7,7 @@ import {
   ProfileWrapper,
   SemiBoldBlue,
 } from "./styles/PesananHeader.styled";
+import { Link } from "react-router-dom";
 
 interface Header {
   label?: string;
@@ -57,7 +58,9 @@ const PesananHeader: React.FC = () => {
   return (
     <>
       <HeaderContainer>
-        <img src="./images/logo-1.png" alt="logo-1" />
+        <Link to="/">
+          <img src="./images/logo-1.png" alt="logo-1" />
+        </Link>
 
         <Navbar>
           <NavList>

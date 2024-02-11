@@ -40,7 +40,7 @@ export default function Header(props) {
           setUser({
             firstName: responseJson.data.usersDetails.firstName,
             lastName: responseJson.data.usersDetails.lastName,
-          })
+          });
         }
       } catch (error) {
         console.error(error);
@@ -115,19 +115,19 @@ export default function Header(props) {
             <li className="ms-auto">
               {/* Tampilkan button Masuk atau Logout berdasarkan keberadaan token */}
               {token && user ? (
-                <div className='profile'>
-                  <div className='d-flex'>
+                <div className="profile">
+                  <div className="d-flex">
                     <span>{user.firstName}</span>
-                    <i className='chevron-down' onClick={handleDropdown}></i>
-                    <i className='user-avatar' onClick={handleDropdown}></i>
+                    <i className="chevron-down" onClick={handleDropdown}></i>
+                    <i className="user-avatar" onClick={handleDropdown}></i>
                   </div>
                   {dropdown && (
-                    <div className='dropdown'>
-                      <div className='my-account'>
+                    <div className="dropdown">
+                      <div className="my-account">
                         <h5>Akun Saya</h5>
-                        <div className='information'>
+                        <div className="information">
                           <p>
-                            <a href='/pesanan'>Pesanan</a>
+                            <a href="/pesanan">Pesanan</a>
                           </p>
                           <p>Notifikasi Harga</p>
                           <p>Favorit</p>
@@ -136,29 +136,38 @@ export default function Header(props) {
                           <p>Profil</p>
                         </div>
                       </div>
-                      <div className='my-account'>
+                      <div className="my-account">
                         <h5>Pengaturan</h5>
-                        <div className='information'>
-                          <p>Pengaturan Akun</p>
+                        <div className="information">
+                          <p>
+                            <a href="/profile">Pengaturan Akun</a>
+                          </p>
                           <p>Bahasa Indonesia</p>
                         </div>
                       </div>
-                      <Button variant='danger' className='logout' onClick={handleLogout}>
-                        <BsPower className='icon-power-off' />
+                      <Button
+                        variant="danger"
+                        className="logout"
+                        onClick={handleLogout}
+                      >
+                        <BsPower className="icon-power-off" />
                         Keluar
                       </Button>
                     </div>
                   )}
                 </div>
               ) : (
-                <Link to='/login' className='login bg-white bg-opacity-50 rounded-4'>
+                <Link
+                  to="/login"
+                  className="login bg-white bg-opacity-50 rounded-4"
+                >
                   <span>Masuk</span>
                 </Link>
               )}
             </li>
             <li className="register">
               {/* Tampilkan button Daftar atau tidak ada jika token ada */}
-              {!user && <Link to='/register'>Daftar</Link>}
+              {!user && <Link to="/register">Daftar</Link>}
             </li>
           </ul>
         </nav>
