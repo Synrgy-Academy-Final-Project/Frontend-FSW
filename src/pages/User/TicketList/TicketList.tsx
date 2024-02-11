@@ -174,6 +174,8 @@ export default function TicketList() {
 
   const [passengersData, setPassengersData] = useState([
     { type: "adult", count: 1 },
+    { type: "child", count: 0 },
+    { type: "baby", count: 0 },
   ]);
 
   // Fungsi untuk menangani perubahan jumlah penumpang

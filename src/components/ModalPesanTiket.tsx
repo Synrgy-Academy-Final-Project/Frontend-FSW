@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "./ModalPesanTiket.css";
 import { ITickets } from "../services/types";
+import { useNavigate } from "react-router-dom";
 
 const formatDate = (dateTimeString: string) => {
   const departureDate = new Date(dateTimeString);
@@ -61,6 +62,18 @@ const ModalPesanTiket: React.FC<ModalTicketProps> = (props) => {
   const { data } = props;
   const { ticket, passengers } = data;
   console.log(data);
+
+  const navigate = useNavigate();
+
+  const handleContinue = () => {
+    navigate("/datapenumpang", {
+      state: {
+        tickets: ticket,
+        passengersData: passengers,
+      },
+    });
+  };
+
   return (
     <Modal
       {...props}
@@ -475,7 +488,11 @@ const ModalPesanTiket: React.FC<ModalTicketProps> = (props) => {
           </div>
         </div>
         <div className="d-grid gap-2">
-          <button className=" button-primary" type="button">
+          <button
+            className=" button-primary"
+            type="button"
+            onClick={handleContinue}
+          >
             Lanjut
           </button>
         </div>

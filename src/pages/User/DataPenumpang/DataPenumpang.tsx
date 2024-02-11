@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../components/ModalPesanTiket.css";
+import { useLocation } from "react-router";
 
 const DataPenumpang: React.FC = () => {
   const token = localStorage.getItem("token");
@@ -48,38 +49,10 @@ const DataPenumpang: React.FC = () => {
     return `${durationInHours} j ${durationInMinutes} m`;
   };
 
-  const data = {
-    companyName: "Lion Air",
-    urlLogo: "",
-    airplaneId: "96fa755e-2347-4089-aad8-0b4588a2b787",
-    airplaneName: "Boeing 767-400",
-    airplaneCode: "A32",
-    airplaneClassId: "f4663236-f2c7-49e7-9712-8b9f1f2e2b22",
-    airplaneClass: "Business",
-    capacity: 190,
-    airplaneServices: {
-      baggage: 30,
-      cabinBaggage: 7,
-      meals: true,
-      travelInsurance: false,
-      inflightEntertainment: true,
-      electricSocket: true,
-      wifi: true,
-      reschedule: false,
-      refund: 73,
-    },
-    airplaneFlightTimeId: "c1558f05-dff7-41a4-bab9-662138b9009f",
-    flightTime: "08:15:00",
-    departureCode: "CGK",
-    departureCityCode: "Jakarta (CGK)",
-    departureNameAirport: "Soekarno–Hatta International Airport",
-    arrivalCode: "BDO",
-    arrivalCityCode: "Bandung (BDO)",
-    arrivalNameAirport: "Husein Sastranegara International Airport",
-    departureTime: "2024-01-10T01:15:00.000+00:00",
-    arrivalTime: "2024-01-10T03:45:00.000+00:00",
-    totalPrice: 1919504,
-  };
+  const location = useLocation();
+  const { tickets, passengersData } = location.state || {};
+  console.log("ticketss : ", tickets);
+  console.log("passengersData : ", passengersData);
 
   const [detail, setDetail] = useState({
     pemesan: {
@@ -102,10 +75,27 @@ const DataPenumpang: React.FC = () => {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleDetailChange = (detailData: any) => {
-    setDetail(detailData);
-    console.log("data detail >>>", detail);
+  interface pemesanData {
+    nama: string;
+    ponsel: string;
+    email: string;
+    dateOfBirth: string;
+  }
+  interface PenumpangData {
+    index?: number;
+    name?: string;
+    date?: string;
+    gender?: string;
+    type?: string;
+  }
+
+  const handlePemesanChange = (pemesanData: pemesanData) => {
+    // setDetail(pemesanData);
+    console.log("data detail pemesan >>>", pemesanData);
+  };
+  const handlePenumpangChange = (penumpangData: PenumpangData[]) => {
+    // setDetail(detailData);
+    console.log("data detail penumpang >>>", penumpangData);
   };
 
   return (
@@ -160,23 +150,31 @@ const DataPenumpang: React.FC = () => {
       <Row>
         <Col xl={6}>
           <div>
-            <DetailBooking onDetailChange={handleDetailChange}></DetailBooking>
+            <DetailBooking
+              onPemesanChange={handlePemesanChange}
+              onPenumpangChange={handlePenumpangChange}
+              passengersData={passengersData}
+            ></DetailBooking>
           </div>
         </Col>
         <Col xl={6}>
           <div className="row align-items-center">
             <div className="col text-center my-auto">
               <div className="maskapai">
-                <img src={data?.urlLogo} width={"120px"} alt="log-pesawat" />
+                <img
+                  src={tickets?.urlLogo}
+                  width={"120px"}
+                  alt={tickets.companyName}
+                />
               </div>
             </div>
             <div className="col text-center pt-3">
               <div>
-                <h4 className="sb-20-b">{data?.departureCityCode}</h4>
+                <h4 className="sb-20-b">{tickets?.departureCityCode}</h4>
               </div>
               <div className="date-detail">
                 <h5 className="r-16-b">
-                  {formatDate(data?.departureTime).formattedDate}
+                  {formatDate(tickets?.departureTime).formattedDate}
                 </h5>
               </div>
             </div>
@@ -189,11 +187,11 @@ const DataPenumpang: React.FC = () => {
             </div>
             <div className="col text-center pt-3">
               <div>
-                <h4 className="sb-20-b">{data?.arrivalCityCode}</h4>
+                <h4 className="sb-20-b">{tickets?.arrivalCityCode}</h4>
               </div>
               <div className="date-detail">
                 <h5 className="r-16-b">
-                  {formatDate(data?.arrivalTime).formattedDate}
+                  {formatDate(tickets?.arrivalTime).formattedDate}
                 </h5>
               </div>
             </div>
@@ -203,13 +201,16 @@ const DataPenumpang: React.FC = () => {
             <div className="row">
               <div className="col-3 text-center d-flex flex-column justify-content-between">
                 <h4 className="sb-20-b">
-                  {formatDate(data?.departureTime).formattedTime}
+                  {formatDate(tickets?.departureTime).formattedTime}
                 </h4>
                 <h4 className="sb-16-g">
-                  {calculateDuration(data?.departureTime, data?.arrivalTime)}
+                  {calculateDuration(
+                    tickets?.departureTime,
+                    tickets?.arrivalTime
+                  )}
                 </h4>
                 <h4 className="sb-20-b">
-                  {formatDate(data?.arrivalTime).formattedTime}
+                  {formatDate(tickets?.arrivalTime).formattedTime}
                 </h4>
               </div>
               <div className="col-1 d-flex flex-column justify-content-center">
@@ -233,8 +234,8 @@ const DataPenumpang: React.FC = () => {
               </div>
               <div className="col-8">
                 <div className="title-dp">
-                  <h4 className="sb-16-b">{data?.departureCityCode}</h4>
-                  <p className="r-14-g mb-1">{data?.departureNameAirport}</p>
+                  <h4 className="sb-16-b">{tickets?.departureCityCode}</h4>
+                  <p className="r-14-g mb-1">{tickets?.departureNameAirport}</p>
                 </div>
                 <svg height="2" width="480">
                   <line
@@ -259,7 +260,7 @@ const DataPenumpang: React.FC = () => {
                     <div className="col-11">
                       <p className="r-14-b my-2">
                         Bagasi kabin 1 item (
-                        {data?.airplaneServices.cabinBaggage} kg)
+                        {tickets?.airplaneServices.cabinBaggage} kg)
                       </p>
                     </div>
                   </div>
@@ -273,7 +274,7 @@ const DataPenumpang: React.FC = () => {
                     </div>
                     <div className="col-11">
                       <p className="r-14-b my-2">
-                        Bagasi 1 item ({data?.airplaneServices.baggage} kg)
+                        Bagasi 1 item ({tickets?.airplaneServices.baggage} kg)
                       </p>
                     </div>
                   </div>
@@ -288,7 +289,7 @@ const DataPenumpang: React.FC = () => {
                     <div className="col-11">
                       <p
                         className={
-                          data?.airplaneServices.meals
+                          tickets?.airplaneServices.meals
                             ? "r-14-b my-2"
                             : "r-14-g my-2"
                         }
@@ -308,12 +309,12 @@ const DataPenumpang: React.FC = () => {
                     <div className="col-11">
                       <p
                         className={
-                          data?.airplaneServices.travelInsurance
+                          tickets?.airplaneServices.travelInsurance
                             ? "r-14-b my-2"
                             : "r-14-g my-2"
                         }
                       >
-                        {data?.airplaneServices.travelInsurance
+                        {tickets?.airplaneServices.travelInsurance
                           ? "Dengan "
                           : "Tanpa "}
                         ansuransi perjalanan
@@ -331,7 +332,7 @@ const DataPenumpang: React.FC = () => {
                     <div className="col-11">
                       <p
                         className={
-                          data?.airplaneServices.inflightEntertainment
+                          tickets?.airplaneServices.inflightEntertainment
                             ? "r-14-b my-2"
                             : "r-14-g my-2"
                         }
@@ -351,7 +352,7 @@ const DataPenumpang: React.FC = () => {
                     <div className="col-11">
                       <p
                         className={
-                          data?.airplaneServices.electricSocket
+                          tickets?.airplaneServices.electricSocket
                             ? "r-14-b my-2"
                             : "r-14-g my-2"
                         }
@@ -371,7 +372,7 @@ const DataPenumpang: React.FC = () => {
                     <div className="col-11">
                       <p
                         className={
-                          data?.airplaneServices.wifi
+                          tickets?.airplaneServices.wifi
                             ? "r-14-b my-2"
                             : "r-14-g my-2"
                         }
@@ -391,12 +392,12 @@ const DataPenumpang: React.FC = () => {
                     <div className="col-4">
                       <p
                         className={
-                          data?.airplaneServices.reschedule
+                          tickets?.airplaneServices.reschedule
                             ? "r-14-s my-1"
                             : "r-14-g my-1"
                         }
                       >
-                        {data?.airplaneServices.reschedule
+                        {tickets?.airplaneServices.reschedule
                           ? "Bisa "
                           : "Tidak bisa "}
                         reschedule
@@ -410,7 +411,7 @@ const DataPenumpang: React.FC = () => {
                     </div>
                     <div className="col-6">
                       <p className="r-14-s my-1">
-                        Bisa refund {data?.airplaneServices.refund}%
+                        Bisa refund {tickets?.airplaneServices.refund}%
                       </p>
                     </div>
                   </div>
@@ -427,13 +428,13 @@ const DataPenumpang: React.FC = () => {
                   />
                 </svg>
                 <div className="title-dp">
-                  <h4 className="sb-16-b">{data?.arrivalCityCode}</h4>
-                  <p className="r-14-g">{data?.arrivalNameAirport}</p>
+                  <h4 className="sb-16-b">{tickets?.arrivalCityCode}</h4>
+                  <p className="r-14-g">{tickets?.arrivalNameAirport}</p>
                 </div>
               </div>
             </div>
           </div>
-          <DetailHarga planeData={data} bookingData={detail}/>
+          <DetailHarga planeData={tickets} bookingData={detail} />
         </Col>
       </Row>
 

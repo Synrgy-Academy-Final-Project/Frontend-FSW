@@ -186,6 +186,7 @@ export const useTicketSearch = () => {
         const response = await axios.get(apiUrl);
         const flightData = response.data;
         const airplanes = flightData.data.content;
+        setTickets(airplanes);
 
         // Handle flightData (e.g., display it, store it in state, etc.)
         console.log("Flight Data:", flightData);
