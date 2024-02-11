@@ -17,7 +17,7 @@ const DetailHarga = ({ planeData, bookingData }) => {
     return formattedPrice;
   };
 
-  const pajak = 500000
+  const pajak = 15000
   let hargaKids = 0;
   let hargaBaby = 0;
   if (bookingData?.penumpang.nameKids !== "") {
@@ -33,7 +33,7 @@ const DetailHarga = ({ planeData, bookingData }) => {
       pemesan : bookingData?.pemesan,
       penumpang : bookingData?.penumpang,
       harga : {
-        base: price,
+        base: price + hargaKids + hargaBaby,
         adult: price,
         kids: hargaKids,
         baby: hargaBaby,
