@@ -17,6 +17,14 @@ function OTPVerification() {
     }
   }, [navigate]);
 
+  const handleInputChange = (e) => {
+    const { value } = e.target;
+
+    if (/^\d*$/.test(value)) {
+      setOtp(value);
+    }
+  };
+
   const handleVerification = async () => {
     try {
       // const emailFromQueryString = new URLSearchParams(
@@ -24,8 +32,6 @@ function OTPVerification() {
       // ).get("email");
 
       const tokenFromSession = sessionStorage.getItem("emailToken");
-
-      
 
       if (!tokenFromSession) {
         alert("Please forgot first.");
@@ -96,15 +102,22 @@ function OTPVerification() {
                   <Form.Control
                     type="text"
                     value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
+                    onChange={handleInputChange}
                     style={{ height: "56px" }}
+                    pattern="\d*"
+                    maxLength={6}
                   />
                 </Form.Group>
               </Form>
               <div className="pt-2">
                 <Button
                   className="confirm"
-                  style={{ backgroundColor: "#3e7bfa", borderColor: "#3e7bfa", fontSize: '24px', paddingTop: '0' }}
+                  style={{
+                    backgroundColor: "#3e7bfa",
+                    borderColor: "#3e7bfa",
+                    fontSize: "24px",
+                    paddingTop: "0",
+                  }}
                   onClick={handleVerification}
                 >
                   Konfirmasi

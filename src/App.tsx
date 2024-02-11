@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import RegisterUser from "./pages/User/Register/RegisterUser";
 import LoginUser from "./pages/User/Login/LoginUser";
 import DataPenumpang from "./pages/User/DataPenumpang/DataPenumpang";
-import Header from "./components/Header";
 import "./App.css";
 import TicketList from "./pages/User/TicketList/TicketList.tsx";
 import VerifyAccount from "./pages/User/VerifyAccount/VerifyAccount";
@@ -22,7 +21,7 @@ import IndexDetailPesawat from "./components/Admin/indexDetailPesawat.tsx";
 import FilterListTicket from "./components/FilterListTicket";
 import TicketSearch from "./components/TicketSearch";
 import ModalPesanTiket from "./components/ModalPesanTiket";
-import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
+// import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
 import ETicket from "./components/ETicket.tsx";
 import ModalKonfirmasi from "./components/ModalKonfirmasi.tsx";
 import FormProfile from "./components/FormProfile.tsx";
@@ -30,10 +29,9 @@ import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
 import SidebarAkun from "./components/SidebarAkun.tsx";
 import ProfilePage from "./pages/User/ProfilePage/ProfilePage.tsx";
 import ProfileEdit from "./pages/User/ProfilePage/ProfileEdit/ProfileEdit.tsx";
-import ProtectedRoute from "./utils/ProtectedRoute.tsx";
 import PembayaranPage from "./pages/User/PembayaranPage/PembayaranPage.tsx";
 import InformationProfile from "./components/InformationProfile.tsx";
-
+import OTPVerification from "./pages/User/ForgetPassword/OTPVerification";
 
 function App() {
   return (
@@ -41,7 +39,6 @@ function App() {
       <Routes>
         {/* page */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/header" element={<Header />} />
         <Route path="/login" element={<LoginUser />} />
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/list-ticket" element={<TicketList />} />
@@ -61,7 +58,6 @@ function App() {
         {/* Components */}
         {/* <Route path="/filterListTicket" element={<FilterListTicket />} /> */}
         <Route path="/eticket-comp" element={<ETicket />} />
-        <Route path="/formprofile" element={<FormProfile />} />
         {/* <Route path="/sidebarakun" element={<SidebarAkun />} /> */}
         <Route path="/ticketsearch" element={<TicketSearch />} />
         {/* <Route path="/modalticket" element={<ModalPesanTiket />} /> */}
