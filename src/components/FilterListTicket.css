@@ -70,8 +70,7 @@ label {
 
 .lsHeader .resetBtn {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: end;
   color: #3e7bfa;
   font-size: 16px;
   font-weight: 600;

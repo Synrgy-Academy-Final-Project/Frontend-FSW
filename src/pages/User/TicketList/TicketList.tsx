@@ -26,7 +26,6 @@ interface User {
   lastName?: string;
 }
 
-
 const customStylesStart = {
   control: (provided) => ({
     ...provided,
@@ -120,12 +119,19 @@ export default function TicketList() {
     loading,
     tickets,
     minprice,
-    // Other state variables and functions from useTicketSearch...
   } = useTicketSearch();
 
   const token = localStorage.getItem("token");
   const [user, setUser] = useState<User>(null);
   const [dropdown, setDropdown] = useState<boolean>(false);
+  const [selectedTime, setSelectedTime] = useState<string>(""); // State for selectedTime
+  const [amenities, setAmenities] = useState<Record<string, boolean>>({
+    bagasi: false,
+    hiburan: false,
+    makanan: false,
+    stopkontak: false,
+    wifi: false,
+  });
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
   const handleLogout = () => {
     // Hapus token dari local storage
@@ -251,6 +257,16 @@ export default function TicketList() {
       </span>
     </div>
   );
+
+  const handleDepartureTimeChange = (selectedTime, amenities) => {
+    console.log("Waktu keberangkatan yang dipilih:", selectedTime, amenities);
+    handleSearch(selectedTime, amenities);
+  };
+
+  const handleAmenitiesChange = (amenities, selectedTime) => {
+    console.log("Fasilitas yang dipilih:", amenities, selectedTime);
+    handleSearch(selectedTime, amenities);
+  };
 
   return (
     <div>
@@ -509,7 +525,7 @@ export default function TicketList() {
                     <Col></Col>
                   </Row>
                   <div className="text-center">
-                    <Button className="" onClick={handleSearch}>
+                    <Button className="" onClick={() => handleSearch("")}>
                       <span className="px-4 text-white">Cari Tiket</span>
                     </Button>
                   </div>
@@ -524,7 +540,10 @@ export default function TicketList() {
       <div className="container">
         <div className="row my-5">
           <div className="col-4">
-            <FilterListTicket />
+            <FilterListTicket
+              onDepartureTimeChange={handleDepartureTimeChange}
+              onAmenitiesChange={handleAmenitiesChange}
+            />
           </div>
           <div className="col-8">{renderContent()}</div>
         </div>

@@ -8,29 +8,6 @@ interface Option {
   detailLabel: string;
 }
 
-// const getAirportData = async (): Promise<Option[]> => {
-//   try {
-//     const response = await axios.get(
-//       "https://fly-id-1999ce14c36e.herokuapp.com/airports"
-//     );
-//     const airportData = response.data.data.content;
-
-//     // Transform the data from the API into the desired format
-//     const transformedData: Option[] = airportData.map((airport) => ({
-//       value: airport.airportCode,
-//       label: airport.airportCityCountry,
-//       detailLabel: airport.airportCodeName,
-//     }));
-
-//     return transformedData;
-//   } catch (error) {
-//     console.error("Error fetching airport data:", error);
-//     return [];
-//   }
-// };
-
-// const options: Option[] = await getAirportData();
-
 export const useTicketSearch = () => {
   const [tickets, setTickets] = useState<ITickets[]>([]);
   const [minprice, setMinimumPrice] = useState<ITicketsMinPrice[]>([]);
@@ -138,10 +115,19 @@ export const useTicketSearch = () => {
     setSelectedClass(event.target.value.toLowerCase());
   };
 
-  const handleSearch = async () => {
-    if (selectedOriginOption && selectedDestinationOption && departureDate) {
+  const handleSearch = async (
+    selectedTime: string,
+    amenities: Record<string, boolean> = {}
+  ) => {
+    if (
+      selectedOriginOption &&
+      selectedDestinationOption &&
+      departureDate &&
+      ((!isReturnTicket && returnDate === null) || returnDate)
+    ) {
       const departureCode = selectedOriginOption.value.toLowerCase();
       const arrivalCode = selectedDestinationOption.value.toLowerCase();
+
       const formattedDepartureDate = departureDate
         .toLocaleDateString("en-GB", {
           day: "2-digit",
@@ -149,27 +135,110 @@ export const useTicketSearch = () => {
           year: "numeric",
         })
         .replace(/\//g, "-");
+
+      const formattedReturnDate = returnDate
+        ? returnDate
+            .toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })
+            .replace(/\//g, "-")
+        : null;
+
+      const params = new URLSearchParams();
+      params.append("departureCode", departureCode);
+      params.append("arrivalCode", arrivalCode);
+      params.append("departureDate", formattedDepartureDate);
+      params.append("airplaneClass", selectedClass);
+
+      if (
+        selectedTime === "pagi" ||
+        selectedTime === "siang" ||
+        selectedTime === "sore" ||
+        selectedTime === "malam"
+      ) {
+        params.append("departureTime", selectedTime);
+      }
+
+      const amenityEndpoints: Record<string, string> = {
+        bagasi: "baggage",
+        hiburan: "entertainment",
+        makanan: "meals",
+        stopkontak: "usb",
+        wifi: "wifi",
+        reschedule: "reschedule",
+      };
+
+      // Menambahkan amenities ke params jika bernilai true
+      Object.entries(amenities).forEach(([amenity, value]) => {
+        if (value && amenityEndpoints[amenity]) {
+          params.append(amenityEndpoints[amenity], amenityEndpoints[amenity]);
+        }
+      });
+
+      const apiUrl = `https://fly-id-1999ce14c36e.herokuapp.com/scheduleflight/?${params.toString()}`;
+
       try {
         setLoading(true);
-        console.log(loading);
-        const apiUrl = `https://fly-id-1999ce14c36e.herokuapp.com/scheduleflight/?departureCode=${departureCode}&arrivalCode=${arrivalCode}&departureDate=${formattedDepartureDate}&airplaneClass=${selectedClass}`;
+
         const response = await axios.get(apiUrl);
         const flightData = response.data;
         const airplanes = flightData.data.content;
 
+        // Handle flightData (e.g., display it, store it in state, etc.)
+        console.log("Flight Data:", flightData);
+
+        setTickets(airplanes);
+
+        // Jika ini adalah pencarian tiket pulang dan returnDate tidak null
+        if (isReturnTicket && returnDate) {
+          // Buat parameter pencarian untuk tiket pulang
+          const returnParams = new URLSearchParams();
+          returnParams.append("departureCode", arrivalCode);
+          returnParams.append("arrivalCode", departureCode);
+          returnParams.append("departureDate", formattedReturnDate);
+          returnParams.append("airplaneClass", selectedClass);
+
+          if (
+            selectedTime === "pagi" ||
+            selectedTime === "siang" ||
+            selectedTime === "sore" ||
+            selectedTime === "malam"
+          ) {
+            returnParams.append("departureTime", selectedTime);
+          }
+
+          // Menambahkan amenities ke params jika bernilai true
+          Object.entries(amenities).forEach(([amenity, value]) => {
+            if (value && amenityEndpoints[amenity]) {
+              returnParams.append(
+                amenityEndpoints[amenity],
+                amenityEndpoints[amenity]
+              );
+            }
+          });
+
+          const returnApiUrl = `https://fly-id-1999ce14c36e.herokuapp.com/scheduleflight/?${returnParams.toString()}`;
+
+          const returnResponse = await axios.get(returnApiUrl);
+          const returnFlightData = returnResponse.data;
+          const returnAirplanes = returnFlightData.data.content;
+
+          // Handle return flight data
+          console.log("Return Flight Data:", returnFlightData);
+
+          setTickets((prevTickets) => [...prevTickets, ...returnAirplanes]);
+        }
+
         const apiUrlMinimumPrice = `https://fly-id-1999ce14c36e.herokuapp.com/airplane/minimum-price?fromAirportCode=${departureCode}&toAirportCode=${arrivalCode}&departureDate=${formattedDepartureDate}`;
-        console.log("apiUrl : ", apiUrlMinimumPrice);
         const responseMP = await axios.get(apiUrlMinimumPrice);
         const flightDataMP = responseMP.data;
         const airplanesMP = flightDataMP.data;
 
         // Do something with the fetched data
         console.log("airplanes : ", airplanesMP);
-        setTickets(airplanes);
         setMinimumPrice(airplanesMP);
-
-        // Handle flightData (e.g., display it, store it in state, etc.)
-        console.log("Flight Data:", flightData);
       } catch (error) {
         console.error("Error fetching flight data:", error);
       } finally {

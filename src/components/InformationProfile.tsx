@@ -88,7 +88,7 @@ const InformationProfile: React.FC = () => {
   return (
     <div>
       {userData && (
-        <Card className="card-profile">
+        <Card className="profile-card mx-0">
           <Card.Body>
             <table className="profile-table">
               <h4 className="tittle">Informasi Akun</h4>
