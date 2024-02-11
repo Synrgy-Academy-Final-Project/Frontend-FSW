@@ -14,59 +14,67 @@ import {
   WaitingPayment,
 } from "./styles/PesananExist.styled";
 
-const PesananExist: React.FC = () => {
+interface Transaction {
+  id: string;
+  companyName: string | null;
+  url: string | null;
+  airplaneName: string;
+  airplaneCode: string;
+  departureCode: string;
+  arrivalCode: string;
+  totalPrice: number;
+  orderCode: string | null;
+}
+
+interface PesananExistProps {
+  transactions: Transaction[];
+}
+
+const PesananExist: React.FC<PesananExistProps> = ({ transactions }) => {
   return (
     <>
       <ExistContent>
-        <CodeWrapper>
-          <TextWrapper>
-            <CodeText>Kode Pesanan 111222333</CodeText>
-            <CodeHarga>Rp 1.475.000</CodeHarga>
-          </TextWrapper>
+        {transactions.map((transaction) => (
+          <CodeWrapper key={transaction.id}>
+            <TextWrapper>
+              <CodeText>Kode Pesanan {transaction.orderCode}</CodeText>
+              <CodeHarga>
+                Rp {transaction.totalPrice.toLocaleString()}
+              </CodeHarga>
+            </TextWrapper>
 
-          <LineDash></LineDash>
+            <LineDash />
 
-          <DestinationWrapper>
-            <img src="./images/ic_telegram_plane.png" alt="ic_telegram_plane" />
-            <RegulerNeutral>Jakarta (CGK)</RegulerNeutral>
-            <img
-              src="./images/ic_long_arrow_right.png"
-              alt="ic_long_arrow_right"
-            />
-            <RegulerNeutral>Yogyakarta (YIA)</RegulerNeutral>
-            <RegulerNeutral>, Asuransi Perjalanan</RegulerNeutral>
-          </DestinationWrapper>
+            <DestinationWrapper>
+              <img
+                src="./images/ic_telegram_plane.png"
+                alt="ic_telegram_plane"
+              />
+              <RegulerNeutral>
+                {transaction.departureCode} ({transaction.airplaneCode})
+              </RegulerNeutral>
+              <img
+                src="./images/ic_long_arrow_right.png"
+                alt="ic_long_arrow_right"
+              />
+              <RegulerNeutral>
+                {transaction.arrivalCode} ({transaction.airplaneCode})
+              </RegulerNeutral>
+              <RegulerNeutral>, Asuransi Perjalanan</RegulerNeutral>
+            </DestinationWrapper>
 
-          <WaitingPayment>
-            <RegulerWhite>Menunggu Pembayaran (51:00)</RegulerWhite>
-          </WaitingPayment>
-        </CodeWrapper>
-
-        <Line></Line>
-
-        <CodeWrapper>
-          <TextWrapper>
-            <CodeText>Kode Pesanan 111222333</CodeText>
-            <CodeHarga>Rp 1.475.000</CodeHarga>
-          </TextWrapper>
-
-          <LineDash></LineDash>
-
-          <DestinationWrapper>
-            <img src="./images/ic_telegram_plane.png" alt="ic_telegram_plane" />
-            <RegulerNeutral>Jakarta (CGK)</RegulerNeutral>
-            <img
-              src="./images/ic_long_arrow_right.png"
-              alt="ic_long_arrow_right"
-            />
-            <RegulerNeutral>Yogyakarta (YIA)</RegulerNeutral>
-            <RegulerNeutral>, Asuransi Perjalanan</RegulerNeutral>
-          </DestinationWrapper>
-
-          <PaymentComplete>
-            <RegulerWhite>Pembayaran Selesai</RegulerWhite>
-          </PaymentComplete>
-        </CodeWrapper>
+            {transaction.orderCode ? (
+              <PaymentComplete>
+                <RegulerWhite>Pembayaran Selesai</RegulerWhite>
+              </PaymentComplete>
+            ) : (
+              <WaitingPayment>
+                <RegulerWhite>Menunggu Pembayaran</RegulerWhite>
+              </WaitingPayment>
+            )}
+          </CodeWrapper>
+        ))}
+        <Line />
       </ExistContent>
     </>
   );
