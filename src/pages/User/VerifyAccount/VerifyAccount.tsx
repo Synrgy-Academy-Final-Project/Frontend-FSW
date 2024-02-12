@@ -18,6 +18,12 @@ function VerifyAccount() {
       navigate("/register");
     }
   }, [navigate]);
+  const handleInputChange = (e) => {
+    const { value } = e.target;
+    if (/^\d*$/.test(value)) {
+      setOtp(value);
+    }
+  };
 
   const handleVerification = async () => {
     try {
@@ -36,7 +42,7 @@ function VerifyAccount() {
       const emailFromToken = decryptedData.email;
 
       const response = await fetch(
-        `https://fly-id-1999ce14c36e.herokuapp.com/api/v1/auth/verify-account?email=${emailFromToken}`,
+        `https://fly-id-1999ce14c36e.herokuapp.com/auth/verify-account?email=${emailFromToken}`,
         {
           method: "PUT",
           headers: {
@@ -137,14 +143,20 @@ function VerifyAccount() {
                   <Form.Control
                     type="text"
                     value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
+                    onChange={handleInputChange}
                     style={{ height: "56px" }}
+                    pattern="\d*"
+                    maxLength={6}
                   />
                 </Form.Group>
               </Form>
-              <div className="pt-2">
+              <div className="pt-2 fw-bold">
                 <Button
-                  style={{ backgroundColor: "#3e7bfa", borderColor: "#3e7bfa" }}
+                  style={{
+                    backgroundColor: "#3e7bfa",
+                    borderColor: "#3e7bfa",
+                    fontSize: "20px",
+                  }}
                   className="confirm"
                   onClick={handleVerification}
                 >

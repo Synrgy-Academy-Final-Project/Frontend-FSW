@@ -1,61 +1,66 @@
-import { useEffect, useState } from 'react'
-import './Header.css'
-import TicketSearch from './TicketSearch'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from "react";
+import "./Header.css";
+import TicketSearch from "./TicketSearch";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { BsPower } from "react-icons/bs";
 interface Header {
-  label?: string
+  label?: string;
 }
 interface User {
-  firstName?: string
-  lastName?: string
+  firstName?: string;
+  lastName?: string;
 }
 
 export default function Header(props) {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
-  const base_url = 'https://fly-id-1999ce14c36e.herokuapp.com'
+  const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 
-  const [user, setUser] = useState<User>(null)
-  const [dropdown, setDropdown] = useState<boolean>(false)
+  const [user, setUser] = useState<User>(null);
+  const [dropdown, setDropdown] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(base_url + '/user-detail/logged-in-user', {
+        const response = await fetch(base_url + "/user-detail/logged-in-user", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        })
+        });
 
-        if (response.status === 500) throw new Error('Token tidak valid!')
+        if (response.status === 500) {
+          localStorage.removeItem("token");
+          throw new Error("Token tidak valid!");
+        }
 
-        const responseJson = await response.json()
+        const responseJson = await response.json();
 
         if (response.status === 200) {
           setUser({
-            firstName: responseJson.data.firstName,
-            lastName: responseJson.data.lastName,
-          })
+            firstName: responseJson.data.usersDetails.firstName,
+            lastName: responseJson.data.usersDetails.lastName,
+          });
         }
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-    }
+    };
 
     if (token) {
-      fetchUser()
+      fetchUser();
     }
-  }, [token])
+  }, [token]);
 
   const handleDropdown = () => {
-    setDropdown(!dropdown)
-  }
+    setDropdown(!dropdown);
+  };
 
   const handleLogout = () => {
     // Hapus token dari local storage
-    localStorage.removeItem('token')
-    window.location.reload()
-  }
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
 
   return (
     <header>
@@ -121,7 +126,9 @@ export default function Header(props) {
                       <div className="my-account">
                         <h5>Akun Saya</h5>
                         <div className="information">
-                          <p>Pesanan</p>
+                          <p>
+                            <a href="/pesanan">Pesanan</a>
+                          </p>
                           <p>Notifikasi Harga</p>
                           <p>Favorit</p>
                           <p>Data Penumpang Tersimpan</p>
@@ -132,15 +139,20 @@ export default function Header(props) {
                       <div className="my-account">
                         <h5>Pengaturan</h5>
                         <div className="information">
-                          <p>Pengaturan Akun</p>
+                          <p>
+                            <a href="/profile">Pengaturan Akun</a>
+                          </p>
                           <p>Bahasa Indonesia</p>
-                          <p>IDR Rp</p>
                         </div>
                       </div>
-                      <button className="logout" onClick={handleLogout}>
-                        <i className="power-off"></i>
+                      <Button
+                        variant="danger"
+                        className="logout"
+                        onClick={handleLogout}
+                      >
+                        <BsPower className="icon-power-off" />
                         Keluar
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </div>

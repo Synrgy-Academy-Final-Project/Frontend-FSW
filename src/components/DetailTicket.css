@@ -100,8 +100,8 @@
   letter-spacing: -0.01563rem;
 }
 
-.mb-120 {
-  margin-bottom: 120px !important;
+.mb-80 {
+  margin-bottom: 80px !important;
 }
 
 .border-detail {
@@ -155,6 +155,10 @@
   background-color: #fff !important;
 }
 
+.accordion-button collapsed {
+  width: 100% !important;
+}
+
 .accordion-button {
   padding: 0 !important;
   background-image: none !important;
@@ -162,12 +166,15 @@
 
 .accordion-button::after {
   background-image: none !important;
-  width: 0 !important;
-  height: 0 !important;
+  width: 0%;
 }
 
 .interval {
   position: absolute;
   top: 80%;
   left: 38%;
+}
+
+.card-ticket {
+  max-width: 2000px !important;
 }

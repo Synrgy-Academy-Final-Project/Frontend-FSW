@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   HeaderContainer,
   NavBtn,
@@ -7,12 +7,60 @@ import {
   ProfileWrapper,
   SemiBoldBlue,
 } from "./styles/PesananHeader.styled";
+import { Link } from "react-router-dom";
+
+interface Header {
+  label?: string;
+}
+interface User {
+  firstName?: string;
+  lastName?: string;
+}
 
 const PesananHeader: React.FC = () => {
+  const token = localStorage.getItem("token");
+  const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
+
+  const [user, setUser] = useState<User>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(base_url + "/user-detail/logged-in-user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status === 500) {
+          localStorage.removeItem("token");
+          throw new Error("Token tidak valid!");
+        }
+
+        const responseJson = await response.json();
+
+        if (response.status === 200) {
+          setUser({
+            firstName: responseJson.data.usersDetails.firstName,
+            lastName: responseJson.data.usersDetails.lastName,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (token) {
+      fetchUser();
+    }
+  }, [token]);
+
   return (
     <>
       <HeaderContainer>
-        <img src="./images/logo-1.png" alt="logo-1" />
+        <Link to="/">
+          <img src="./images/logo-1.png" alt="logo-1" />
+        </Link>
 
         <Navbar>
           <NavList>
@@ -36,7 +84,11 @@ const PesananHeader: React.FC = () => {
         </Navbar>
 
         <ProfileWrapper>
-          <SemiBoldBlue>Akun</SemiBoldBlue>
+          {token && user ? (
+            <SemiBoldBlue>{user.firstName}</SemiBoldBlue>
+          ) : (
+            <SemiBoldBlue>Akun</SemiBoldBlue>
+          )}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="50"

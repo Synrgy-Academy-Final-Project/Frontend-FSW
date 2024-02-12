@@ -4,52 +4,36 @@ import {
   DetailWrapper,
   OrdererData,
   OrdererDataWrapper,
+  OrdererHead,
   RegulerText,
   RegulerTextBold,
   SemiBoldText,
 } from "./styles/DetailSection.styled";
 
-const OrdererDetailPayment: React.FC = () => {
+const OrdererDetailPayment = ({ pemesan }) => {
   return (
     <>
       <DetailWrapper>
         <DetailForm>
-          <SemiBoldText>Detail Penumpang 1 Dewasa</SemiBoldText>
+          <SemiBoldText>Detail Pemesan</SemiBoldText>
+
           <OrdererDataWrapper>
             <OrdererData>
               <img src="./images/ic_user_check.png" alt="user_check" />
               <RegulerTextBold>Nama pemesan</RegulerTextBold>
-              <RegulerTextBold>: Ariella</RegulerTextBold>
-            </OrdererData>
-          </OrdererDataWrapper>
-
-          <SemiBoldText>Detail Penumpang 1 Anak</SemiBoldText>
-          <OrdererDataWrapper>
-            <OrdererData>
-              <img src="./images/ic_user_check.png" alt="user_check" />
-              <RegulerTextBold>Nama penumpang</RegulerTextBold>
-              <RegulerTextBold>: Arisa</RegulerTextBold>
+              <RegulerTextBold>: {pemesan?.nama}</RegulerTextBold>
             </OrdererData>
 
             <OrdererData>
-              <img src="./images/ic_calendar_check.png" alt="calendar_check" />
-              <RegulerText>Tanggal lahir</RegulerText>
-              <RegulerText>: 01/01/2019</RegulerText>
-            </OrdererData>
-          </OrdererDataWrapper>
-
-          <SemiBoldText>Detail Penumpang 1 Bayi</SemiBoldText>
-          <OrdererDataWrapper>
-            <OrdererData>
-              <img src="./images/ic_user_check.png" alt="user_check" />
-              <RegulerTextBold>Nama penumpang</RegulerTextBold>
-              <RegulerTextBold>: Alex</RegulerTextBold>
+              <img src="./images/ic_phone_alt.png" alt="phone" />
+              <RegulerText>No ponsel</RegulerText>
+              <RegulerText>: {pemesan?.ponsel}</RegulerText>
             </OrdererData>
 
             <OrdererData>
-              <img src="./images/ic_calendar_check.png" alt="calendar_check" />
-              <RegulerText>Tanggal lahir</RegulerText>
-              <RegulerText>: 01/01/2022</RegulerText>
+              <img src="./images/ic_envelope.png" alt="envelope" />
+              <RegulerText>Email</RegulerText>
+              <RegulerText>: {pemesan?.email}</RegulerText>
             </OrdererData>
           </OrdererDataWrapper>
         </DetailForm>

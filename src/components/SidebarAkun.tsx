@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import "./SidebarAkun.css";
 
-const SidebarAkun: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+interface SidebarAkunProps {
+  handleOptionClick: (optionId: number) => void;
+}
+
+const SidebarAkun: React.FC<SidebarAkunProps> = ({ handleOptionClick }) => {
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
   interface Option {
     id: number;
@@ -11,11 +15,7 @@ const SidebarAkun: React.FC = () => {
     text: string;
   }
 
-  const handleOptionClick = (option: Option) => {
-    setSelectedOption(option === selectedOption ? null : option);
-  };
-
-  const options = [
+  const options: Option[] = [
     {
       id: 1,
       whiteIcon: (
@@ -71,7 +71,7 @@ const SidebarAkun: React.FC = () => {
           alt="./images/ic_power_off-blue"
         />
       ),
-      text: "Pengaturan Akun",
+      text: "Keluar Akun",
     },
   ];
 
@@ -81,15 +81,14 @@ const SidebarAkun: React.FC = () => {
         {options.map((option) => (
           <li
             key={option.id}
-            className={
-              selectedOption && selectedOption.id === option.id
-                ? "selected"
-                : ""
-            }
-            onClick={() => handleOptionClick(option)}
+            className={selectedOption === option.id ? "selected" : ""}
+            onClick={() => {
+              setSelectedOption(option.id);
+              handleOptionClick(option.id);
+            }}
           >
             <span className="option-icon">
-              {selectedOption && selectedOption.id === option.id
+              {selectedOption === option.id
                 ? option.whiteIcon
                 : option.blueIcon}
             </span>

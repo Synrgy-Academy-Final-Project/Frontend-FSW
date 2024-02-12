@@ -1,5 +1,10 @@
+.card-form {
+  margin: 0;
+  box-shadow: none;
+}
+
 .form-profile {
-  padding: 10px 10px 10px 10px;
+  /* padding: 10px 10px 10px 10px; */
 }
 
 .form-tittle {

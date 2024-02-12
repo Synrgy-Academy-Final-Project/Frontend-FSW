@@ -1,20 +1,92 @@
 import { Accordion, Card } from "react-bootstrap";
 import "./DetailTicket.css";
+import { ITickets } from "../services/types";
+import { useState } from "react";
+import ModalPesanTiket from "./ModalPesanTiket";
 
-export default function DetailTicket() {
+const formatDate = (dateTimeString: string) => {
+  const departureDate = new Date(dateTimeString);
+  const monthNames = new Intl.DateTimeFormat("id-ID", { month: "long" })
+    .formatToParts(departureDate)
+    .find((part) => part.type === "month").value;
+  const day = departureDate.getDate();
+  const year = departureDate.getFullYear();
+
+  // Extract hour and minute from departureTime
+  const hour = departureDate.getHours();
+  const minute = departureDate.getMinutes();
+
+  return {
+    formattedDate: `${day} ${monthNames} ${year}`,
+    formattedTime: `${hour.toString().padStart(2, "0")}:${minute
+      .toString()
+      .padStart(2, "0")}`,
+  };
+};
+
+const calculateDuration = (departureTime: string, arrivalTime: string) => {
+  const departureDate = new Date(departureTime);
+  const arrivalDate = new Date(arrivalTime);
+
+  // Calculate the difference in milliseconds
+  const durationInMilliseconds =
+    arrivalDate.getTime() - departureDate.getTime();
+
+  // Convert milliseconds to hours and minutes
+  const durationInHours = Math.floor(durationInMilliseconds / (60 * 60 * 1000));
+  const durationInMinutes = Math.floor(
+    (durationInMilliseconds % (60 * 60 * 1000)) / (60 * 1000)
+  );
+
+  return `${durationInHours} j ${durationInMinutes} m`;
+};
+
+const formatPrice = (price: number) => {
+  const formattedPrice = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(price);
+
+  return formattedPrice;
+};
+
+const DetailTicket = ({ tickets, passengersData }) => {
+  const [selectedTicket, setSelectedTicket] = useState(null);
+
+  const handleSelectTicket = (ticket) => {
+    setSelectedTicket(ticket);
+    // Additional logic to set the number of passengers if needed
+  };
+
+  const combinedData = selectedTicket
+    ? {
+        ticket: selectedTicket,
+        passengers: passengersData,
+      }
+    : null;
+  console.log("passenger data : ", passengersData);
+  console.log("combinedData : ", combinedData);
   return (
-    <div className="row">
-      <div className="col-3"></div>
-      <div className="col-9">
-        <Accordion>
-          <Accordion.Item eventKey="0">
+    <div>
+      <Accordion className="mb-3">
+        {tickets?.map((record: ITickets, index: number) => (
+          <Accordion.Item
+            key={index}
+            eventKey={index.toString()}
+            className="mb-3"
+          >
             <Accordion.Header>
-              <Card className="w-100 d-flex">
+              <Card className="w-100 d-flex card-ticket">
                 <Card.Body>
                   <div className="row">
                     <div className="col text-center my-auto">
                       <div className="maskapai">
-                        <img src="src/assets/images/XMLID_29_.png" alt="" />
+                        <img
+                          src={record.urlLogo}
+                          width={"120px"}
+                          alt={record.companyName}
+                        />
                       </div>
                     </div>
                     <div className="col text-center my-auto">
@@ -22,10 +94,14 @@ export default function DetailTicket() {
                         <h6 className="sb-16-g">Keberangkatan</h6>
                       </div>
                       <div>
-                        <h4 className="sb-20-b">20:15</h4>
+                        <h4 className="sb-20-b">
+                          {formatDate(record.departureTime).formattedTime}
+                        </h4>
                       </div>
                       <div className="date-detail">
-                        <h5 className="r-16-b">4 Oktober 2023</h5>
+                        <h5 className="r-16-b">
+                          {formatDate(record.departureTime).formattedDate}
+                        </h5>
                       </div>
                     </div>
                     <div className="col my-3">
@@ -59,9 +135,9 @@ export default function DetailTicket() {
                           }}
                         >
                           <line
-                            x1="0"
+                            x1="20%"
                             y1="30%"
-                            x2="100%"
+                            x2="80%"
                             y2="30%"
                             stroke="#007BFF"
                             strokeWidth="2"
@@ -85,7 +161,12 @@ export default function DetailTicket() {
                           alt=""
                           className="icon-plane"
                         />
-                        <p className="r-14-g interval">2 j 0 m</p>
+                        <p className="r-14-g interval">
+                          {calculateDuration(
+                            record.departureTime,
+                            record.arrivalTime
+                          )}
+                        </p>
                       </div>
                     </div>
                     <div className="col text-center my-auto">
@@ -93,10 +174,14 @@ export default function DetailTicket() {
                         <h6 className="sb-16-g">Tiba</h6>
                       </div>
                       <div>
-                        <h4 className="sb-20-b">20:15</h4>
+                        <h4 className="sb-20-b">
+                          {formatDate(record.arrivalTime).formattedTime}
+                        </h4>
                       </div>
                       <div className="date-detail">
-                        <h5 className="r-16-b">4 Oktober 2023</h5>
+                        <h5 className="r-16-b">
+                          {formatDate(record.arrivalTime).formattedDate}
+                        </h5>
                       </div>
                     </div>
                     <div className="col-1" style={{ width: "10px" }}>
@@ -124,18 +209,20 @@ export default function DetailTicket() {
                       <div className="my-3">
                         <div className="row">
                           <span className="d-flex">
-                            <p className="b-24-p">Rp1.500.000</p>
+                            <p className="b-24-p">
+                              {formatPrice(record.totalPrice)}
+                            </p>
                             <p className="sb-16-g mt-2 pt-1">/org</p>
                           </span>
                         </div>
                         <div className="row">
                           <div className="d-grid gap-2">
-                            <button
-                              className=" button-primary-small"
-                              type="button"
+                            <div
+                              className="button-primary-small"
+                              onClick={() => handleSelectTicket(record)}
                             >
                               Pilih
-                            </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -148,17 +235,26 @@ export default function DetailTicket() {
               <div className="border-detail">
                 <div className="row">
                   <div className="col-2 text-center">
-                    <div className="row mt-3 mb-120">
+                    <div className="row mt-3 mb-80">
                       <div className="time-detail">
-                        <h4 className="sb-20-b">20:15</h4>
+                        <h4 className="sb-20-b">
+                          {formatDate(record.departureTime).formattedTime}
+                        </h4>
                       </div>
                       <div className="date-detail">
-                        <h5 className="r-16-b">4 Oktober 2023</h5>
+                        <h5 className="r-16-b">
+                          {formatDate(record.departureTime).formattedDate}
+                        </h5>
                       </div>
                     </div>
-                    <div className="row mb-120">
+                    <div className="row mb-80">
                       <div className="time-detail-count">
-                        <h4 className="sb-16-g">2 j 0 m</h4>
+                        <h4 className="sb-16-g">
+                          {calculateDuration(
+                            record.departureTime,
+                            record.arrivalTime
+                          )}
+                        </h4>
                       </div>
                       <div className="date-detail">
                         <h5 className="r-16-g">Non stop</h5>
@@ -166,10 +262,14 @@ export default function DetailTicket() {
                     </div>
                     <div className="row mt-5">
                       <div className="time-detail">
-                        <h4 className="sb-20-b">20:15</h4>
+                        <h4 className="sb-20-b">
+                          {formatDate(record.arrivalTime).formattedTime}
+                        </h4>
                       </div>
                       <div className="date-detail">
-                        <h5 className="r-16-b">4 Oktober 2023</h5>
+                        <h5 className="r-16-b">
+                          {formatDate(record.arrivalTime).formattedDate}
+                        </h5>
                       </div>
                     </div>
                   </div>
@@ -186,7 +286,7 @@ export default function DetailTicket() {
                         width="50"
                         style={{
                           position: "absolute",
-                          right: "18%",
+                          right: "5%",
                           top: "50%",
                           transform: "translate(-24%, -40%)",
                         }}
@@ -218,7 +318,7 @@ export default function DetailTicket() {
                         width="50"
                         style={{
                           position: "absolute",
-                          right: "18%",
+                          right: "5%",
                           top: "100%",
                           transform: "translate(-24%, 630%)",
                         }}
@@ -229,9 +329,9 @@ export default function DetailTicket() {
                   </div>
                   <div className="col-9">
                     <div className="title-dp">
-                      <h4 className="sb-16-b">Jakarta (CGK)</h4>
+                      <h4 className="sb-16-b">{record.departureCityCode}</h4>
                       <p className="r-14-g mb-1">
-                        Soekarno Hatta International Airport
+                        {record.departureNameAirport}
                       </p>
                     </div>
                     <svg height="2" width="480">
@@ -251,11 +351,13 @@ export default function DetailTicket() {
                           <img
                             src="src/assets/images/Shopping Bag.png"
                             alt=""
+                            className="pt-1"
                           />
                         </div>
                         <div className="col-11">
                           <p className="r-14-b my-2">
-                            Bagasi kabin 1 item (7 kg)
+                            Bagasi kabin 1 item (
+                            {record.airplaneServices.cabinBaggage} kg)
                           </p>
                         </div>
                       </div>
@@ -264,27 +366,55 @@ export default function DetailTicket() {
                           <img
                             src="src/assets/images/Shopping Bag.png"
                             alt=""
+                            className="pt-1"
                           />
                         </div>
                         <div className="col-11">
-                          <p className="r-14-b my-2">Bagasi 1 item (20 kg)</p>
+                          <p className="r-14-b my-2">
+                            Bagasi 1 item ({record.airplaneServices.baggage} kg)
+                          </p>
                         </div>
                       </div>
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
-                          <img src="src/assets/images/Utensils.png" alt="" />
+                          <img
+                            src="src/assets/images/Utensils.png"
+                            alt=""
+                            className="pt-1"
+                          />
                         </div>
                         <div className="col-11">
-                          <p className="r-14-b my-2">Makanan di pesawat</p>
+                          <p
+                            className={
+                              record.airplaneServices.meals
+                                ? "r-14-b my-2"
+                                : "r-14-g my-2"
+                            }
+                          >
+                            Makanan di pesawat
+                          </p>
                         </div>
                       </div>
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
-                          <img src="src/assets/images/File Minus.png" alt="" />
+                          <img
+                            src="src/assets/images/File Minus.png"
+                            alt=""
+                            className="pt-1"
+                          />
                         </div>
                         <div className="col-11">
-                          <p className="r-14-g my-2">
-                            Tanpa ansuransi perjalanan
+                          <p
+                            className={
+                              record.airplaneServices.travelInsurance
+                                ? "r-14-b my-2"
+                                : "r-14-g my-2"
+                            }
+                          >
+                            {record.airplaneServices.travelInsurance
+                              ? "Dengan "
+                              : "Tanpa "}
+                            ansuransi perjalanan
                           </p>
                         </div>
                       </div>
@@ -293,26 +423,59 @@ export default function DetailTicket() {
                           <img
                             src="src/assets/images/youtube square.png"
                             alt=""
+                            className="pt-1"
                           />
                         </div>
                         <div className="col-11">
-                          <p className="r-14-g my-2">Hiburan di pesawat</p>
+                          <p
+                            className={
+                              record.airplaneServices.inflightEntertainment
+                                ? "r-14-b my-2"
+                                : "r-14-g my-2"
+                            }
+                          >
+                            Hiburan di pesawat
+                          </p>
                         </div>
                       </div>
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
-                          <img src="src/assets/images/usb.png" alt="" />
+                          <img
+                            src="src/assets/images/usb.png"
+                            alt=""
+                            className="pt-1"
+                          />
                         </div>
                         <div className="col-11">
-                          <p className="r-14-g my-2">Stopkontak atau USB</p>
+                          <p
+                            className={
+                              record.airplaneServices.electricSocket
+                                ? "r-14-b my-2"
+                                : "r-14-g my-2"
+                            }
+                          >
+                            Stopkontak atau USB
+                          </p>
                         </div>
                       </div>
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
-                          <img src="src/assets/images/Wifi Slash.png" alt="" />
+                          <img
+                            src="src/assets/images/Wifi Slash.png"
+                            alt=""
+                            className="pt-1"
+                          />
                         </div>
                         <div className="col-11">
-                          <p className="r-14-g my-2">WiFi</p>
+                          <p
+                            className={
+                              record.airplaneServices.wifi
+                                ? "r-14-b my-2"
+                                : "r-14-g my-2"
+                            }
+                          >
+                            WiFi
+                          </p>
                         </div>
                       </div>
                       <div className="row list-dp">
@@ -320,10 +483,22 @@ export default function DetailTicket() {
                           <img
                             src="src/assets/images/Calendar Alt.png"
                             alt=""
+                            className="pt-1"
                           />
                         </div>
                         <div className="col-4">
-                          <p className="r-14-s my-1">Bisa reschedule</p>
+                          <p
+                            className={
+                              record.airplaneServices.reschedule
+                                ? "r-14-s my-1"
+                                : "r-14-g my-1"
+                            }
+                          >
+                            {record.airplaneServices.reschedule
+                              ? "Bisa "
+                              : "Tidak bisa "}
+                            reschedule
+                          </p>
                         </div>
                         <div className="col-1">
                           <img
@@ -332,7 +507,9 @@ export default function DetailTicket() {
                           />
                         </div>
                         <div className="col-6">
-                          <p className="r-14-s my-1">Bisa refund 83%</p>
+                          <p className="r-14-s my-1">
+                            Bisa refund {record.airplaneServices.refund}%
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -348,18 +525,25 @@ export default function DetailTicket() {
                       />
                     </svg>
                     <div className="title-dp">
-                      <h4 className="sb-16-b">Bali (DPS)</h4>
-                      <p className="r-14-g">
-                        I Gusti Ngurah Rai International Airport
-                      </p>
+                      <h4 className="sb-16-b">{record.arrivalCityCode}</h4>
+                      <p className="r-14-g">{record.arrivalNameAirport}</p>
                     </div>
                   </div>
                 </div>
               </div>
             </Accordion.Body>
           </Accordion.Item>
-        </Accordion>
-      </div>
+        ))}
+      </Accordion>
+      {selectedTicket && (
+        <ModalPesanTiket
+          show={true}
+          onHide={() => setSelectedTicket(null)}
+          data={combinedData}
+        />
+      )}
     </div>
   );
-}
+};
+
+export default DetailTicket;

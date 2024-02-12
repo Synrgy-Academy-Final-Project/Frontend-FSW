@@ -70,8 +70,7 @@ label {
 
 .lsHeader .resetBtn {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: end;
   color: #3e7bfa;
   font-size: 16px;
   font-weight: 600;
@@ -121,6 +120,11 @@ label {
   border-radius: 10px;
   border: 1px solid var(--Neutural-Grey-Light, #e1e7ee);
   width: 100%;
+}
+
+.timeCard.selected {
+  border: 1px solid #3e7bfa;
+  background-color: #dae3f5;
 }
 
 .lsPrice {

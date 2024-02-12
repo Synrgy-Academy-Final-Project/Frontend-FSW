@@ -39,15 +39,6 @@ button {
   margin-right: -1rem;
 }
 
-.power-off {
-  background: url(../assets/icon/Power-Off.svg);
-  background-repeat: no-repeat;
-
-  display: inline-block;
-  height: 24px;
-  width: 24px;
-}
-
 .logout {
   background-color: #fff;
   color: red;
@@ -162,6 +153,10 @@ button {
 
 .my-account .information:first-of-type {
   padding-top: 16px;
+}
+
+.my-account .information a {
+  color: black;
 }
 
 @media screen and (min-width: 1440px) {

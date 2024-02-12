@@ -1,7 +1,79 @@
 import { Button, Card, Container, Form } from "react-bootstrap";
 import "./FormPembayaran.css";
 
-export default function FormPembayaran() {
+export default function FormPembayaran({ bookingData, discount, bayar }) {
+  const handleTransactions = async () => {
+    const token = localStorage.getItem('token')
+    const url = 'https://fly-id-1999ce14c36e.herokuapp.com/transaction/midtrans';
+    const requestBody = {
+      companyName: bookingData?.pesawat.companyName,
+      url: bookingData?.pesawat.urlLogo,
+      airplaneId: bookingData?.pesawat.airplaneId,
+      airplaneName: bookingData?.pesawat.airplaneName,
+      airplaneCode:  bookingData?.pesawat.airplaneCode,
+      airplaneClassId:  bookingData?.pesawat.airplaneClassId,
+      airplaneClass:  bookingData?.pesawat.airplaneClass,
+      airplaneTimeFLightId:  bookingData?.pesawat.airplaneFlightTimeId,
+      departureCode: bookingData?.pesawat.departureCode,
+      departureDate: "2024-01-17",
+      departureTime: "12:00:00",
+      arrivalCode:  bookingData?.pesawat.arrivalCode,
+      arrivalDate: "2024-01-17",
+      arrivalTime: "14:30:00",
+      priceFlight: bayar.toString(),
+      codePromo: discount?.promoCode,
+      userDetails: [
+        {
+          firstName: bookingData?.penumpang.nameAdult,
+          lastName: "TU",
+          phoneNumber: bookingData?.penumpang.phone,
+          dateOfBirth: bookingData?.penumpang.dateAdult,
+          airplaneAdditionalId: "",
+        },
+        {
+          firstName: bookingData?.penumpang.nameKids,
+          lastName: "Ja",
+          phoneNumber: "08123421233123778",
+          dateOfBirth: bookingData?.penumpang.dateKids,
+          airplaneAdditionalId: "b577e79a-f486-47a3-b3fa-d774640a18c0",
+        },
+        {
+          firstName: bookingData?.penumpang.nameBaby,
+          lastName: "Ja",
+          dateOfBirth: bookingData?.penumpang.dateBaby,
+        },
+        {
+          firstName: "mam",
+          lastName: "Ja",
+          phoneNumber: "08123421233123878",
+          dateOfBirth: "1998-12-21",
+          airplaneAdditionalId: "",
+        },
+      ],
+    };
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(requestBody)
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const responseData = await response.json();
+      console.log('API response:', responseData);
+    } catch (error) {
+      console.error('Error during API request:', error);
+    }
+  };
+  
+
   return (
     <>
       <Container className="my-5">
@@ -15,8 +87,8 @@ export default function FormPembayaran() {
             </h3>
           </div>
         </div>
-        <div className="row mt-4">
-          <Card className="px-0">
+        <div className="row mt-4 px-2">
+          <Card className="px-0 mwa">
             <Card.Header className="bg-primary text-white">
               <h5 className="sb-20-w pt-2">Pembayaran</h5>
             </Card.Header>
@@ -27,7 +99,7 @@ export default function FormPembayaran() {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>
-                    Metode Pembayaranspan<span className="text-danger">*</span>
+                    Metode Pembayaran<span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Select aria-label="Default select example">
                     <option>Pilih metode pembayaran</option>
@@ -82,7 +154,7 @@ export default function FormPembayaran() {
                   </div>
                   <div className="d-grid gap-2 mt-3">
                     <Button variant="primary">
-                      <img src="src/assets/icon/Shield Check.svg" alt="" />
+                      <img src="src/assets/icon/Shield Check.svg" alt="" onClick={handleTransactions} />
                       Bayar
                     </Button>
                   </div>

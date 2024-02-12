@@ -1,0 +1,81 @@
+.profile-card {
+  border-radius: 10px;
+  margin: 0;
+  box-shadow: none;
+}
+
+.tittle {
+  color: #1c1c1e;
+  font-size: 20px;
+  font-weight: 500;
+  padding-top: 12px;
+}
+
+.icon {
+  color: #3e7bfa;
+  margin-right: 16px;
+}
+
+.label {
+  font-size: 16px;
+  color: #1c1c1e;
+  margin-right: 16px;
+  width: 200px;
+}
+
+.item {
+  padding-bottom: 16px;
+}
+
+.profile-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.profile-table td {
+  padding: 8px;
+}
+
+.profile-table tr {
+  padding-bottom: 10px;
+}
+
+.profile-table .icon {
+  vertical-align: middle;
+}
+
+.button-edit {
+  width: 100%;
+  background-color: #3e7bfa;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.button-keluar {
+  width: 100%;
+  background-color: white;
+  border-color: #cb3a31;
+  color: #cb3a31;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.button-keluar:hover {
+  width: 100%;
+  background-color: #cb3a31;
+  color: white;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.icon-power-off {
+  width: 22px;
+  height: 22px;
+  margin-right: 5px;
+}

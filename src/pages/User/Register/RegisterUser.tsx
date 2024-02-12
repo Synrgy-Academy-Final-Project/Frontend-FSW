@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as Yup from "yup";
@@ -10,15 +10,23 @@ const RegisterUser = () => {
   // const [phone, setPhone] = useState();
   const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{fullname?: string; email?: string; password?: string }>(
-    {}
-  );
+  const [errors, setErrors] = useState<{
+    fullname?: string;
+    email?: string;
+    password?: string;
+  }>({});
 
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 
   const navigate = useNavigate();
 
-
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      alert("Please logout first");
+      navigate("/");
+    }
+  }, []);
 
   const handleRegister = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -41,7 +49,10 @@ const RegisterUser = () => {
       });
 
       // Lakukan validasi menggunakan Yup
-      await schema.validate({ fullname, email, password }, { abortEarly: false });
+      await schema.validate(
+        { fullname, email, password },
+        { abortEarly: false }
+      );
 
       const payload = {
         fullName: fullname,
@@ -50,7 +61,7 @@ const RegisterUser = () => {
         role: "ROLE_USER",
       };
 
-      const response = await fetch(base_url + "/api/v1/auth/register", {
+      const response = await fetch(base_url + "/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -87,9 +98,14 @@ const RegisterUser = () => {
   return (
     <Container fluid>
       <Row>
-        <Col lg={6} className="d-flex flex-column justify-content-between" style={
-          { backgroundColor: 'var(--Primary-Blue, #3e7bfa)', height:'100vh' }
-          } >
+        <Col
+          lg={6}
+          className="d-flex flex-column justify-content-between"
+          style={{
+            backgroundColor: "var(--Primary-Blue, #3e7bfa)",
+            height: "100vh",
+          }}
+        >
           <Logo
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/dba9f4064d49315575cf802f06c628b0a0518710a290c7a56314ddd366a613e9?apiKey=2604b2664f3b46639d3f69d070e760e6&"
@@ -195,9 +211,11 @@ const RegisterUser = () => {
                 </div>
               )}
             </FormGroup>
-            <Button className="my-3" onClick={handleRegister}>Daftar</Button>
+            <Button className="my-3" onClick={handleRegister}>
+              Daftar
+            </Button>
             <p>
-              Sudah Punya Akun? <Login href="/login" >Masuk aja!</Login>
+              Sudah Punya Akun? <Login href="/login">Masuk aja!</Login>
             </p>
           </RegisterForm>
         </Col>
@@ -255,9 +273,10 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   border: 1px solid #c2c2c2;
-  border-radius: 0.5em;
+  border-radius: 10px;
   padding: 0.5em;
   font-size: 14px;
+  height: 56px;
 `;
 
 const Button = styled.button`

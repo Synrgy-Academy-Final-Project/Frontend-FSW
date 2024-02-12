@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../../../components/Footer.tsx";
 import DetailBooking from "../../../components/DetailSection.tsx";
 import DetailHarga from "../../../components/DetailHarga.tsx";
@@ -7,14 +7,102 @@ import styled from "styled-components";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../components/ModalPesanTiket.css";
+import { useLocation } from "react-router";
 
 const DataPenumpang: React.FC = () => {
   const token = localStorage.getItem("token");
+
+  const formatDate = (dateTimeString: string) => {
+    const departureDate = new Date(dateTimeString);
+    const monthNames = new Intl.DateTimeFormat("id-ID", { month: "long" })
+      .formatToParts(departureDate)
+      .find((part) => part.type === "month").value;
+    const day = departureDate.getDate();
+    const year = departureDate.getFullYear();
+
+    const hour = departureDate.getHours();
+    const minute = departureDate.getMinutes();
+
+    return {
+      formattedDate: `${day} ${monthNames} ${year}`,
+      formattedTime: `${hour.toString().padStart(2, "0")}:${minute
+        .toString()
+        .padStart(2, "0")}`,
+    };
+  };
+
+  const calculateDuration = (departureTime: string, arrivalTime: string) => {
+    const departureDate = new Date(departureTime);
+    const arrivalDate = new Date(arrivalTime);
+
+    // Calculate the difference in milliseconds
+    const durationInMilliseconds =
+      arrivalDate.getTime() - departureDate.getTime();
+    // Convert milliseconds to hours and minutes
+    const durationInHours = Math.floor(
+      durationInMilliseconds / (60 * 60 * 1000)
+    );
+    const durationInMinutes = Math.floor(
+      (durationInMilliseconds % (60 * 60 * 1000)) / (60 * 1000)
+    );
+
+    return `${durationInHours} j ${durationInMinutes} m`;
+  };
+
+  const location = useLocation();
+  const { tickets, passengersData } = location.state || {};
+  console.log("ticketss : ", tickets);
+  console.log("passengersData : ", passengersData);
+
+  const [detail, setDetail] = useState({
+    pemesan: {
+      nama: "",
+      ponsel: "",
+      email: "",
+      dateOfBirth: "",
+    },
+    penumpang: {
+      nameAdult: "",
+      nameKids: "",
+      nameBaby: "",
+      dateAdult: "",
+      dateKids: "",
+      dateBaby: "",
+      genAdult: "",
+      genKids: "",
+      genBaby: "",
+      phone: "",
+    },
+  });
+
+  interface pemesanData {
+    nama: string;
+    ponsel: string;
+    email: string;
+    dateOfBirth: string;
+  }
+  interface PenumpangData {
+    index?: number;
+    name?: string;
+    date?: string;
+    gender?: string;
+    type?: string;
+  }
+
+  const handlePemesanChange = (pemesanData: pemesanData) => {
+    // setDetail(pemesanData);
+    console.log("data detail pemesan >>>", pemesanData);
+  };
+  const handlePenumpangChange = (penumpangData: PenumpangData[]) => {
+    // setDetail(detailData);
+    console.log("data detail penumpang >>>", penumpangData);
+  };
+
   return (
     <Container>
       <Row className="align-items-center justify-content-center">
         <Col lg={2}>
-          <img src="src/assets/images/Logo.png" alt="" />
+          <img src="https://i.ibb.co/Tc8PssV/Logo-white.png" alt="logo-white" />
         </Col>
         <Col lg={8}>
           <Row className="align-items-center flex-lg-row flex-column justify-content-center">
@@ -32,9 +120,9 @@ const DataPenumpang: React.FC = () => {
         </Col>
         <Col lg={2}>
           {token ? (
-            <div>
+            <div className="d-flex align-items-center">
               <span className="me-3 fs-5">Akun</span>
-              <img src="src/assets/images/icon-user.png" alt="" />
+              <i className="user-avatar"></i>
             </div>
           ) : (
             <a className="login bg-white bg-opacity-50 rounded-4" href="/login">
@@ -62,22 +150,32 @@ const DataPenumpang: React.FC = () => {
       <Row>
         <Col xl={6}>
           <div>
-            <DetailBooking></DetailBooking>
+            <DetailBooking
+              onPemesanChange={handlePemesanChange}
+              onPenumpangChange={handlePenumpangChange}
+              passengersData={passengersData}
+            ></DetailBooking>
           </div>
         </Col>
         <Col xl={6}>
           <div className="row align-items-center">
             <div className="col text-center my-auto">
               <div className="maskapai">
-                <img src="src/assets/images/XMLID_29_.png" alt="" />
+                <img
+                  src={tickets?.urlLogo}
+                  width={"120px"}
+                  alt={tickets.companyName}
+                />
               </div>
             </div>
             <div className="col text-center pt-3">
               <div>
-                <h4 className="sb-20-b">Jakarta (CGK)</h4>
+                <h4 className="sb-20-b">{tickets?.departureCityCode}</h4>
               </div>
               <div className="date-detail">
-                <h5 className="r-16-b">4 Oktober 2023</h5>
+                <h5 className="r-16-b">
+                  {formatDate(tickets?.departureTime).formattedDate}
+                </h5>
               </div>
             </div>
             <div className="col text-center">
@@ -89,10 +187,12 @@ const DataPenumpang: React.FC = () => {
             </div>
             <div className="col text-center pt-3">
               <div>
-                <h4 className="sb-20-b">Bali (DPS)</h4>
+                <h4 className="sb-20-b">{tickets?.arrivalCityCode}</h4>
               </div>
               <div className="date-detail">
-                <h5 className="r-16-b">4 Oktober 2023</h5>
+                <h5 className="r-16-b">
+                  {formatDate(tickets?.arrivalTime).formattedDate}
+                </h5>
               </div>
             </div>
           </div>
@@ -100,9 +200,18 @@ const DataPenumpang: React.FC = () => {
           <div className="border-detail">
             <div className="row">
               <div className="col-3 text-center d-flex flex-column justify-content-between">
-                <h4 className="sb-20-b">20:15</h4>
-                <h4 className="sb-16-g">2 j 0 m</h4>
-                <h4 className="sb-20-b">22:15</h4>
+                <h4 className="sb-20-b">
+                  {formatDate(tickets?.departureTime).formattedTime}
+                </h4>
+                <h4 className="sb-16-g">
+                  {calculateDuration(
+                    tickets?.departureTime,
+                    tickets?.arrivalTime
+                  )}
+                </h4>
+                <h4 className="sb-20-b">
+                  {formatDate(tickets?.arrivalTime).formattedTime}
+                </h4>
               </div>
               <div className="col-1 d-flex flex-column justify-content-center">
                 <svg height="10" width="10">
@@ -125,10 +234,8 @@ const DataPenumpang: React.FC = () => {
               </div>
               <div className="col-8">
                 <div className="title-dp">
-                  <h4 className="sb-16-b">Jakarta (CGK)</h4>
-                  <p className="r-14-g mb-1">
-                    Soekarno Hatta International Airport
-                  </p>
+                  <h4 className="sb-16-b">{tickets?.departureCityCode}</h4>
+                  <p className="r-14-g mb-1">{tickets?.departureNameAirport}</p>
                 </div>
                 <svg height="2" width="480">
                   <line
@@ -144,26 +251,168 @@ const DataPenumpang: React.FC = () => {
                 <div className="content-dp">
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
-                      <img src="src/assets/images/Shopping Bag.png" alt="" />
+                      <img
+                        src="src/assets/images/Shopping Bag.png"
+                        alt=""
+                        className="pt-1"
+                      />
                     </div>
                     <div className="col-11">
-                      <p className="r-14-b my-2">Bagasi kabin 1 item (7 kg)</p>
+                      <p className="r-14-b my-2">
+                        Bagasi kabin 1 item (
+                        {tickets?.airplaneServices.cabinBaggage} kg)
+                      </p>
                     </div>
                   </div>
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
-                      <img src="src/assets/images/Shopping Bag.png" alt="" />
+                      <img
+                        src="src/assets/images/Shopping Bag.png"
+                        alt=""
+                        className="pt-1"
+                      />
                     </div>
                     <div className="col-11">
-                      <p className="r-14-b my-2">Bagasi 1 item (20 kg)</p>
+                      <p className="r-14-b my-2">
+                        Bagasi 1 item ({tickets?.airplaneServices.baggage} kg)
+                      </p>
                     </div>
                   </div>
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
-                      <img src="src/assets/images/Utensils.png" alt="" />
+                      <img
+                        src="src/assets/images/Utensils.png"
+                        alt=""
+                        className="pt-1"
+                      />
                     </div>
                     <div className="col-11">
-                      <p className="r-14-b my-2">Makanan di pesawat</p>
+                      <p
+                        className={
+                          tickets?.airplaneServices.meals
+                            ? "r-14-b my-2"
+                            : "r-14-g my-2"
+                        }
+                      >
+                        Makanan di pesawat
+                      </p>
+                    </div>
+                  </div>
+                  <div className="row list-dp">
+                    <div className="col-1 justify-content-center">
+                      <img
+                        src="src/assets/images/File Minus.png"
+                        alt=""
+                        className="pt-1"
+                      />
+                    </div>
+                    <div className="col-11">
+                      <p
+                        className={
+                          tickets?.airplaneServices.travelInsurance
+                            ? "r-14-b my-2"
+                            : "r-14-g my-2"
+                        }
+                      >
+                        {tickets?.airplaneServices.travelInsurance
+                          ? "Dengan "
+                          : "Tanpa "}
+                        ansuransi perjalanan
+                      </p>
+                    </div>
+                  </div>
+                  <div className="row list-dp">
+                    <div className="col-1 justify-content-center">
+                      <img
+                        src="src/assets/images/youtube square.png"
+                        alt=""
+                        className="pt-1"
+                      />
+                    </div>
+                    <div className="col-11">
+                      <p
+                        className={
+                          tickets?.airplaneServices.inflightEntertainment
+                            ? "r-14-b my-2"
+                            : "r-14-g my-2"
+                        }
+                      >
+                        Hiburan di pesawat
+                      </p>
+                    </div>
+                  </div>
+                  <div className="row list-dp">
+                    <div className="col-1 justify-content-center">
+                      <img
+                        src="src/assets/images/usb.png"
+                        alt=""
+                        className="pt-1"
+                      />
+                    </div>
+                    <div className="col-11">
+                      <p
+                        className={
+                          tickets?.airplaneServices.electricSocket
+                            ? "r-14-b my-2"
+                            : "r-14-g my-2"
+                        }
+                      >
+                        Stopkontak atau USB
+                      </p>
+                    </div>
+                  </div>
+                  <div className="row list-dp">
+                    <div className="col-1 justify-content-center">
+                      <img
+                        src="src/assets/images/Wifi Slash.png"
+                        alt=""
+                        className="pt-1"
+                      />
+                    </div>
+                    <div className="col-11">
+                      <p
+                        className={
+                          tickets?.airplaneServices.wifi
+                            ? "r-14-b my-2"
+                            : "r-14-g my-2"
+                        }
+                      >
+                        WiFi
+                      </p>
+                    </div>
+                  </div>
+                  <div className="row list-dp">
+                    <div className="col-1">
+                      <img
+                        src="src/assets/images/Calendar Alt.png"
+                        alt=""
+                        className="pt-1"
+                      />
+                    </div>
+                    <div className="col-4">
+                      <p
+                        className={
+                          tickets?.airplaneServices.reschedule
+                            ? "r-14-s my-1"
+                            : "r-14-g my-1"
+                        }
+                      >
+                        {tickets?.airplaneServices.reschedule
+                          ? "Bisa "
+                          : "Tidak bisa "}
+                        reschedule
+                      </p>
+                    </div>
+                    <div className="col-1">
+                      <img
+                        src="src/assets/images/Money Check Edit Alt.png"
+                        alt=""
+                      />
+                    </div>
+                    <div className="col-6">
+                      <p className="r-14-s my-1">
+                        Bisa refund {tickets?.airplaneServices.refund}%
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -179,15 +428,13 @@ const DataPenumpang: React.FC = () => {
                   />
                 </svg>
                 <div className="title-dp">
-                  <h4 className="sb-16-b">Bali (DPS)</h4>
-                  <p className="r-14-g">
-                    I Gusti Ngurah Rai International Airport
-                  </p>
+                  <h4 className="sb-16-b">{tickets?.arrivalCityCode}</h4>
+                  <p className="r-14-g">{tickets?.arrivalNameAirport}</p>
                 </div>
               </div>
             </div>
           </div>
-          <DetailHarga></DetailHarga>
+          <DetailHarga planeData={tickets} bookingData={detail} />
         </Col>
       </Row>
 

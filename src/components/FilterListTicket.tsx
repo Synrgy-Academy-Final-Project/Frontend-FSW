@@ -1,19 +1,68 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./FilterListTicket.css";
 import Slider from "react-slider";
 
 const MIN = 0;
 const MAX = 10000000;
 
-const FilterListTicket: React.FC = () => {
+// interface FilterListTicketProps {
+//   onDepartureTimeChange: (selectedTime: string) => void;
+// }
+
+const FilterListTicket = ({ onDepartureTimeChange, onAmenitiesChange }) => {
   const [values, setValues] = useState<[number, number]>([MIN, MAX]);
+  const [selectedTime, setSelectedTime] = useState<string>("");
+
+  const handleDepartureTimeClick = (selectedTime) => {
+    // Panggil callback dan kirimkan data waktu keberangkatan
+    console.log(amenities);
+    onDepartureTimeChange(selectedTime, amenities);
+    setSelectedTime(selectedTime);
+  };
+
+  const [amenities, setAmenities] = useState({
+    bagasi: false,
+    hiburan: false,
+    makanan: false,
+    stopkontak: false,
+    wifi: false,
+    reschedule: false,
+  });
+
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    const newAmenities = { ...amenities, [name]: checked };
+    setAmenities(newAmenities);
+    console.log(selectedTime);
+    // Panggil callback dan kirimkan data waktu keberangkatan serta fasilitas yang baru
+    onAmenitiesChange(newAmenities, selectedTime); // Tambahkan selectedTime di sini
+  };
+
+  const handleResetFilter = () => {
+    // Reset waktu keberangkatan
+    setSelectedTime("");
+    // Reset fasilitas (amenities)
+    setAmenities({
+      bagasi: false,
+      hiburan: false,
+      makanan: false,
+      stopkontak: false,
+      wifi: false,
+      reschedule: false,
+    });
+    // Panggil callback untuk memberitahu perubahan filter
+    onDepartureTimeChange(""); // Kosongkan waktu keberangkatan
+    onAmenitiesChange({}); // Kosongkan fasilitas
+  };
 
   return (
     <div className="listContainer">
       {/* Filter Header */}
       <div className="lsHeader">
         <h2 className="textH2">Filter</h2>
-        <h2 className="resetBtn">Reset</h2>
+        <button className="resetBtn" onClick={handleResetFilter}>
+          Reset
+        </button>
       </div>
 
       <div className="lsContent">
@@ -22,28 +71,52 @@ const FilterListTicket: React.FC = () => {
           <h2 className="textH2">Waktu keberangkatan</h2>
           <div className="timeWrapper">
             <div className="timeRow">
-              <div className="timeCard">
-                <img src="./images/ic_morning.png" alt="ic_morning" />
-                <h3 className="textH3">Pagi</h3>
-                <h4 className="textH4">00:00 - 11:59</h4>
+              <div
+                className={`timeCard ${
+                  selectedTime === "pagi" ? "selected" : ""
+                }`}
+              >
+                <button onClick={() => handleDepartureTimeClick("pagi")}>
+                  <img src="./images/ic_morning.png" alt="ic_morning" />
+                  <h3 className="textH3">Pagi</h3>
+                  <h4 className="textH4">00:00 - 11:59</h4>
+                </button>
               </div>
-              <div className="timeCard">
-                <img src="./images/ic_noon.png" alt="ic_noon" />
-                <h3 className="textH3">Siang</h3>
-                <h4 className="textH4">12:00 - 14:59</h4>
+              <div
+                className={`timeCard ${
+                  selectedTime === "siang" ? "selected" : ""
+                }`}
+              >
+                <button onClick={() => handleDepartureTimeClick("siang")}>
+                  <img src="./images/ic_noon.png" alt="ic_noon" />
+                  <h3 className="textH3">Siang</h3>
+                  <h4 className="textH4">12:00 - 14:59</h4>
+                </button>
               </div>
             </div>
 
             <div className="timeRow">
-              <div className="timeCard">
-                <img src="./images/ic_afternoon.png" alt="ic_afternoon" />
-                <h3 className="textH3">Sore</h3>
-                <h4 className="textH4">15:00 - 17:59</h4>
+              <div
+                className={`timeCard ${
+                  selectedTime === "sore" ? "selected" : ""
+                }`}
+              >
+                <button onClick={() => handleDepartureTimeClick("sore")}>
+                  <img src="./images/ic_afternoon.png" alt="ic_afternoon" />
+                  <h3 className="textH3">Sore</h3>
+                  <h4 className="textH4">15:00 - 17:59</h4>
+                </button>
               </div>
-              <div className="timeCard">
-                <img src="./images/ic_night.png" alt="ic_night" />
-                <h3 className="textH3">Malam</h3>
-                <h4 className="textH4">18:00 - 23:59</h4>
+              <div
+                className={`timeCard ${
+                  selectedTime === "malam" ? "selected" : ""
+                }`}
+              >
+                <button onClick={() => handleDepartureTimeClick("malam")}>
+                  <img src="./images/ic_night.png" alt="ic_night" />
+                  <h3 className="textH3">Malam</h3>
+                  <h4 className="textH4">18:00 - 23:59</h4>
+                </button>
               </div>
             </div>
           </div>
@@ -59,9 +132,9 @@ const FilterListTicket: React.FC = () => {
               onChange={(values: number | number[] | null) => {
                 if (values !== null && !Array.isArray(values)) {
                   setValues([values, MAX]);
-                  console.log("log 1",values)
+                  console.log("log 1", values);
                 } else if (Array.isArray(values)) {
-                  setValues([values[0],values[1]]);
+                  setValues([values[0], values[1]]);
                   console.log("log 2", values);
                 }
               }}
@@ -131,35 +204,65 @@ const FilterListTicket: React.FC = () => {
           <div className="NolContent">
             <div className="NolWrapper">
               <div className="checkContent">
-                <input type="checkbox" name="bagasi" id="bagasi" />
+                <input
+                  type="checkbox"
+                  name="bagasi"
+                  id="bagasi"
+                  checked={amenities.bagasi}
+                  onChange={handleCheckboxChange}
+                />
                 <label htmlFor="bagasi">Bagasi</label>
               </div>
               <img src="./images/ic_shopping_bag.png" alt="shopping_bag" />
             </div>
             <div className="NolWrapper">
               <div className="checkContent">
-                <input type="checkbox" name="hiburan" id="hiburan" />
+                <input
+                  type="checkbox"
+                  name="hiburan"
+                  id="hiburan"
+                  checked={amenities.hiburan}
+                  onChange={handleCheckboxChange}
+                />
                 <label htmlFor="hiburan">Hiburan di pesawat</label>
               </div>
               <img src="./images/ic_youtube_square.png" alt="youtube_square" />
             </div>
             <div className="NolWrapper">
               <div className="checkContent">
-                <input type="checkbox" name="makanan" id="makanan" />
+                <input
+                  type="checkbox"
+                  name="makanan"
+                  id="makanan"
+                  checked={amenities.makanan}
+                  onChange={handleCheckboxChange}
+                />
                 <label htmlFor="makanan">Makanan di pesawat</label>
               </div>
               <img src="./images/ic_utensils.png" alt="utensils" />
             </div>
             <div className="NolWrapper">
               <div className="checkContent">
-                <input type="checkbox" name="stopkontak" id="stopkontak" />
+                <input
+                  type="checkbox"
+                  name="stopkontak"
+                  id="stopkontak"
+                  checked={amenities.stopkontak}
+                  onChange={handleCheckboxChange}
+                />
                 <label htmlFor="stopkontak">Stopkontak atau USB</label>
               </div>
               <img src="./images/ic_usb.png" alt="usb" />
             </div>
             <div className="NolWrapper">
               <div className="checkContent">
-                <input type="checkbox" name="wifi" id="wifi" />
+                <input
+                  type="checkbox"
+                  name="wifi"
+                  id="wifi"
+                  checked={amenities.wifi}
+                  onChange={handleCheckboxChange}
+                />
                 <label htmlFor="wifi">Wifi</label>
               </div>
               <img src="./images/ic_wifi.png" alt="wifi" />
@@ -176,7 +279,13 @@ const FilterListTicket: React.FC = () => {
               <label htmlFor="refund">Refund</label>
             </div>
             <div className="checkContent">
-              <input type="checkbox" name="reschedule" id="reschedule" />
+              <input
+                type="checkbox"
+                name="reschedule"
+                id="reschedule"
+                checked={amenities.reschedule}
+                onChange={handleCheckboxChange}
+              />
               <label htmlFor="reschedule">Reschedule</label>
             </div>
           </div>
