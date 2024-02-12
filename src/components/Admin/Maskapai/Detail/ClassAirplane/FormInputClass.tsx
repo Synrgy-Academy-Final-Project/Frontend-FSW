@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import Select from 'react-select';
 
 const Form = styled.form`
-  width: 97%;
-  margin-left: 15px;
+  width: calc(100% - 30px); // Mengurangi lebar untuk mengakomodasi margin
+  margin: 0 auto; // Untuk memusatkan form
   display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(3, 1fr); // 3 columns
+  grid-template-columns: 1fr 1fr auto; // Dua kolom untuk input, satu untuk tombol
   gap: 16px;
   background: #FFFFFF;
   padding: 16px;
@@ -25,6 +24,14 @@ const Label = styled.label`
   color: #333;
   margin-bottom: 8px;
 `;
+const Heading = styled.h2`
+  grid-column: 1 / -1;
+  color: #1C1C1E;
+  font-size: 16px;
+  margin-bottom: 3px;
+  font-weight: bold;
+`;
+
 
 const Input = styled.input`
   padding: 10px;
@@ -50,6 +57,11 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url('https://i.ibb.co/qDj4NNC/Plus.png');
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 20px;
+  text-indent: 20px;
 
   &:hover {
     background-color: #2a5db0;
@@ -113,6 +125,7 @@ const FormInputClass = ({ airplaneId, onAddSuccess })  => {
 
     return (
         <Form onSubmit={handleSubmit}>
+            <Heading>Kelas Pesawat</Heading>
             <InputGroup>
                 <Label>Kelas Pesawat</Label>
                 <Select
