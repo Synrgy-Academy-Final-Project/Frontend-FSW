@@ -9,7 +9,11 @@ const MAX = 10000000;
 //   onDepartureTimeChange: (selectedTime: string) => void;
 // }
 
-const FilterListTicket = ({ onDepartureTimeChange, onAmenitiesChange }) => {
+const FilterListTicket = ({
+  onDepartureTimeChange,
+  onAmenitiesChange,
+  onPriceChange,
+}) => {
   const [values, setValues] = useState<[number, number]>([MIN, MAX]);
   const [selectedTime, setSelectedTime] = useState<string>("");
 
@@ -50,9 +54,11 @@ const FilterListTicket = ({ onDepartureTimeChange, onAmenitiesChange }) => {
       wifi: false,
       reschedule: false,
     });
+    setValues([MIN, MAX]);
     // Panggil callback untuk memberitahu perubahan filter
     onDepartureTimeChange(""); // Kosongkan waktu keberangkatan
     onAmenitiesChange({}); // Kosongkan fasilitas
+    onPriceChange([MIN, MAX]);
   };
 
   return (
@@ -132,10 +138,10 @@ const FilterListTicket = ({ onDepartureTimeChange, onAmenitiesChange }) => {
               onChange={(values: number | number[] | null) => {
                 if (values !== null && !Array.isArray(values)) {
                   setValues([values, MAX]);
-                  console.log("log 1", values);
+                  onPriceChange([values, MAX]); // Kirim nilai harga yang baru ke TicketList
                 } else if (Array.isArray(values)) {
                   setValues([values[0], values[1]]);
-                  console.log("log 2", values);
+                  onPriceChange([values[0], values[1]]);
                 }
               }}
               value={values}

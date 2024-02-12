@@ -67,8 +67,8 @@ const DataPenumpang: React.FC = () => {
     gender?: string;
     type?: string;
   }
-  const [penumpangData, setPenumpangData] = useState<PenumpangData[]>([])
-  const [pemesanData, setPemesanData] = useState<pemesanData>()
+  const [penumpangData, setPenumpangData] = useState<PenumpangData[]>([]);
+  const [pemesanData, setPemesanData] = useState<pemesanData>();
   const handlePemesanChange = (pemesanData: pemesanData) => {
     setPemesanData(pemesanData);
     console.log("data detail pemesan >>>", pemesanData);
@@ -81,8 +81,8 @@ const DataPenumpang: React.FC = () => {
   const bookingData = {
     tickets: tickets,
     pemesan: pemesanData,
-    penumpang: penumpangData
-  }
+    penumpang: penumpangData,
+  };
 
   return (
     <Container>

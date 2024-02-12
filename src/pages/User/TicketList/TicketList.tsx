@@ -200,7 +200,7 @@ export default function TicketList() {
 
     // Simpan kembali data penumpang yang diperbarui ke dalam state
     setPassengersData(updatedPassengersData);
-    handleSearch("", {}, updatedPassengersData);
+    handleSearch("", {}, updatedPassengersData, []);
   };
 
   const handleDropdown = () => {
@@ -294,12 +294,21 @@ export default function TicketList() {
 
   const handleDepartureTimeChange = (selectedTime, amenities) => {
     console.log("Waktu keberangkatan yang dipilih:", selectedTime, amenities);
-    handleSearch(selectedTime, amenities, []);
+    handleSearch(selectedTime, amenities, [], []);
   };
 
   const handleAmenitiesChange = (amenities, selectedTime) => {
     console.log("Fasilitas yang dipilih:", amenities, selectedTime);
-    handleSearch(selectedTime, amenities, []);
+    handleSearch(selectedTime, amenities, [], []);
+  };
+
+  const [selectedPrice, setSelectedPrice] =
+    useState<{ min: number; max: number }[]>();
+
+  const handlePriceChange = (price: { min: number; max: number }[]) => {
+    setSelectedPrice(price);
+    console.log(selectedPrice);
+    handleSearch(selectedTime, amenities, [], selectedPrice);
   };
 
   // const passengersData = [];
@@ -522,7 +531,7 @@ export default function TicketList() {
                     <Col className="pe-0">
                       <Accordion
                         defaultActiveKey="null"
-                        className="rounded-star"
+                        className="rounded-start"
                       >
                         <Accordion.Item
                           eventKey="0"
@@ -574,7 +583,7 @@ export default function TicketList() {
                   <div className="text-center">
                     <Button
                       className=""
-                      onClick={() => handleSearch("", {}, [])}
+                      onClick={() => handleSearch("", {}, [], [])}
                     >
                       <span className="px-4 text-white">Cari Tiket</span>
                     </Button>
@@ -593,6 +602,7 @@ export default function TicketList() {
             <FilterListTicket
               onDepartureTimeChange={handleDepartureTimeChange}
               onAmenitiesChange={handleAmenitiesChange}
+              onPriceChange={handlePriceChange}
             />
           </div>
           <div className="col-8">{renderContent()}</div>
