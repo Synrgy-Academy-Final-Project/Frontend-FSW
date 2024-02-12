@@ -28,7 +28,6 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  padding: 10px;
   padding-right: 30px;
   border: 1px solid #ccc;
   border-radius: 8px;

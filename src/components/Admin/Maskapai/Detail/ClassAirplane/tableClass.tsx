@@ -136,7 +136,7 @@ const PageNumber = styled.span`
 
 const itemsPerPage = 3;
 
-const TableClass = ({ airplaneId,refreshTable,onRefresh   }) => {
+const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -183,7 +183,7 @@ const TableClass = ({ airplaneId,refreshTable,onRefresh   }) => {
                 setError(error.message);
                 setLoading(false);
             });
-    }, [airplaneId,refreshTable]);
+    }, [airplaneId, refreshTable]);
 
     const totalPages = Math.ceil(classData.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -234,7 +234,8 @@ const TableClass = ({ airplaneId,refreshTable,onRefresh   }) => {
             .then(response => {
                 if (response.status === 200) {
                     console.log('Item deleted successfully');
-                    onRefresh();
+                    alert('Data berhasil dihapus');
+                    onRefresh(); // Memperbarui tabel setelah item berhasil dihapus
                 } else if (response.status === 401) {
                     throw new Error('Invalid Token');
                 } else if (response.status === 404) {
@@ -249,8 +250,11 @@ const TableClass = ({ airplaneId,refreshTable,onRefresh   }) => {
             })
             .catch(error => {
                 setError(error.message);
+                alert('Terjadi kesalahan: ' + error.message);
             });
     };
+
+
 
     // ################################################
     // PATCH API

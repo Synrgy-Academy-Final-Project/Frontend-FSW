@@ -1,13 +1,13 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes } from "react-router-dom";
 
 // Admin
-import LoginAdmin from '././pages/Admin/Login/LoginAdmin.tsx'
-import Dashboard from './components/Admin/Dashboard.tsx'
-import IndexBandara from './components/Admin/indexBandara.tsx'
-import IndexMaskapai from './components/Admin/indexMaskapai.tsx'
-import IndexTanggal from './components/Admin/indexTanggal.tsx'
-import IndexTransaksi from './components/Admin/indexTransaksi.tsx'
-import IndexDetailPesawat from './components/Admin/indexDetailPesawat.tsx'
+import LoginAdmin from "././pages/Admin/Login/LoginAdmin.tsx";
+import Dashboard from "./components/Admin/Dashboard.tsx";
+import IndexBandara from "./components/Admin/indexBandara.tsx";
+import IndexMaskapai from "./components/Admin/indexMaskapai.tsx";
+import IndexTanggal from "./components/Admin/indexTanggal.tsx";
+import IndexTransaksi from "./components/Admin/indexTransaksi.tsx";
+import IndexDetailPesawat from "./components/Admin/indexDetailPesawat.tsx";
 // user
 import TicketSearch from './components/TicketSearch'
 import ETicket from './pages/User/eticketpage/eticketpage.tsx'
@@ -50,7 +50,7 @@ function App() {
         <Route path='/profile-edit' element={<ProfileEdit />} />
         <Route path='/informasiProfile' element={<InformationProfile />} />
         {/* <ProtectedRoute path="/profile-edit" element={<ProfileEdit />} /> */}
-        <Route path='/detailpembayaran' element={<PembayaranPage />} />
+        <Route path="/detailpembayaran" element={<PembayaranPage />} />
 
         {/* Components */}
         <Route path='/formprofile' element={<FormProfile />} />
@@ -70,6 +70,6 @@ function App() {
         <Route path='/verify-account-forgot' element={<OTPVerification />} />
       </Routes>
     </>
-  )
+  );
 }
-export default App
+export default App;
