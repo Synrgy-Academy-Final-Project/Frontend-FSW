@@ -49,14 +49,14 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
 
   const today = new Date();
   const minDateKids = new Date(
-    today.getFullYear() - 9,
+    today.getFullYear() - 11,
     today.getMonth(),
     today.getDate()
   )
     .toISOString()
     .split("T")[0];
   const minDateBaby = new Date(
-    today.getFullYear() - 2,
+    today.getFullYear() - 3,
     today.getMonth(),
     today.getDate()
   )
@@ -110,7 +110,7 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
         passengerIndex = i;
       } else if (j === 1 || passengerType == "child") {
         countChild = count;
-        passengerIndex = countAdult;
+        passengerIndex = countAdult + i;
       } else if (j === 2 || passengerType == "baby") {
         countBaby = count;
         passengerIndex = countAdult + countChild + i;
@@ -135,7 +135,6 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
 
     setDetailPassenger(newDetailPassenger);
   };
-  console.log("detailpassengger : ", detailpassengger);
 
   let dewasaCounter = 0;
   let anakCounter = 0;
@@ -258,6 +257,7 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
                         <Input
                           type="date"
                           placeholder="dd/mm/yy"
+                          max={minDateKids}
                           required
                           onChange={(e) =>
                             handleInputChange(
@@ -365,14 +365,14 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
 
                       <FormInput>
                         <RegulerTextNeutral>
-                          Anak - anak usia 2 - 11 tahun
+                          Anak - anak usia 3 - 11 tahun
                           <StarIcon>*</StarIcon>
                         </RegulerTextNeutral>
                         <Input
                           type="date"
                           placeholder="dd/mm/yy"
                           min={minDateKids}
-                          max={today.toISOString().split("T")[0]}
+                          max={minDateBaby}
                           onChange={(e) =>
                             handleInputChange(
                               e,
@@ -456,7 +456,7 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
 
                       <FormInput>
                         <RegulerTextNeutral>
-                          Anak - anak usia 2 - 11 tahun
+                          Bayi usia maksimal 3 tahun
                           <StarIcon>*</StarIcon>
                         </RegulerTextNeutral>
                         <Input
