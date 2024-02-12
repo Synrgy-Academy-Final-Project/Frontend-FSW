@@ -522,7 +522,7 @@ export default function TicketList() {
                     <Col className="pe-0">
                       <Accordion
                         defaultActiveKey="null"
-                        className="rounded-star"
+                        className="rounded-start"
                       >
                         <Accordion.Item
                           eventKey="0"

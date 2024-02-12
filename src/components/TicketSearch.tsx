@@ -200,7 +200,7 @@ export default function TicketSearch() {
           <Row className="mb-3 pt-2">
             <Col></Col>
             <Col className="pe-0">
-              <Accordion defaultActiveKey="null" className="rounded-star">
+              <Accordion defaultActiveKey="null" className="rounded-start">
                 <Accordion.Item
                   eventKey="0"
                   className="d-flex flex-column border-0"
@@ -213,9 +213,8 @@ export default function TicketSearch() {
                       <p>Penumpang</p>
                     </div>
                   </AccordionHeader>
-                  <Accordion.Body className="p-0">
-                    <DropdownPassenger onChangeCount={(count, type) => {}}>
-                    </DropdownPassenger>
+                  <Accordion.Body className="p-0 border-r">
+                    <DropdownPassenger onChangeCount={(count, type) => {}}/>
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>

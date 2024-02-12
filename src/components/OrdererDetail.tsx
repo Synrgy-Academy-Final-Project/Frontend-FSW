@@ -38,7 +38,7 @@ const OrdererDetail: React.FC<OrdererDetailProps> = ({ Pemesan }) => {
         },
       })
       const responseJson = await response.json()
-
+      
       if (response.status === 500) {
         localStorage.removeItem('token');
       } else if (response.status === 200) {
