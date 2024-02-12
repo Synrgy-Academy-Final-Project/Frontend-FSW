@@ -40,10 +40,12 @@ const FormCodePromo: React.FC<DiscountProps> = ({ onDiscountChange }) => {
         setDiscount(data?.data.discount);
         setPromoStatus('success');
       } else {
+        setDiscount(0);
         setPromoStatus('secondary');
       }
     } catch (error) {
       console.error('Error fetching promo:', error);
+      setDiscount(0);
       setPromoStatus('danger');
     }
     setTimeout(() => {

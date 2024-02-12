@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import "./DetailHarga.css";
 
-const DetailHarga = ({ planeData, bookingData }) => {
+const DetailHarga = ({ bookingData }) => {
   const navigate = useNavigate();
-  const price = planeData?.totalPrice
+  const price = bookingData?.tickets.totalPrice
 
   const formatPrice = (price: number) => {
     const formattedPrice = new Intl.NumberFormat("id-ID", {
@@ -18,29 +18,26 @@ const DetailHarga = ({ planeData, bookingData }) => {
   };
 
   const pajak = 15000
-  let hargaKids = 0;
-  let hargaBaby = 0;
-  if (bookingData?.penumpang.nameKids !== "") {
-    hargaKids = price
-  }
-  if (bookingData?.penumpang.nameBaby !== "") {
-    hargaBaby = parseInt((price * 0.2).toFixed(0))
-  }
+  const hargaKids = price;
+  const hargaBaby = parseInt((price * 0.2).toFixed(0));
 
   const handleSubmit = () => {
     const fixData = {
-      pesawat: planeData,
+      tickets: bookingData?.tickets,
       pemesan : bookingData?.pemesan,
       penumpang : bookingData?.penumpang,
       harga : {
-        base: price + hargaKids + hargaBaby,
         adult: price,
         kids: hargaKids,
         baby: hargaBaby,
       }
     }
-    localStorage.setItem('bookingData', JSON.stringify(fixData));
-    navigate('/detailpembayaran');
+    // localStorage.setItem('bookingData', JSON.stringify(fixData));
+    navigate('/detailpembayaran', {
+      state: {
+        bookingData: fixData
+      },
+    });
   };
 
   return (
@@ -73,7 +70,7 @@ const DetailHarga = ({ planeData, bookingData }) => {
             className="btn button-harga"
             onClick={handleSubmit}
           >
-            Sumbit
+            Submit
           </div>
         </Card.Body>
       </div>
