@@ -93,7 +93,7 @@ function App() {
         {/* <Route path='/detailharga' element={<DetailHarga />} /> */}
         {/* component cardtiket not found */}
         {/* <Route path='/cardtiket' element={<CardTicket />} /> */}
-        <Route path="/cek2" element={<DropdownClass />} />
+        {/* <Route path="/cek2" element={<DropdownClass />} /> */}
         <Route path="/verify-account-forgot" element={<OTPVerification />} />
         {/* missing props */}
         {/* <Route path='/detailsectionpayment' element={<DetailSectionPayment />} /> */}
