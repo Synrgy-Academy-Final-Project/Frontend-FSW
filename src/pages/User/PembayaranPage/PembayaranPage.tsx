@@ -8,6 +8,7 @@ import DetailSectionPayment from "../../../components/DetailSectionPayment";
 import FormPembayaran from "../../../components/FormPembayaran";
 import Footer from "../../../components/Footer";
 import FormCodePromo from "../../../components/FormCodePromo";
+import { useLocation } from "react-router";
 
 const TextBullet = styled.p`
   font: var(--fwregular) 16px/110% Open Sans, sans-serif;
@@ -47,25 +48,26 @@ const Line = styled.div`
 
 export default function PembayaranPage() {
   const token = localStorage.getItem("token");
-  const bookingDataString = localStorage.getItem("bookingData");
-  const bookingData = JSON.parse(bookingDataString);
+  // const bookingDataString = localStorage.getItem("bookingData");
+  // const bookingData = JSON.parse(bookingDataString);
   const [discount, setDiscount] = useState({
     value: 0,
     promoCode: ""
   });
+
+  const location = useLocation();
+  const { bookingData } = location.state || {};
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDiscountChange = (discountData: any) => {
     setDiscount(discountData);
   };
 
-  const hargaDiscount =  parseInt((bookingData?.harga.base * (discount?.value/100)).toFixed(0))
   const hargaAwal = {
-    pajak: 500000,
-    asuransi: 75000
+    admin: 15000,
+    asuransi: 0
   };
-  const totalHarga = (bookingData?.harga.adult + bookingData?.harga.kids + bookingData?.harga.baby + hargaAwal?.pajak + hargaAwal?.asuransi)
-  const bayar = totalHarga - hargaDiscount
+  const jumlahPenumpang = bookingData?.penumpang.length
   
   return (
     <>
@@ -112,13 +114,13 @@ export default function PembayaranPage() {
             <DetailSectionPayment bookingData={bookingData}/>
           </Col>
           <Col lg={6}>
-            <DetailPerjalanan pesawat={bookingData?.pesawat}/>
+            <DetailPerjalanan penumpang={jumlahPenumpang} pesawat={bookingData?.tickets}/>
             <FormCodePromo onDiscountChange={handleDiscountChange} />
-            <DetailHargaPay harga={bookingData?.harga} diskon={hargaDiscount} total={totalHarga} />
+            <DetailHargaPay penumpang={bookingData?.penumpang} harga={bookingData?.harga} diskon={discount}/>
           </Col>
         </Row>
         <Row>
-          <FormPembayaran bookingData={bookingData} discount={discount} bayar={bayar}/>
+          <FormPembayaran bookingData={bookingData} discount={discount}/>
         </Row>
         {/* </div>
       <div className="row">

@@ -54,27 +54,6 @@ const DataPenumpang: React.FC = () => {
   console.log("ticketss : ", tickets);
   console.log("passengersData : ", passengersData);
 
-  const [detail, setDetail] = useState({
-    pemesan: {
-      nama: "",
-      ponsel: "",
-      email: "",
-      dateOfBirth: "",
-    },
-    penumpang: {
-      nameAdult: "",
-      nameKids: "",
-      nameBaby: "",
-      dateAdult: "",
-      dateKids: "",
-      dateBaby: "",
-      genAdult: "",
-      genKids: "",
-      genBaby: "",
-      phone: "",
-    },
-  });
-
   interface pemesanData {
     nama: string;
     ponsel: string;
@@ -88,15 +67,22 @@ const DataPenumpang: React.FC = () => {
     gender?: string;
     type?: string;
   }
-
+  const [penumpangData, setPenumpangData] = useState<PenumpangData[]>([])
+  const [pemesanData, setPemesanData] = useState<pemesanData>()
   const handlePemesanChange = (pemesanData: pemesanData) => {
-    // setDetail(pemesanData);
+    setPemesanData(pemesanData);
     console.log("data detail pemesan >>>", pemesanData);
   };
   const handlePenumpangChange = (penumpangData: PenumpangData[]) => {
-    // setDetail(detailData);
+    setPenumpangData(penumpangData);
     console.log("data detail penumpang >>>", penumpangData);
   };
+
+  const bookingData = {
+    tickets: tickets,
+    pemesan: pemesanData,
+    penumpang: penumpangData
+  }
 
   return (
     <Container>
@@ -434,7 +420,7 @@ const DataPenumpang: React.FC = () => {
               </div>
             </div>
           </div>
-          <DetailHarga planeData={tickets} bookingData={detail} />
+          <DetailHarga bookingData={bookingData} />
         </Col>
       </Row>
 

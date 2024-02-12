@@ -1,7 +1,7 @@
 import { Button, Card, Container, Row, Col } from "react-bootstrap";
 import "./DetailPerjalanan.css";
 
-const DetailPerjalanan = ({ pesawat }) => {
+const DetailPerjalanan = ({ penumpang, pesawat }) => {
   const formatDate = (dateTimeString: string) => {
     const departureDate = new Date(dateTimeString);
     const monthNames = new Intl.DateTimeFormat("id-ID", { month: "long" })
@@ -82,7 +82,7 @@ const DetailPerjalanan = ({ pesawat }) => {
           <Row className="row-list pt-3 px-4">
             <Col md={4}>
               <ul>
-                <li>3 Penumpang</li>
+                <li>{penumpang} Penumpang</li>
               </ul>
             </Col>
             <Col md={4}>
