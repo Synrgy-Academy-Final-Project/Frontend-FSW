@@ -37,51 +37,51 @@ import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
 
 function App() {
   return (
-    <>
-      <Routes>
-        {/* page */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/header" element={<Header />} />
-        <Route path="/login" element={<LoginUser />} />
-        <Route path="/register" element={<RegisterUser />} />
-        <Route path="/list-ticket" element={<TicketList />} />
-        <Route path="/datapenumpang" element={<DataPenumpang />} />
-        <Route path="/verify-account" element={<VerifyAccount />} />
-        <Route path="/forget-password" element={<ForgetPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/pesanan" element={<PesananPage />} />
+      <>
+        <Routes>
+          {/* page */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/header" element={<Header />} />
+          <Route path="/login" element={<LoginUser />} />
+          <Route path="/register" element={<RegisterUser />} />
+          <Route path="/list-ticket" element={<TicketList />} />
+          <Route path="/datapenumpang" element={<DataPenumpang />} />
+          <Route path="/verify-account" element={<VerifyAccount />} />
+          <Route path="/forget-password" element={<ForgetPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/pesanan" element={<PesananPage />} />
 
-        {/* Components */}
-        <Route path="/filterListTicket" element={<FilterListTicket />} />
-        <Route path="/eticket-comp" element={<ETicket />} />
-        <Route path="/detailperjalanan" element={<DetailPerjalanan />} />
-        <Route path="/modalkonfirmasi" element={<ModalKonfirmasi />} />
-        <Route path="/formprofile" element={<FormProfile />} />
+          {/* Components */}
+          <Route path="/filterListTicket" element={<FilterListTicket />} />
+          <Route path="/eticket-comp" element={<ETicket />} />
+          <Route path="/detailperjalanan" element={<DetailPerjalanan />} />
+          <Route path="/modalkonfirmasi" element={<ModalKonfirmasi />} />
+          <Route path="/formprofile" element={<FormProfile />} />
 
-        {/*Admin*/}
+          {/*Admin*/}
 
-        <Route path='/login-admin' element={<LoginAdmin />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/airport' element={<IndexBandara />} />
-        <Route path='/airline' element={<IndexMaskapai />} />
-        <Route path='/departure-date' element={<IndexTanggal />} />
-        <Route path='/transaction' element={<IndexTransaksi />} />
-        <Route path='/detail-airline/:id' element={<IndexDetailPesawat />} />
+          <Route path='/login-admin' element={<LoginAdmin />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/airport' element={<IndexBandara />} />
+          <Route path='/airline' element={<IndexMaskapai />} />
+          <Route path='/departure-date' element={<IndexTanggal />} />
+          <Route path='/transaction' element={<IndexTransaksi />} />
+          <Route path='/detail-airline/:id' element={<IndexDetailPesawat />} />
 
-        <Route path="/ticketsearch" element={<TicketSearch />} />
-        <Route path="/modalticket" element={<ModalPesanTiket />} />
-        <Route path="/detailticket" element={<DetailTicket />} />
-        <Route path="/detailsection" element={<DetailSection />} />
-        <Route path="/detailharga" element={<DetailHarga />} />
-        <Route path="/cardtiket" element={<CardTicket />} />
-        <Route path="/cek2" element={<DropdownClass />} />
-        <Route path="/verify-account-forgot" element={<OTPVerification />} />
-        <Route
-          path="/detailsectionpayment"
-          element={<DetailSectionPayment />}
-        />
-      </Routes>
-    </>
+          <Route path="/ticketsearch" element={<TicketSearch />} />
+          <Route path="/modalticket" element={<ModalPesanTiket />} />
+          <Route path="/detailticket" element={<DetailTicket />} />
+          <Route path="/detailsection" element={<DetailSection />} />
+          <Route path="/detailharga" element={<DetailHarga />} />
+          <Route path="/cardtiket" element={<CardTicket />} />
+          <Route path="/cek2" element={<DropdownClass />} />
+          <Route path="/verify-account-forgot" element={<OTPVerification />} />
+          <Route
+              path="/detailsectionpayment"
+              element={<DetailSectionPayment />}
+          />
+        </Routes>
+      </>
   );
 }
 

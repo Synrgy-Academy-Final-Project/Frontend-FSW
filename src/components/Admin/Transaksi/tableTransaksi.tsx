@@ -103,7 +103,6 @@ const StatusBadge = styled.span`
   color: white;
   font-weight: bold;
   width: 100px;
-
   &.sukses {
     background-color: #28a745;
   }
@@ -115,6 +114,14 @@ const StatusBadge = styled.span`
 
   &.gagal {
     background-color: #dc3545;
+  }
+
+  &.pending {
+    background-color: #007bff;
+  }
+
+  &.expire {
+    background-color: #6c757d;
   }
 `;
 
@@ -130,6 +137,10 @@ const getStatusClassName = (status) => {
             return 'refund';
         case 'failure':
             return 'gagal';
+        case 'pending':
+            return 'pending';
+        case 'expire':
+            return 'expire';
         default:
             return '';
     }

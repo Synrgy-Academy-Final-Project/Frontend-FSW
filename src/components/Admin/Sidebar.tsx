@@ -66,44 +66,48 @@ const MenuSidebar1 = styled.a`
   //}
 `;
 const Sidebar = styled.div`
-  width: 300px;
+  width: 320px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-end;
+  justify-content: flex-start; // Align items to the start instead of the end
   text-align: center;
   font-size: 16px;
   font-family: "Font Awesome 5 Pro";
+  background-color: #3e7bfa; // Add background color here if Sidebar1 is not wrapping all contents
+  min-height: 100vh; // Make sure it stretches full height
 
   @media (max-width: 768px) {
     width: 200px;
   }
 
   @media (max-width: 480px) {
-    width: 100%; 
+    width: 100%;
     position: absolute;
     z-index: 10;
   }
 `;
+
 const Sidebar1 = styled.div`
   background-color: #3e7bfa;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 40px;
+  flex-grow: 1;
 `;
 
 const DashboardRoot = styled.div`
   position: relative;
   background-color: #f5f5f9;
   //width: 100%;
-  height: 1024px;
+  min-height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: flex-start;
   text-align: left;
   font-size: 32px;
