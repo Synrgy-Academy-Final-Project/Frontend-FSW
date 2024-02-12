@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import Select from 'react-select';
 
 const Form = styled.form`
-  width: calc(100% - 30px); // Mengurangi lebar untuk mengakomodasi margin
-  margin: 0 auto; // Untuk memusatkan form
+  width: calc(100% - 30px);
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr auto; // Dua kolom untuk input, satu untuk tombol
+  grid-template-columns: 1fr 1fr auto; 
   gap: 16px;
   background: #FFFFFF;
   padding: 16px;
