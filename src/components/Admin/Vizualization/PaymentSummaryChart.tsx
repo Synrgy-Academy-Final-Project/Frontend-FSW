@@ -1,15 +1,15 @@
-// PaymentSummaryChart.tsx
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactEcharts from 'echarts-for-react';
-
-interface PaymentData {
-    [key: string]: PaymentItem[];
-}
+import * as echarts from 'echarts/core';
 
 interface PaymentItem {
     transactionStatus: string;
     transactionAmount: number;
+}
+
+interface PaymentData {
+    [key: string]: PaymentItem[];
 }
 
 interface PaymentResponse {
@@ -21,21 +21,23 @@ interface Props {
     setFailureAmount: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const getStatusClassName = (status: string): string | undefined => {
-    switch (status.toLowerCase()) {
-        case 'settlement':
-            return '#28a745';
-        case 'refund':
-            return '#ffc107';
-        case 'failure':
-            return '#dc3545';
-        case 'pending':
-            return '#007bff';
-        case 'expire':
-            return '#6c757d';
-        default:
-            return undefined;
-    }
+const getStatusColor = (status: string): string => {
+    const statusColors: { [key: string]: string } = {
+        settlement: '#28a745',
+        refund: '#ffc107',
+        failure: '#dc3545',
+        pending: '#007bff',
+        expire: '#6c757d',
+    };
+    return statusColors[status.toLowerCase()] || '#000000';
+};
+
+const getMonthNumber = (monthName: string) => {
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return monthNames.indexOf(monthName);
 };
 
 const PaymentSummaryChart: React.FC<Props> = ({ setTotalAmount, setFailureAmount }) => {
@@ -72,9 +74,8 @@ const PaymentSummaryChart: React.FC<Props> = ({ setTotalAmount, setFailureAmount
                     });
                 });
 
-                setTotalAmount(settlementSum - failureSum);
+                setTotalAmount(settlementSum);
                 setFailureAmount(failureSum);
-
 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -84,17 +85,37 @@ const PaymentSummaryChart: React.FC<Props> = ({ setTotalAmount, setFailureAmount
         fetchData();
     }, [setTotalAmount, setFailureAmount]);
 
-    const generateChartOption = (data: PaymentData): echarts.EChartsOption => {
-        const months = Object.keys(data);
-        const legendData: string[] = ['settlement', 'expire', 'refund', 'failure'];
-        const seriesData = legendData.map((status) =>
-            months.map((month) => {
-                const payment = data[month].find(
-                    (item: PaymentItem) => item.transactionStatus === status
-                );
-                return payment ? payment.transactionAmount : 0;
-            })
+    const generateChartOption = (data: PaymentData): echarts.EChartsCoreOption => {
+        const sortedMonths = Object.keys(data).sort(
+            (a, b) => getMonthNumber(a) - getMonthNumber(b)
         );
+
+        const legendData: string[] = ['settlement', 'expire', 'refund', 'failure'];
+        const series = legendData.map((status) => {
+            const color = getStatusColor(status);
+            return {
+                name: status,
+                type: 'line',
+                stack: 'total',
+                data: sortedMonths.map(month => {
+                    const payment = data[month]?.find(
+                        item => item.transactionStatus === status
+                    );
+                    return {
+                        value: payment ? payment.transactionAmount : 0,
+                    };
+                }),
+                itemStyle: {
+                    color: color,
+                },
+                emphasis: {
+                    itemStyle: {
+                        color: color,
+                    },
+                },
+            };
+        });
+
 
         return {
             title: {
@@ -113,20 +134,12 @@ const PaymentSummaryChart: React.FC<Props> = ({ setTotalAmount, setFailureAmount
             },
             xAxis: {
                 type: 'category',
-                data: months,
+                data: sortedMonths,
             },
             yAxis: {
                 type: 'value',
             },
-            series: legendData.map((status, index) => ({
-                name: status,
-                type: 'bar',
-                stack: 'total',
-                data: seriesData[index],
-                itemStyle: {
-                    color: getStatusClassName(status.toLowerCase()) ?? '#000000',
-                },
-            })),
+            series: series,
         };
     };
 

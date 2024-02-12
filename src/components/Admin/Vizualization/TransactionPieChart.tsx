@@ -65,7 +65,7 @@ const TransactionPieChart: React.FC = () => {
         const chartDom = document.getElementById('transactionPieChart');
         if (chartDom) {
             const myChart = echarts.init(chartDom);
-            const option: echarts.EChartsOption = {
+            const option: echarts.EChartOption = {
                 title: {
                     text: 'Persentase Status Transaksi Tiket',
                     left: 'center',
@@ -74,7 +74,6 @@ const TransactionPieChart: React.FC = () => {
                     trigger: 'item',
                     formatter: '{a} <br/>{b} : {c} ({d}%)',
                 },
-
                 series: [
                     {
                         name: 'Transaction Status',
@@ -92,6 +91,7 @@ const TransactionPieChart: React.FC = () => {
                     },
                 ],
             };
+
             myChart.setOption(option);
         }
     }, [transactionData]);

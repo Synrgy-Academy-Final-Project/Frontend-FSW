@@ -57,7 +57,7 @@ const FlightSummaryChart: React.FC<FlightSummaryChartProps> = ({ onTotalOrders }
             chart = echarts.init(chartDom);
         }
 
-        const option: echarts.EChartsOption = {
+        const option: echarts.EChartOption = {
             tooltip: {
                 trigger: 'item',
                 formatter: '{a} <br/>{b} : {c}',
@@ -89,7 +89,6 @@ const FlightSummaryChart: React.FC<FlightSummaryChartProps> = ({ onTotalOrders }
                     type: 'bar',
                     data: [],
                     emphasis: {
-                        focus: 'series',
                     },
                     label: {
                         show: true,
@@ -100,14 +99,14 @@ const FlightSummaryChart: React.FC<FlightSummaryChartProps> = ({ onTotalOrders }
         };
 
         if (drilldownAirline) {
-            option.title = { text: `Total Pesanan Berdasarkan Pesawat dari Maskapai ${drilldownAirline.airlineName}` , left: 'center',};
-            option.yAxis = { type: 'category', data: drilldownAirline.airplanes.map(airplane => airplane.airplaneName) ,inverse: true,axisLabel: {
+            option.title = { text: `Total Pesanan Berdasarkan Pesawat dari Maskapai ${drilldownAirline.airlineName}`, left: 'center' };
+            option.yAxis = { type: 'category', data: drilldownAirline.airplanes.map(airplane => airplane.airplaneName), inverse: true, axisLabel: {
                     margin: 15,
                     rotate: 0,
                     formatter: function (value) {
                         return value.length > 10 ? value.slice(0, 10) + '...' : value;
                     }
-                },};
+                } };
             option.xAxis = { type: 'value' };
             option.series[0].data = drilldownAirline.airplanes.map(airplane => ({
                 name: airplane.airplaneName,
@@ -115,14 +114,14 @@ const FlightSummaryChart: React.FC<FlightSummaryChartProps> = ({ onTotalOrders }
             }));
         } else {
             // Initial view showing all airlines
-            option.title = { text: 'Total Pesanan Berdasarkan Maskapai' , left: 'center',};
-            option.yAxis = { type: 'category', data: data.map(item => item.airlineName),inverse: true ,axisLabel: {
+            option.title = { text: 'Total Pesanan Berdasarkan Maskapai', left: 'center' };
+            option.yAxis = { type: 'category', data: data.map(item => item.airlineName), inverse: true, axisLabel: {
                     margin: 15,
                     rotate: 0,
                     formatter: function (value) {
                         return value.length > 10 ? value.slice(0, 10) + '...' : value;
                     }
-                },};
+                } };
             option.xAxis = { type: 'value' };
             option.series[0].data = data.map(item => ({
                 name: item.airlineName,
@@ -148,6 +147,7 @@ const FlightSummaryChart: React.FC<FlightSummaryChartProps> = ({ onTotalOrders }
             }
         });
     }, [data, drilldownAirline]);
+
 
 
     useEffect(() => {
