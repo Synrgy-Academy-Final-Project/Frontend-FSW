@@ -10,72 +10,65 @@ import {
 } from "./styles/DetailSection.styled";
 import { Row, Col, Form } from "react-bootstrap";
 
-const PassengerDetailPayment = ({ penumpang }) => {  
+const PassengerDetailPayment = ({ penumpang }) => { 
+  let countAdult: number = 0
+  let countChild: number = 0
+  let countBaby: number = 0
+
+  const renderData = penumpang.map(item => {
+    let typeLabel;    
+    switch(item.type) {
+        case "adult":
+            typeLabel = "Dewasa";
+            countAdult += 1
+            break;
+        case "child":
+            typeLabel = "Anak";
+            countChild += 1
+            break;
+        case "baby":
+            typeLabel = "Bayi";
+            countBaby += 1
+            break;
+        default:
+            typeLabel = "Tidak diketahui";
+    }
+
+    return (
+      <div>
+        <SemiBoldText>Detail Penumpang {item.type === "adult" ? countAdult : item.type === "child" ? countChild : countBaby} {typeLabel}</SemiBoldText>
+        <OrdererDataWrapper>
+          <OrdererData>
+            <img src="./images/ic_user_check.png" alt="user_check" />
+            <RegulerTextBold>Nama penumpang</RegulerTextBold>
+            <RegulerTextBold>: {item.name}</RegulerTextBold>
+          </OrdererData>
+          <OrdererData>
+            <img src="./images/ic_calendar_check.png" alt="calendar_check" />
+            <RegulerText>Tanggal lahir</RegulerText>
+            <RegulerText>: {item.date}</RegulerText>
+          </OrdererData>
+          {item.phoneNumber && (
+            <OrdererData>
+                <img src="./images/ic_phone_alt.png" alt="phone" />
+                <RegulerText>No ponsel</RegulerText>
+                <RegulerText>: {item.phoneNumber}</RegulerText>
+            </OrdererData>
+          )}
+          <OrdererData>
+            <img src="./images/ic_gender.png" alt="phone" />
+            <RegulerText>Jenis Kelamin</RegulerText>
+            <RegulerText>: {item.gender == "male" ? "Laki - Laki" : "Perempuan"}</RegulerText>
+          </OrdererData>
+        </OrdererDataWrapper>
+      </div>
+    );
+});
   return (
     <>
       <DetailWrapper>
         <DetailForm>
-          <SemiBoldText>Detail Penumpang 1 Dewasa</SemiBoldText>
-          <OrdererDataWrapper>
-            <OrdererData>
-              <img src="./images/ic_user_check.png" alt="user_check" />
-              <RegulerTextBold>Nama penumpang</RegulerTextBold>
-              <RegulerTextBold>: {penumpang?.nameAdult}</RegulerTextBold>
-            </OrdererData>
-            <OrdererData>
-              <img src="./images/ic_calendar_check.png" alt="calendar_check" />
-              <RegulerText>Tanggal lahir</RegulerText>
-              <RegulerText>: {penumpang?.dateAdult}</RegulerText>
-            </OrdererData>
-            <OrdererData>
-              <img src="./images/ic_phone_alt.png" alt="phone" />
-              <RegulerText>No ponsel</RegulerText>
-              <RegulerText>: {penumpang?.ponsel}</RegulerText>
-            </OrdererData>
-            <OrdererData>
-              <img src="./images/ic_gender.png" alt="phone" />
-              <RegulerText>Jenis Kelamin</RegulerText>
-              <RegulerText>: {penumpang?.genAdult == "male" ? "Laki - Laki" : "Perempuan"}</RegulerText>
-            </OrdererData>
-          </OrdererDataWrapper>
-          
-          <SemiBoldText>Detail Penumpang 2 Anak</SemiBoldText>
-          <OrdererDataWrapper>
-            <OrdererData>
-              <img src="./images/ic_user_check.png" alt="user_check" />
-              <RegulerTextBold>Nama penumpang</RegulerTextBold>
-              <RegulerTextBold>: {penumpang?.nameKids}</RegulerTextBold>
-            </OrdererData>
-            <OrdererData>
-              <img src="./images/ic_calendar_check.png" alt="calendar_check" />
-              <RegulerText>Tanggal lahir</RegulerText>
-              <RegulerText>: {penumpang?.dateKids}</RegulerText>
-            </OrdererData>
-            <OrdererData>
-              <img src="./images/ic_gender.png" alt="phone" />
-              <RegulerText>Jenis Kelamin</RegulerText>
-              <RegulerText>: {penumpang?.genKids == "male" ? "Laki - Laki" : "Perempuan" }</RegulerText>
-            </OrdererData>
-          </OrdererDataWrapper>
-
-          <SemiBoldText>Detail Penumpang 3 Bayi</SemiBoldText>
-          <OrdererDataWrapper>
-            <OrdererData>
-              <img src="./images/ic_user_check.png" alt="user_check" />
-              <RegulerTextBold>Nama penumpang</RegulerTextBold>
-              <RegulerTextBold>: {penumpang?.nameBaby}</RegulerTextBold>
-            </OrdererData>
-            <OrdererData>
-              <img src="./images/ic_calendar_check.png" alt="calendar_check" />
-              <RegulerText>Tanggal lahir</RegulerText>
-              <RegulerText>: {penumpang?.dateBaby}</RegulerText>
-            </OrdererData>
-            <OrdererData>
-              <img src="./images/ic_gender.png" alt="phone" />
-              <RegulerText>Jenis Kelamin</RegulerText>
-              <RegulerText>: {penumpang?.genBaby == "male" ? "Laki - Laki" : "Perempuan"}</RegulerText>
-            </OrdererData>
-          </OrdererDataWrapper>
+          {renderData}          
         </DetailForm>
 
         <>
@@ -199,7 +192,7 @@ const PassengerDetailPayment = ({ penumpang }) => {
                   Asuransi Perjalanan
                 </RegulerTextBold>
                 <div style={{ marginLeft: "auto" }}>
-                  <Form.Check checked={true} />
+                  <Form.Check checked={false} />
                   <i className="w-25"></i>
                 </div>
               </div>

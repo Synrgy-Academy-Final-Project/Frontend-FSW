@@ -127,7 +127,7 @@ const PageNumber = styled.span`
   text-align: center;
 `;
 
-const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId,refreshTable  }) => {
+const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId, refreshTable }) => {
 
     const [flightTimes, setFlightTimes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -141,7 +141,10 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId,refreshTable  
     });
 
     const ITEMS_PER_PAGE = 3;
-
+    const [refreshFlag, setRefreshFlag] = useState(false);
+    const handleRefresh = () => {
+        setRefreshFlag(prevFlag => !prevFlag); // Toggle refresh flag to trigger data reload
+    };
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -174,7 +177,7 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId,refreshTable  
             .finally(() => {
                 setLoading(false);
             });
-    }, [airplaneId,refreshTable]);
+    }, [airplaneId, refreshTable, refreshFlag]);
 
     const totalPages = Math.ceil(flightTimes.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -206,7 +209,7 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId,refreshTable  
         }
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('No token found');
+            alert('Token tidak ditemukan.');
             return;
         }
 
@@ -220,18 +223,20 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId,refreshTable  
                 if (response.ok) {
                     return response.json();
                 } else {
-                    throw new Error(response.status === 401 ? 'Invalid Token' : response.status === 404 ? 'ID Airplane Not Found' : 'Error performing delete');
+                    throw new Error(response.status === 401 ? 'Token tidak valid' : response.status === 404 ? 'ID Pesawat Tidak Ditemukan' : 'Terjadi kesalahan saat menghapus');
                 }
             })
             .then(data => {
                 console.log('Delete successful:', data.message);
                 setFlightTimes(flightTimes.filter(flight => flight.id !== flightId));
+                alert('Data berhasil dihapus.');
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert(error.message);
             });
     };
+
 
     const openEditModal = (flight) => {
         setSelectedFlight(flight);
@@ -253,7 +258,7 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId,refreshTable  
             {editModalVisible && (
                 <Overlay show={editModalVisible} onClick={handleOverlayClick}>
                     <ModalContainer show={editModalVisible}>
-                        <EditFormSchedule flightData={selectedFlight} closeModal={closeEditModal} refreshData={() => {}} />
+                        <EditFormSchedule flightData={selectedFlight} closeModal={closeEditModal} refreshData={handleRefresh} />
                     </ModalContainer>
                 </Overlay>
 
