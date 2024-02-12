@@ -4,11 +4,11 @@ import SidebarAkun from "./SidebarAkun";
 import PesananContent from "./PesananContent";
 
 const PesananMain: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [selectedOption, setSelectedOption] = useState<number | null>(1);
 
   const handleOptionClick = (optionId: number) => {
     setSelectedOption((prevSelectedOption) =>
-      prevSelectedOption === optionId ? null : optionId
+      prevSelectedOption === optionId ? prevSelectedOption : optionId
     );
   };
 

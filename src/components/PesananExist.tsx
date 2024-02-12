@@ -15,15 +15,13 @@ import {
 } from "./styles/PesananExist.styled";
 
 interface Transaction {
-  id: string;
-  companyName: string | null;
-  url: string | null;
-  airplaneName: string;
-  airplaneCode: string;
-  departureCode: string;
-  arrivalCode: string;
+  oderCode: string;
   totalPrice: number;
-  orderCode: string | null;
+  departureCode: string;
+  departureCityCode: string;
+  arrivalCode: string;
+  arrivalCityCode: string;
+  transactionStatus: string;
 }
 
 interface PesananExistProps {
@@ -34,47 +32,39 @@ const PesananExist: React.FC<PesananExistProps> = ({ transactions }) => {
   return (
     <>
       <ExistContent>
-        {transactions.map((transaction) => (
-          <CodeWrapper key={transaction.id}>
+        {transactions.map((transaction, index) => (
+          <CodeWrapper key={index}>
             <TextWrapper>
-              <CodeText>Kode Pesanan {transaction.orderCode}</CodeText>
+              <CodeText>Kode Pesanan: {transaction.oderCode}</CodeText>
               <CodeHarga>
                 Rp {transaction.totalPrice.toLocaleString()}
               </CodeHarga>
             </TextWrapper>
 
-            <LineDash />
+            <LineDash></LineDash>
 
             <DestinationWrapper>
-              <img
-                src="./images/ic_telegram_plane.png"
-                alt="ic_telegram_plane"
-              />
-              <RegulerNeutral>
-                {transaction.departureCode} ({transaction.airplaneCode})
-              </RegulerNeutral>
+              <RegulerNeutral>{transaction.departureCityCode}</RegulerNeutral>
               <img
                 src="./images/ic_long_arrow_right.png"
                 alt="ic_long_arrow_right"
               />
-              <RegulerNeutral>
-                {transaction.arrivalCode} ({transaction.airplaneCode})
-              </RegulerNeutral>
-              <RegulerNeutral>, Asuransi Perjalanan</RegulerNeutral>
+              <RegulerNeutral>{transaction.arrivalCityCode}</RegulerNeutral>
             </DestinationWrapper>
 
-            {transaction.orderCode ? (
+            <Line></Line>
+
+            {transaction.transactionStatus === "Pembayaran Berhasil" ? (
               <PaymentComplete>
-                <RegulerWhite>Pembayaran Selesai</RegulerWhite>
+                <RegulerWhite>{transaction.transactionStatus}</RegulerWhite>
               </PaymentComplete>
             ) : (
               <WaitingPayment>
-                <RegulerWhite>Menunggu Pembayaran</RegulerWhite>
+                <RegulerWhite>{transaction.transactionStatus}</RegulerWhite>
               </WaitingPayment>
             )}
           </CodeWrapper>
         ))}
-        <Line />
       </ExistContent>
     </>
   );
