@@ -118,7 +118,8 @@ export const useTicketSearch = () => {
   const handleSearch = async (
     selectedTime: string,
     amenities: Record<string, boolean> = {},
-    passengersData: { type: string; count: number }[]
+    passengersData: { type: string; count: number }[],
+    selectedPrice: { min: number; max: number }[]
   ) => {
     if (
       selectedOriginOption &&
@@ -128,6 +129,7 @@ export const useTicketSearch = () => {
     ) {
       const departureCode = selectedOriginOption.value.toLowerCase();
       const arrivalCode = selectedDestinationOption.value.toLowerCase();
+      console.log("selectedPrice : ", selectedPrice);
 
       const formattedDepartureDate = departureDate
         .toLocaleDateString("en-GB", {
@@ -160,6 +162,11 @@ export const useTicketSearch = () => {
         selectedTime === "malam"
       ) {
         params.append("departureTime", selectedTime);
+      }
+
+      if (selectedPrice.length === 2) {
+        params.append("fromPrice", selectedPrice[0].toString());
+        params.append("toPrice", selectedPrice[1].toString());
       }
 
       const amenityEndpoints: Record<string, string> = {
@@ -218,6 +225,11 @@ export const useTicketSearch = () => {
               );
             }
           });
+
+          if (selectedPrice.length === 2) {
+            returnParams.append("fromPrice", selectedPrice[0].toString());
+            returnParams.append("toPrice", selectedPrice[1].toString());
+          }
 
           const returnApiUrl = `https://fly-id-1999ce14c36e.herokuapp.com/scheduleflight/?${returnParams.toString()}`;
 
