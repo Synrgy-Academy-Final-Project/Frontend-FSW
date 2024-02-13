@@ -157,7 +157,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                           <circle cx="50%" cy="50%" r="4" fill="#007BFF" />
                         </svg>
                         <img
-                          src="src/assets/images/Plane.png"
+                          src="./images/Plane.png"
                           alt=""
                           className="icon-plane"
                         />
@@ -349,7 +349,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
                           <img
-                            src="src/assets/images/Shopping Bag.png"
+                            src="./images/Shopping Bag.png"
                             alt=""
                             className="pt-1"
                           />
@@ -364,7 +364,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
                           <img
-                            src="src/assets/images/Shopping Bag.png"
+                            src="./images/Shopping Bag.png"
                             alt=""
                             className="pt-1"
                           />
@@ -378,7 +378,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
                           <img
-                            src="src/assets/images/Utensils.png"
+                            src="./images/Utensils.png"
                             alt=""
                             className="pt-1"
                           />
@@ -398,7 +398,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
                           <img
-                            src="src/assets/images/File Minus.png"
+                            src="./images/File Minus.png"
                             alt=""
                             className="pt-1"
                           />
@@ -421,7 +421,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
                           <img
-                            src="src/assets/images/youtube square.png"
+                            src="./images/youtube square.png"
                             alt=""
                             className="pt-1"
                           />
@@ -441,7 +441,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
                           <img
-                            src="src/assets/images/usb.png"
+                            src="./images/usb.png"
                             alt=""
                             className="pt-1"
                           />
@@ -461,7 +461,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
                           <img
-                            src="src/assets/images/Wifi Slash.png"
+                            src="./images/Wifi Slash.png"
                             alt=""
                             className="pt-1"
                           />
@@ -481,7 +481,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                       <div className="row list-dp">
                         <div className="col-1">
                           <img
-                            src="src/assets/images/Calendar Alt.png"
+                            src="./images/Calendar Alt.png"
                             alt=""
                             className="pt-1"
                           />
@@ -502,7 +502,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                         </div>
                         <div className="col-1">
                           <img
-                            src="src/assets/images/Money Check Edit Alt.png"
+                            src="./images/Money Check Edit Alt.png"
                             alt=""
                           />
                         </div>

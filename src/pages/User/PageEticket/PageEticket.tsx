@@ -167,14 +167,14 @@ export default function PageEticket() {
         >
           <HeaderDiv className="justify-content-center align-items-center bg-white py-3">
             <Col lg={2} className="">
-              <img src={"src/assets/images/flsah-icon.png"} alt="flsah-icon" />
+              <img src={"./images/flsah-icon.png"} alt="flsah-icon" />
             </Col>
             <Col lg={8}>
               <HeadH1>E-tiketmu sudah ada!</HeadH1>
               <HeadP>selamat menikmati perjalananmu...</HeadP>
             </Col>
             <Col lg={2} className="">
-              <img src={"src/assets/images/flsah-icon.png"} alt="flsah-icon" />
+              <img src={"./images/flsah-icon.png"} alt="flsah-icon" />
             </Col>
           </HeaderDiv>
           <div className="px-3" style={{ height: "50rem" }}>

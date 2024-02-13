@@ -7,14 +7,14 @@ const ETicket: React.FC = () => {
     <BorderDiv className="m-5">
       <HeaderDiv className="justify-content-center align-items-center bg-white rounded-3 text-center">
         <Col lg={2} className="">
-          <img src={"src/assets/images/flsah-icon.png"} alt="flsah-icon" />
+          <img src={"./images/flsah-icon.png"} alt="flsah-icon" />
         </Col>
         <Col lg={8}>
           <HeadH1>E-tiketmu sudah ada!</HeadH1>
           <HeadP>selamat menikmati perjalananmu...</HeadP>
         </Col>
         <Col lg={2} className="">
-          <img src={"src/assets/images/flsah-icon.png"} alt="flsah-icon" />
+          <img src={"./images/flsah-icon.png"} alt="flsah-icon" />
         </Col>
       </HeaderDiv>
       <ContentDiv className="m-2">
@@ -273,7 +273,7 @@ const ETicket: React.FC = () => {
         </svg>
         <Row className="align-items-center my-3">
           <Col lg={1}>
-            <img src="src/assets/images/hand-ticket.png" alt="" />
+            <img src="./images/hand-ticket.png" alt="" />
           </Col>
           <Col lg={11} className="ps-3">
             <HeadCont>E-tiket ini tidak perlu di print lo!</HeadCont>

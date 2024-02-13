@@ -63,7 +63,7 @@ const DetailPerjalanan = ({ penumpang, pesawat }) => {
               <div className="img">
                 <p>
                   <img
-                    src="src/assets/images/plane.png"
+                    src="./images/plane.png"
                     alt=""
                     style={{ width: "75%", height: "75%" }}
                   />

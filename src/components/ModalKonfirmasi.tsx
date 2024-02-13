@@ -11,7 +11,7 @@ const ModalKonfirmasi = ({ show, onHide }) => {
     >
       <Modal.Body className="modal-tittle">
         <p>Anda yakin ingin keluar?</p>
-        <img src={"src/assets/images/amico.jpg"} alt="flsah-icon" />
+        <img src={"./images/amico.jpg"} alt="flsah-icon" />
       </Modal.Body>
       <Modal.Footer>
         <Button className="button-yes" onClick={onHide}>
