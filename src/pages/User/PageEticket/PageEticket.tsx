@@ -65,7 +65,7 @@ const BlueButton = styled.button`
   }
 `;
 
-export default function EticketPage() {
+export default function PageEticket() {
   const [pdfUrl, setPdfUrl] = useState("");
   
   const urlParams = new URLSearchParams(window.location.search);
