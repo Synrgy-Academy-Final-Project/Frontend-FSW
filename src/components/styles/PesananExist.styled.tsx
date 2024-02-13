@@ -21,12 +21,14 @@ export const CodeText = styled.p`
 
 export const CodeWrapper = styled.div`
   display: flex;
-  padding: 0px 16px;
+  padding: 10px 16px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
+  border-radius: 10px;
+  background: var(--Light-background, #fff);
 `;
 
 export const DestinationWrapper = styled.div`
@@ -43,8 +45,6 @@ export const ExistContent = styled.div`
   align-items: center;
   gap: 10px;
   align-self: stretch;
-  border-radius: 10px;
-  background: var(--Light-background, #fff);
 `;
 
 export const Line = styled.div`

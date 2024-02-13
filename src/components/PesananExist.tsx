@@ -31,7 +31,7 @@ interface PesananExistProps {
 const PesananExist: React.FC<PesananExistProps> = ({ transactions }) => {
   return (
     <>
-      <ExistContent>
+      <ExistContent >
         {transactions.map((transaction, index) => (
           <CodeWrapper key={index}>
             <TextWrapper>
@@ -52,8 +52,6 @@ const PesananExist: React.FC<PesananExistProps> = ({ transactions }) => {
               <RegulerNeutral>{transaction.arrivalCityCode}</RegulerNeutral>
             </DestinationWrapper>
 
-            <Line></Line>
-
             {transaction.transactionStatus === "Pembayaran Berhasil" ? (
               <PaymentComplete>
                 <RegulerWhite>{transaction.transactionStatus}</RegulerWhite>
@@ -63,6 +61,7 @@ const PesananExist: React.FC<PesananExistProps> = ({ transactions }) => {
                 <RegulerWhite>{transaction.transactionStatus}</RegulerWhite>
               </WaitingPayment>
             )}
+            <Line></Line>
           </CodeWrapper>
         ))}
       </ExistContent>
