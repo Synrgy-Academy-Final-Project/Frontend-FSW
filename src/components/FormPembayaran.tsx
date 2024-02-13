@@ -94,7 +94,7 @@ export default function FormPembayaran({ bookingData, discount }) {
         
         snapPay(data?.data.token, {
           onSuccess: function (result) {
-            console.log("sukses", result);
+            console.log("sukses di tsx", result);
             const finishRedirectUrl = result.finish_redirect_url;
             console.log("ini link re >>", finishRedirectUrl);            
             if (finishRedirectUrl) {
