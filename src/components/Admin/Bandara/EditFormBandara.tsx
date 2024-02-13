@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Select from 'react-select';
 
@@ -48,6 +49,7 @@ const FlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -71,15 +73,16 @@ const ModalContainer = styled.div`
   z-index: 2000;
 `;
 
-const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose }) => {
+const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose, id }) => {
     const [airports, setAirports] = useState([]);
     const [formData, setFormData] = useState({
         fromAirportId: bandara.fromAirportId,
         toAirportId: bandara.toAirportId,
-        durationHours: String(Math.floor(bandara.duration / 60)), // Convert to string
-        durationMinutes: String(bandara.duration % 60), // Convert to string
+        durationHours: String(Math.floor(bandara.duration / 60)),
+        durationMinutes: String(bandara.duration % 60),
         price: bandara.price,
     });
+    const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
         async function fetchAirports() {
@@ -105,7 +108,7 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose }) => {
                 if (Array.isArray(jsonData)) {
                     const formattedAirports = jsonData.map((item) => ({
                         value: item.id,
-                        label: `${item.city} (${item.code})`, // Fix the property names
+                        label: `${item.city} (${item.code})`,
                     }));
 
                     setAirports(formattedAirports);
@@ -126,14 +129,10 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose }) => {
         setFormData({ ...formData, [name]: value });
     };
 
-
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         e.stopPropagation();
 
-        // Convert duration hours and minutes to minutes
         const hours = parseInt(formData.durationHours) || 0;
         const minutes = parseInt(formData.durationMinutes) || 0;
         const durationInMinutes = hours * 60 + minutes;
@@ -144,7 +143,7 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose }) => {
                 throw new Error('No token found');
             }
 
-            const response = await fetch(`https://backend-fsw.fly.dev/api/v1/airports/baseprice/{id}`, {
+            const response = await fetch(`https://backend-fsw.fly.dev/api/v1/airports/baseprice/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -158,92 +157,74 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose }) => {
                 }),
             });
 
-            if (response.status === 201) {
-                const jsonData = await response.json();
-                onUpdate();
-                onEditFormMessage(jsonData.message || 'Data berhasil diperbarui.');
-                onClose();
-            } else {
-                const jsonData = await response.json();
-                onEditFormMessage(jsonData.message || 'Error updating data');
-                onClose();
+            const jsonData = await response.json();
+
+            if (!response.ok) {
+                throw new Error(jsonData.message || 'Failed to update data');
             }
-        } catch (err) {
-            console.error('Error:', err.message);
-            onEditFormMessage(err.message);
+
+            onUpdate();
+            setSuccessMessage('Data berhasil diperbarui.');
+            onEditFormMessage('Data berhasil diperbarui.');
             onClose();
+        } catch (err) {
+            console.error('Error updating data:', err.message);
+            onEditFormMessage('Gagal memperbarui data. Silakan coba lagi.');
         }
     };
-
-    const airportOptions = airports.map((airport) => ({
-        value: airport.value,
-        label: airport.label,
-    }));
 
     const handleCancel = () => {
         onClose();
     };
-    const handleOverlayClick = () => {
-        onClose();
-    };
-    const handleFormClick = (e) => {
-        e.stopPropagation();
-    };
 
     return (
-        <Overlay onClick={handleOverlayClick}>
+        <Overlay>
             <ModalContainer>
-                <EditForm onSubmit={handleSubmit} onClick={handleFormClick}>
+                <EditForm onSubmit={handleSubmit}>
+                    <h2>Edit Bandara</h2>
                     <FormGroup>
-                        <Label htmlFor="fromAirportId">Kota/Bandara Asal</Label>
+                        <Label>Bandara Asal</Label>
                         <Select
-                            id="originAirport"
-                            name="fromAirportId"
-                            options={airportOptions}
-                            onChange={(selectedOption) => setFormData({ ...formData, fromAirportId: selectedOption ? selectedOption.value : null })}
-                            value={airportOptions.find((option) => option.value === formData.fromAirportId)}
-                            required
-                            placeholder="Bandara Asal"
+                            options={airports}
+                            value={airports.find((option) => option.value === formData.fromAirportId)}
+                            onChange={(selectedOption) => setFormData({ ...formData, fromAirportId: selectedOption.value })}
+                            isClearable
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label htmlFor="toAirportId">Kota/Bandara Tujuan</Label>
+                        <Label>Bandara Tujuan</Label>
                         <Select
-                            id="destinationAirport"
-                            name="toAirportId"
-                            options={airportOptions}
-                            onChange={(selectedOption) => setFormData({ ...formData, toAirportId: selectedOption ? selectedOption.value : null })}
-                            value={airportOptions.find((option) => option.value === formData.toAirportId)}
-                            required
-                            placeholder="Bandara Tujuan"
+                            options={airports}
+                            value={airports.find((option) => option.value === formData.toAirportId)}
+                            onChange={(selectedOption) => setFormData({ ...formData, toAirportId: selectedOption.value })}
+                            isClearable
                         />
                     </FormGroup>
+                    <FlexContainer>
+                        <FormGroup style={{ flex: '1', marginRight: '8px' }}>
+                            <Label>Durasi (jam)</Label>
+                            <Input
+                                type="number"
+                                name="durationHours"
+                                value={formData.durationHours}
+                                onChange={handleInputChange}
+                            />
+                        </FormGroup>
+                        <FormGroup style={{ flex: '1', marginLeft: '8px' }}>
+                            <Label>Durasi (menit)</Label>
+                            <Input
+                                type="number"
+                                name="durationMinutes"
+                                value={formData.durationMinutes}
+                                onChange={handleInputChange}
+                            />
+                        </FormGroup>
+                    </FlexContainer>
                     <FormGroup>
-                        <Label htmlFor="durationHours">Durasi (Jam)</Label>
+                        <Label>Harga</Label>
                         <Input
-                            id="durationHours"
-                            name="durationHours"
                             type="number"
-                            value={formData.durationHours}
-                            onChange={handleInputChange}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label htmlFor="durationMinutes">Durasi (Menit)</Label>
-                        <Input
-                            id="durationMinutes"
-                            name="durationMinutes"
-                            type="number"
-                            value={formData.durationMinutes}
-                            onChange={handleInputChange}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label htmlFor="price">Harga</Label>
-                        <Input
-                            id="price"
                             name="price"
-                            type="number"
                             value={formData.price}
                             onChange={handleInputChange}
                         />
@@ -256,6 +237,14 @@ const EditFormBandara = ({ bandara, onUpdate, onEditFormMessage, onClose }) => {
             </ModalContainer>
         </Overlay>
     );
+};
+
+EditFormBandara.propTypes = {
+    bandara: PropTypes.object.isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    onEditFormMessage: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    id: PropTypes.any.isRequired,
 };
 
 export default EditFormBandara;

@@ -67,8 +67,8 @@ const DataPenumpang: React.FC = () => {
     gender?: string;
     type?: string;
   }
-  const [penumpangData, setPenumpangData] = useState<PenumpangData[]>([])
-  const [pemesanData, setPemesanData] = useState<pemesanData>()
+  const [penumpangData, setPenumpangData] = useState<PenumpangData[]>([]);
+  const [pemesanData, setPemesanData] = useState<pemesanData>();
   const handlePemesanChange = (pemesanData: pemesanData) => {
     setPemesanData(pemesanData);
     console.log("data detail pemesan >>>", pemesanData);
@@ -81,8 +81,8 @@ const DataPenumpang: React.FC = () => {
   const bookingData = {
     tickets: tickets,
     pemesan: pemesanData,
-    penumpang: penumpangData
-  }
+    penumpang: penumpangData,
+  };
 
   return (
     <Container>
@@ -120,7 +120,7 @@ const DataPenumpang: React.FC = () => {
       <Div1 className="my-4">
         <Row className="align-items-center">
           <Col lg={1}>
-            <img src="src/assets/images/3d-phone.png" alt="" />
+            <img src="./images/3d-phone.png" alt="" />
           </Col>
           <Col lg={11} className="ps-5">
             <HeadText>
@@ -166,7 +166,7 @@ const DataPenumpang: React.FC = () => {
             </div>
             <div className="col text-center">
               <img
-                src="src/assets/images/Plane.png"
+                src="./images/plane.png"
                 alt=""
                 style={{ width: "35px" }}
               />
@@ -238,7 +238,7 @@ const DataPenumpang: React.FC = () => {
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
                       <img
-                        src="src/assets/images/Shopping Bag.png"
+                        src="./images/Shopping Bag.png"
                         alt=""
                         className="pt-1"
                       />
@@ -253,7 +253,7 @@ const DataPenumpang: React.FC = () => {
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
                       <img
-                        src="src/assets/images/Shopping Bag.png"
+                        src="./images/Shopping Bag.png"
                         alt=""
                         className="pt-1"
                       />
@@ -267,7 +267,7 @@ const DataPenumpang: React.FC = () => {
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
                       <img
-                        src="src/assets/images/Utensils.png"
+                        src="./images/Utensils.png"
                         alt=""
                         className="pt-1"
                       />
@@ -287,7 +287,7 @@ const DataPenumpang: React.FC = () => {
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
                       <img
-                        src="src/assets/images/File Minus.png"
+                        src="./images/File Minus.png"
                         alt=""
                         className="pt-1"
                       />
@@ -310,7 +310,7 @@ const DataPenumpang: React.FC = () => {
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
                       <img
-                        src="src/assets/images/youtube square.png"
+                        src="./images/youtube square.png"
                         alt=""
                         className="pt-1"
                       />
@@ -330,7 +330,7 @@ const DataPenumpang: React.FC = () => {
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
                       <img
-                        src="src/assets/images/usb.png"
+                        src="./images/usb.png"
                         alt=""
                         className="pt-1"
                       />
@@ -350,7 +350,7 @@ const DataPenumpang: React.FC = () => {
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
                       <img
-                        src="src/assets/images/Wifi Slash.png"
+                        src="./images/Wifi Slash.png"
                         alt=""
                         className="pt-1"
                       />
@@ -370,7 +370,7 @@ const DataPenumpang: React.FC = () => {
                   <div className="row list-dp">
                     <div className="col-1">
                       <img
-                        src="src/assets/images/Calendar Alt.png"
+                        src="./images/Calendar Alt.png"
                         alt=""
                         className="pt-1"
                       />
@@ -391,7 +391,7 @@ const DataPenumpang: React.FC = () => {
                     </div>
                     <div className="col-1">
                       <img
-                        src="src/assets/images/Money Check Edit Alt.png"
+                        src="./images/Money Check Edit Alt.png"
                         alt=""
                       />
                     </div>

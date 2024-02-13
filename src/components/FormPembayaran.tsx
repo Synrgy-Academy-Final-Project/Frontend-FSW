@@ -94,7 +94,12 @@ export default function FormPembayaran({ bookingData, discount }) {
         
         snapPay(data?.data.token, {
           onSuccess: function (result) {
-            console.log("sukses", result);
+            const finishRedirectUrl = result.finish_redirect_url;     
+            if (finishRedirectUrl) {
+              navigate(finishRedirectUrl);
+            } else {
+              console.error("Error: No finish_redirect_url found in result object.");
+            }
           },
           onPending: function (result) {
             console.log("wating", result);
@@ -123,7 +128,7 @@ export default function FormPembayaran({ bookingData, discount }) {
       <Container className="my-5">
         <div className="row mt-4">
           <div className="col-1">
-            <img src="src/assets/images/20943832 1.png" alt="" />
+            <img src="./images/20943832 1.png" alt="" />
           </div>
           <div className="col-11 desc-payment">
             <h3 className="b-24-p ps-4">
@@ -200,7 +205,7 @@ export default function FormPembayaran({ bookingData, discount }) {
                   </>
                   <div className="d-grid gap-2 mt-3">
                     <Button variant="primary" onClick={handleTransactions}>
-                      <img src="src/assets/icon/Shield Check.svg" alt="" />
+                      <img src="./icon/Shield Check.svg" alt="" />
                       Bayar
                     </Button>
                   </div>

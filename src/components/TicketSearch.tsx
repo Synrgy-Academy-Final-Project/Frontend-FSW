@@ -14,6 +14,8 @@ import Select from "react-select";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import DropdownPassenger from "./DropdownPassenger";
 import useTicketSearch from "../pages/User/TicketList/TicketList.Hooks";
+import useTicketList from "../pages/User/TicketList/TicketList";
+import { useState } from "react";
 
 const customStylesStart = {
   control: (provided) => ({
@@ -121,6 +123,36 @@ export default function TicketSearch() {
     // Other state variables and functions from useTicketSearch...
   } = useTicketSearch();
 
+  const [passengersData, setPassengersData] = useState([
+    { type: "adult", count: 1 },
+    { type: "child", count: 0 },
+    { type: "baby", count: 0 },
+  ]);
+
+  const handlePassengerCountChange = (count, type) => {
+    // Dapatkan data penumpang yang saat ini tersimpan dalam state
+    const updatedPassengersData = [...passengersData];
+
+    // Temukan indeks penumpang dengan tipe yang sesuai
+    const index = updatedPassengersData.findIndex(
+      (passenger) => passenger.type === type
+    );
+
+    // Jika penumpang dengan tipe yang sama sudah ada, perbarui jumlahnya
+    if (index !== -1) {
+      updatedPassengersData[index].count = count;
+    } else {
+      // Jika tidak, tambahkan penumpang baru dengan tipe dan jumlah yang sesuai
+      updatedPassengersData.push({ type, count });
+    }
+
+    console.log(updatedPassengersData.length);
+
+    // Simpan kembali data penumpang yang diperbarui ke dalam state
+    setPassengersData(updatedPassengersData);
+    handleSearch("", {}, updatedPassengersData, []);
+  };
+
   return (
     <div>
       <div className="card-search">
@@ -200,7 +232,7 @@ export default function TicketSearch() {
           <Row className="mb-3 pt-2">
             <Col></Col>
             <Col className="pe-0">
-              <Accordion defaultActiveKey="null" className="rounded-star">
+              <Accordion defaultActiveKey="null" className="rounded-start">
                 <Accordion.Item
                   eventKey="0"
                   className="d-flex flex-column border-0"
@@ -214,8 +246,11 @@ export default function TicketSearch() {
                     </div>
                   </AccordionHeader>
                   <Accordion.Body className="p-0">
-                    <DropdownPassenger onChangeCount={(count, type) => {}}>
-                    </DropdownPassenger>
+                    <DropdownPassenger
+                      onChangeCount={(count, type) =>
+                        handlePassengerCountChange(count, type)
+                      }
+                    />
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
@@ -242,7 +277,7 @@ export default function TicketSearch() {
             <Col></Col>
           </Row>
           <div className="text-center">
-            <Button className="" onClick={() => handleSearch("", {}, [])}>
+            <Button className="" onClick={() => handleSearch("", {}, [], [])}>
               <span className="px-4 text-white">Cari Tiket</span>
             </Button>
           </div>

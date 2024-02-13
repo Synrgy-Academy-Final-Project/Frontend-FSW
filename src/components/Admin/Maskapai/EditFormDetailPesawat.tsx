@@ -50,7 +50,7 @@ const Button = styled.button`
   }
 `;
 
-const EditFormDetailPesawat = ({ closeModal, airplane,onPatchSuccess  }) => {
+const EditFormDetailPesawat = ({ closeModal, airplane, onPatchSuccess }) => {
     const [airlineOptions, setAirlineOptions] = useState([]);
     const [selectedAirline, setSelectedAirline] = useState(null);
 
@@ -92,7 +92,7 @@ const EditFormDetailPesawat = ({ closeModal, airplane,onPatchSuccess  }) => {
         airplaneCode: airplane.airplaneCode || "",
         airplanePrice: airplane.airplanePrice || 0,
         url: airplane.url || "",
-        companyId: airplane.companyId || "",
+        airplaneId: airplane.companyId || "",
     });
 
     const handleSubmit = async (event) => {
@@ -103,7 +103,7 @@ const EditFormDetailPesawat = ({ closeModal, airplane,onPatchSuccess  }) => {
             airplaneCode: formData.airplaneCode,
             airplanePrice: formData.airplanePrice,
             url: formData.url,
-            companyId: selectedAirline ? selectedAirline.value : "",
+            airplaneId: formData.airplaneId,
         };
 
         const token = localStorage.getItem('token');
@@ -139,9 +139,6 @@ const EditFormDetailPesawat = ({ closeModal, airplane,onPatchSuccess  }) => {
             alert(error.message);
         }
     };
-
-
-
 
     const handleChange = (event) => {
         const { name, value } = event.target;
