@@ -1,5 +1,6 @@
 import { Button, Card } from "react-bootstrap";
 import "./InformationProfile.css";
+import { format } from "date-fns";
 import {
   BsCalendarDate,
   BsFillPersonCheckFill,
@@ -41,8 +42,12 @@ const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 
 const InformationProfile: React.FC = () => {
   const [isEditClicked, setIsEditClicked] = useState(false);
-  const [userData, setUserData] = useState<UserData | null>(null); // Set initial value to null
+  const [userData, setUserData] = useState<UserData | null>(null);
   const navigate = useNavigate();
+
+  const formatDate = (dateString: string) => {
+    return format(new Date(dateString), "dd/MM/yyyy");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -112,7 +117,7 @@ const InformationProfile: React.FC = () => {
                     <BsCalendarDate size={22} className="icon" />
                     <span>Tanggal Lahir</span>
                   </td>
-                  <td>{userData.usersDetails.dateOfBirth}</td>
+                  <td>{formatDate(userData.usersDetails.dateOfBirth)}</td>
                 </tr>
                 <tr>
                   <td className="label">

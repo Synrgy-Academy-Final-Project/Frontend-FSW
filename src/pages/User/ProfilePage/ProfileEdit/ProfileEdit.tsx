@@ -18,37 +18,80 @@ const ProfileEdit = () => {
     }
   }, [navigate]);
 
-   const handleOptionClick = (optionId: number) => {
-     let isConfirmed;
-     switch (optionId) {
-       case 1:
-         navigate("/pesanan");
-         break;
-       case 2:
-         navigate("/notifikasi-harga");
-         break;
-       case 3:
-         navigate("/favorit");
-         break;
-       case 4:
-         navigate("/data-penumpang-favorit");
-         break;
-       case 5:
-         navigate("/profile");
-         break;
-       case 6:
-         isConfirmed = window.confirm("Apakah Anda yakin?");
-         if (isConfirmed) {
-           localStorage.removeItem("access_token");
-           alert("Logout Berhasil");
-         } else {
-           alert("Logout dibatalkan");
-         }
-         break;
-       default:
-         break;
-     }
-   };
+  const handleOptionClick = (optionId: number) => {
+    let isConfirmed;
+    switch (optionId) {
+      case 1:
+        isConfirmed = window.confirm("Apakah Anda yakin?");
+        if (isConfirmed) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("isEditClicked");
+          alert("Berhasil");
+          navigate("/pesanan");
+        } else {
+          alert("Gagal");
+        }
+        break;
+      case 2:
+        isConfirmed = window.confirm("Apakah Anda yakin?");
+        if (isConfirmed) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("isEditClicked");
+          alert("Berhasil");
+          navigate("/notifikasi-harga");
+        } else {
+          alert("Gagal");
+        }
+        break;
+      case 3:
+        isConfirmed = window.confirm("Apakah Anda yakin?");
+        if (isConfirmed) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("isEditClicked");
+          alert("Berhasil");
+          navigate("/favorit");
+        } else {
+          alert("Gagal");
+        }
+        break;
+      case 4:
+        isConfirmed = window.confirm("Apakah Anda yakin?");
+        if (isConfirmed) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("isEditClicked");
+          alert("Berhasil");
+          navigate("/data-penumpang-favorit");
+        } else {
+          alert("Gagal");
+        }
+        break;
+      case 5:
+        isConfirmed = window.confirm("Apakah Anda yakin?");
+        if (isConfirmed) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("isEditClicked");
+          alert("Berhasil");
+          navigate("/profile");
+        } else {
+          alert("Gagal");
+        }
+        break;
+
+      case 6:
+        isConfirmed = window.confirm("Apakah Anda yakin?");
+        if (isConfirmed) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("isEditClicked");
+          alert("Logout Berhasil");
+          navigate("/login");
+        } else {
+          alert("Logout dibatalkan");
+        }
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <div className="profileedit">
       <PesananHeader />
