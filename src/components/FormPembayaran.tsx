@@ -96,6 +96,7 @@ export default function FormPembayaran({ bookingData, discount }) {
           onSuccess: function (result) {
             console.log("sukses", result);
             const finishRedirectUrl = result.finish_redirect_url;
+            console.log("ini link re >>", finishRedirectUrl);            
             if (finishRedirectUrl) {
               navigate(finishRedirectUrl);
             } else {
