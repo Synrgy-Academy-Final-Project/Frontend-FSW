@@ -27,7 +27,7 @@
   font-weight: 600;
 }
 
-span {
+.option-text {
   color: unset;
   font-size: unset;
   font-weight: unset;
