@@ -95,11 +95,12 @@ export default function FormPembayaran({ bookingData, discount }) {
         snapPay(data?.data.token, {
           onSuccess: function (result) {
             console.log("sukses", result);
-            navigate('/eticket', {
-              state: {
-                orderId: orderId
-              },
-            });
+            const finishRedirectUrl = result.finish_redirect_url;
+            if (finishRedirectUrl) {
+              navigate(finishRedirectUrl);
+            } else {
+              console.error("Error: No finish_redirect_url found in result object.");
+            }
           },
           onPending: function (result) {
             console.log("wating", result);
