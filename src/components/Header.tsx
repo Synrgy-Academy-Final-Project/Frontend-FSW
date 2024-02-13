@@ -35,7 +35,7 @@ export default function Header(props) {
         }
 
         const responseJson = await response.json();
-
+        console.log("res header >>", responseJson)
         if (response.status === 200) {
           setUser({
             firstName: responseJson.data.usersDetails.firstName,
