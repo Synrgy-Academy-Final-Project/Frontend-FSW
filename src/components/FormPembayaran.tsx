@@ -95,6 +95,11 @@ export default function FormPembayaran({ bookingData, discount }) {
         snapPay(data?.data.token, {
           onSuccess: function (result) {
             console.log("sukses", result);
+            navigate('/eticket', {
+              state: {
+                orderId: orderId
+              },
+            });
           },
           onPending: function (result) {
             console.log("wating", result);

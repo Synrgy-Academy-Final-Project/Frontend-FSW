@@ -246,8 +246,11 @@ export default function TicketSearch() {
                     </div>
                   </AccordionHeader>
                   <Accordion.Body className="p-0">
-                    <DropdownPassenger onChangeCount={(count, type) => {}}>
-                    </DropdownPassenger>
+                    <DropdownPassenger
+                      onChangeCount={(count, type) =>
+                        handlePassengerCountChange(count, type)
+                      }
+                    />
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>

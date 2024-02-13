@@ -25,7 +25,6 @@ const useSnap = () => {
             snap.pay(snap_token, {
                 onSuccess: function (result) {
                     console.log("sukses", result);
-                    navigate('/');
                 },
                 onPending: function (result) {
                     console.log("pending", result);

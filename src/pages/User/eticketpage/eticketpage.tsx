@@ -10,12 +10,6 @@ const TextBullet = styled.p`
   width: 24%;
 `;
 
-const HeadText = styled.p`
-  margin-top: 1rem;
-  font: var(--fwsemibold) 24px/125% Open Sans, sans-serif;
-  color: var(--blue);
-`;
-
 const Circle = styled.div`
   width: 2em;
   height: 2em;
@@ -41,28 +35,77 @@ const Line = styled.div`
   }
 `;
 
-export default function PembayaranPage() {
+const HeaderDiv = styled.div`
+  display: flex;
+  margin: 0rem 12rem;
+`;
+
+const HeadP = styled.p`
+  color: var(--blue);
+  letter-spacing: -0.75px;
+  font: var(--fwsemibold) 24px/115% Open Sans, sans-serif;
+  margin: 0;
+`;
+
+const HeadH1 = styled.h1`
+  color: var(--blue);
+  letter-spacing: -0.75px;
+  font: var(--fwbold) 48px/135% Open Sans, sans-serif;
+  margin: 0;
+`;
+
+const BlueButton = styled.button`
+  background-color: var(--blue);
+  padding: 0.7rem 2rem;
+  font: var(--fwbold) 16px/105% Open Sans, sans-serif;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: var(--darkblue);
+  }
+`;
+
+export default function EticketPage() {
+  const [pdfUrl, setPdfUrl] = useState("");
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const orderId = urlParams.get('order_id');
   const token = localStorage.getItem("token");
-  const orderId = "5f2e731c-8a06-47e4-9cd3-f72ed1b6b8a6"
-  const [pdfUrl, setPdfUrl] = useState('');
+  const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
+
+  const user = async () => {
+    try {
+      const responseUser = await fetch(base_url + "/user-detail/logged-in-user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (responseUser.status === 500) {
+        localStorage.removeItem("token");
+        throw new Error("Token tidak valid!");
+      }
+    } catch (error) {
+      console.error("Error during user API request:", error);
+    }
+  }
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`https://fly-id-1999ce14c36e.herokuapp.com/report/eticket-link/${orderId}`, {
+      const response = await fetch(base_url + `/report/eticket-link/${orderId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/pdf",
           Authorization: `Bearer ${token}`,
-        }
+        },
       });
 
       if (response.status === 200) {
-        const blob = await response.blob(); // Convert response to Blob object
-        const url = URL.createObjectURL(blob); // Create a URL object from the Blob
-        const link = document.createElement("a"); // Create a link element
-        setPdfUrl(url); // Set the URL to state
+        const blob = await response.blob(); 
+        const url = URL.createObjectURL(blob); 
+        setPdfUrl(url);
       } else {
-        console.error("Failed to fetch PDF:", response.statusText);
+        console.error("Error fetching PDF:", response);
       }
     } catch (error) {
       console.error("Error during API request:", error);
@@ -71,8 +114,13 @@ export default function PembayaranPage() {
 
   useEffect(() => {
     fetchData();
-  }, []); // Fetch data only once when the component mounts
 
+    const interval = setInterval(() => {
+      user();
+    }, 1500000);
+    return () => clearInterval(interval);
+  }, [orderId]);
+  
   return (
     <>
       <Container className="mt-3">
@@ -113,14 +161,43 @@ export default function PembayaranPage() {
             )}
           </Col>
         </Row>
-        <div className="mt-3" style={{ backgroundColor: "rgba(62, 123, 250, 0.2)" }}>
-            <div>
-                {pdfUrl && (
-                    <iframe src={pdfUrl} typeof="pdf" title="PDF Document" width="100%" height="100%" />                    
-                    
-                )}                
-            </div>
-            <a href={pdfUrl} target="_blank" rel="noopener noreferrer">Buka PDF</a>
+        <div
+          className="pt-3 text-center"
+          style={{ backgroundColor: "rgba(62, 123, 250, 0.2)" }}
+        >
+          <HeaderDiv className="justify-content-center align-items-center bg-white py-3">
+            <Col lg={2} className="">
+              <img src={"src/assets/images/flsah-icon.png"} alt="flsah-icon" />
+            </Col>
+            <Col lg={8}>
+              <HeadH1>E-tiketmu sudah ada!</HeadH1>
+              <HeadP>selamat menikmati perjalananmu...</HeadP>
+            </Col>
+            <Col lg={2} className="">
+              <img src={"src/assets/images/flsah-icon.png"} alt="flsah-icon" />
+            </Col>
+          </HeaderDiv>
+          <div className="px-3" style={{ height: "50rem" }}>
+            {pdfUrl && (
+              <iframe
+                src={pdfUrl}
+                title="PDF Document"
+                width="72%"
+                height="100%"
+              />
+            )}
+          </div>
+          {pdfUrl && (
+          <BlueButton className="m-3">
+            <a
+              href={pdfUrl}
+              download="FlyId-Invoice.pdf"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              Unduh Invoice
+            </a>
+          </BlueButton>
+          )}
         </div>
         <Footer />
       </Container>

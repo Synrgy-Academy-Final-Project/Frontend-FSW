@@ -10,7 +10,7 @@ import IndexTransaksi from "./components/Admin/indexTransaksi.tsx";
 import IndexDetailPesawat from "./components/Admin/indexDetailPesawat.tsx";
 // user
 import TicketSearch from './components/TicketSearch'
-import ETicket from './pages/User/eticketpage/eticketpage.tsx'
+import ETicket from './pages/User/EticketPage/EticketPage.tsx'
 import FormProfile from './components/FormProfile.tsx'
 import PesananPage from './pages/User/PesananPage/PesananPage.tsx'
 import ProfilePage from './pages/User/ProfilePage/ProfilePage.tsx'
