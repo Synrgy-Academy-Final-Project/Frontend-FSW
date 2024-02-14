@@ -100,7 +100,7 @@ export default function PopulerPlaceItem() {
         <div className="row mt-5 my-5" key={index}>
           <div className="col-4">
             <ImageFirst
-              src={`../../public/images/mountainous-landscape-with-fog ${index}.png`}
+              src={`./images/mountainous-landscape-with-fog ${index}.png`}
               alt=""
             />
           </div>
@@ -111,23 +111,23 @@ export default function PopulerPlaceItem() {
                 <TextSecondary>{texts[index].secondary}</TextSecondary>
                 <TextDescription>{texts[index].description}</TextDescription>
                 <ImageSecond
-                  src="../../public/images/mountainous-landscape-with-fog 6.png"
+                  src="./images/mountainous-landscape-with-fog 6.png"
                   alt=""
                   className="me-3"
                 />
                 <ImageSecond
-                  src="../../public/images/mountainous-landscape-with-fog 6.png"
+                  src="./images/mountainous-landscape-with-fog 6.png"
                   alt=""
                   className="me-3"
                 />
                 <ImageSecond
-                  src="../../public/images/mountainous-landscape-with-fog 6.png"
+                  src="./images/mountainous-landscape-with-fog 6.png"
                   alt=""
                 />
               </div>
               <div className="col-1">
                 <ImageIconTop
-                  src="../../public/images/like.png"
+                  src="./images/like.png"
                   onClick={() => handleIconTopClick(index)}
                 />
                 <div
@@ -141,7 +141,7 @@ export default function PopulerPlaceItem() {
                   </div>
                   <div className="col-6 px-0 mt-2">
                     <ImageIconBottom
-                      src="../../public/images/Grin Hearts.png"
+                      src="./images/Grin Hearts.png"
                       className="mx-1"
                     />
                   </div>

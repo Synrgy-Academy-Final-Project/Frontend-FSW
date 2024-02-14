@@ -124,7 +124,7 @@ const Navbar: React.FC = () => {
                       <h5>Akun Saya</h5>
                       <div className="information">
                         <p>
-                          <a href="/pesanan">Pesanan</a>
+                          <button onClick={() => navigate("/pesanan")}>Pesanan</button>
                         </p>
                         <p>Notifikasi Harga</p>
                         <p>Favorit</p>
@@ -137,7 +137,7 @@ const Navbar: React.FC = () => {
                       <h5>Pengaturan</h5>
                       <div className="information">
                         <p>
-                          <a href="/profile">Pengaturan Akun</a>
+                          <button onClick={() => navigate("/profile")}>Pengaturan Akun</button>
                         </p>
                         <p>Bahasa Indonesia</p>
                       </div>

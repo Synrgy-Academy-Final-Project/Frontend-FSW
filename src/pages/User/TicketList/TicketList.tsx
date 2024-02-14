@@ -389,7 +389,7 @@ export default function TicketList() {
                           <h5>Akun Saya</h5>
                           <div className="information">
                             <p>
-                              <a href="/pesanan">Pesanan</a>
+                              <button onClick={() => navigate("/pesanan")}>Pesanan</button>
                             </p>
                             <p>Notifikasi Harga</p>
                             <p>Favorit</p>
@@ -401,7 +401,9 @@ export default function TicketList() {
                         <div className="my-account">
                           <h5>Pengaturan</h5>
                           <div className="information">
-                            <p>Pengaturan Akun</p>
+                            <p>
+                              <button onClick={() => navigate("/profile")}>Pengaturan Akun</button>
+                            </p>
                             <p>Bahasa Indonesia</p>
                           </div>
                         </div>
