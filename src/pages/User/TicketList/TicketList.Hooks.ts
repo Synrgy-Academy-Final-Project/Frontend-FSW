@@ -243,7 +243,7 @@ export const useTicketSearch = () => {
           setTickets((prevTickets) => [...prevTickets, ...returnAirplanes]);
         }
 
-        const apiUrlMinimumPrice = `https://fly-id-1999ce14c36e.herokuapp.com/airplane/minimum-price?fromAirportCode=${departureCode}&toAirportCode=${arrivalCode}&departureDate=${formattedDepartureDate}`;
+        const apiUrlMinimumPrice = `https://fly-id-1999ce14c36e.herokuapp.com/airplane/minimum-price?fromAirportCode=${departureCode}&toAirportCode=${arrivalCode}&departureDate=${formattedDepartureDate}&airplaneClass=${selectedClass}`;
         const responseMP = await axios.get(apiUrlMinimumPrice);
         const flightDataMP = responseMP.data;
         const airplanesMP = flightDataMP.data;

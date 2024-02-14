@@ -12,6 +12,19 @@ button {
   height: 850px;
   background-position: 60% 39%;
 }
+.background {
+  background-image: url(../assets/images/bg-plane-triangle.png);
+  background-repeat: no-repeat;
+  object-fit: cover;
+  height: 740px;
+  background-position: 50% 100%;
+  z-index: -1;
+}
+
+.z-2 {
+  z-index: 1 !important;
+  position: relative;
+}
 
 .nav-list {
   display: flex;
@@ -157,6 +170,10 @@ button {
 
 .my-account .information a {
   color: black;
+}
+
+.mt-header-text {
+  margin-top: 10rem;
 }
 
 @media screen and (min-width: 1440px) {

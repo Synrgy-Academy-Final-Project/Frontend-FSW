@@ -157,7 +157,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                           <circle cx="50%" cy="50%" r="4" fill="#007BFF" />
                         </svg>
                         <img
-                          src="./images/Plane.png"
+                          src="./images/plane.png"
                           alt=""
                           className="icon-plane"
                         />
@@ -440,11 +440,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                       </div>
                       <div className="row list-dp">
                         <div className="col-1 justify-content-center">
-                          <img
-                            src="./images/usb.png"
-                            alt=""
-                            className="pt-1"
-                          />
+                          <img src="./images/usb.png" alt="" className="pt-1" />
                         </div>
                         <div className="col-11">
                           <p
@@ -501,10 +497,7 @@ const DetailTicket = ({ tickets, passengersData }) => {
                           </p>
                         </div>
                         <div className="col-1">
-                          <img
-                            src="./images/Money Check Edit Alt.png"
-                            alt=""
-                          />
+                          <img src="./images/Money Check Edit Alt.png" alt="" />
                         </div>
                         <div className="col-6">
                           <p className="r-14-s my-1">
