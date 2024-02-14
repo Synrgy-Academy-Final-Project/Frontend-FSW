@@ -151,6 +151,8 @@ const TableTransaksi = () => {
     const [error, setError] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+    const [sortBy, setSortBy] = useState('newest');
+
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -178,6 +180,7 @@ const TableTransaksi = () => {
                 if (error.status === 401) {
                     setError('Invalid token. Silakan login kembali.');
                 } else if (error.status === 403) {
+                    window.location.href = '/login-admin';
                     setError('Forbidden. Anda tidak memiliki akses.');
                 } else if (error.status === 500) {
                     setError('Internal Server Error. Silakan coba lagi nanti.');
@@ -190,14 +193,25 @@ const TableTransaksi = () => {
     const pageCount = Math.ceil(transactions.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentTransactions = transactions.slice(indexOfFirstItem, indexOfLastItem);
+    const sortedTransactions = transactions.slice().sort((a, b) => {
+        const dateA = new Date(a.transaction_time).getTime();
+        const dateB = new Date(b.transaction_time).getTime();
+        return sortBy === 'newest' ? dateB - dateA : dateA - dateB;
+    });
+    const currentTransactions = sortedTransactions.slice(indexOfFirstItem, indexOfLastItem);
 
     if (error) {
         return <div>Error: {error}</div>;
     }
-
+    const handleSortChange = (event) => {
+        setSortBy(event.target.value);
+    };
     return (
         <TableContainer>
+            <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+            </select>
             <Table>
                 <thead>
                 <tr>

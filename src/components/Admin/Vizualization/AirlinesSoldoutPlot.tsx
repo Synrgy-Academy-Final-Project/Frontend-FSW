@@ -34,7 +34,11 @@ const FlightSummaryChart: React.FC<FlightSummaryChartProps> = ({ onTotalOrders }
 
             setData(response.data.data);
         } catch (error) {
-            console.error('Error fetching data:', error);
+            if (error.response && error.response.status === 403) {
+                window.location.href = '/login-admin';
+            } else {
+                console.error('Error fetching data:', error);
+            }
         }
     };
 

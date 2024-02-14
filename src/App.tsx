@@ -48,9 +48,10 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />
         <Route path="/informasiProfile" element={<InformationProfile />} />
-        <Route path="/detailpembayaran" element={<PembayaranPage />} />
 
+        <Route path="/detailpembayaran" element={<PembayaranPage />} />
         {/*Admin*/}
+
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/airport" element={<IndexBandara />} />
@@ -58,8 +59,6 @@ function App() {
         <Route path="/departure-date" element={<IndexTanggal />} />
         <Route path="/transaction" element={<IndexTransaksi />} />
         <Route path="/detail-airline/:id" element={<IndexDetailPesawat />} />
-        <Route path="/ticketsearch" element={<TicketSearch />} />
-        <Route path="/cek2" element={<DropdownClass />} />
         <Route path="/verify-account-forgot" element={<OTPVerification />} />
       </Routes>
     </>
