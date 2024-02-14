@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { BsPower } from "react-icons/bs";
 import "../../../components/Header.css";
@@ -21,6 +21,7 @@ export default function TempatPopulerPage(props) {
 
   const [user, setUser] = useState<User>(null);
   const [dropdown, setDropdown] = useState<boolean>(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -70,16 +71,16 @@ export default function TempatPopulerPage(props) {
           <nav className="z-2">
             <ul className="nav-list ">
               <li>
-                <a
+                <button
+                  onClick={() => navigate("/")}
                   className={
                     window.location.pathname === "/"
                       ? "bg-white p-3 bg-opacity-50 rounded-4"
                       : ""
                   }
-                  href="/"
                 >
                   <span>Beranda</span>
-                </a>
+                </button>
               </li>
               <li
                 className={
@@ -88,9 +89,9 @@ export default function TempatPopulerPage(props) {
                     : ""
                 }
               >
-                <a href="/list-ticket">
+                <button onClick={() => navigate("/list-ticket")}>
                   <span>Tiket Pesawat</span>
-                </a>
+                </button>
               </li>
               <li
                 className={
@@ -99,9 +100,9 @@ export default function TempatPopulerPage(props) {
                     : ""
                 }
               >
-                <a href="/populerplaces">
+                <button onClick={() => navigate("/populerplaces")}>
                   <span>Tempat Populer</span>
-                </a>
+                </button>
               </li>
               <li
                 className={
@@ -110,9 +111,9 @@ export default function TempatPopulerPage(props) {
                     : ""
                 }
               >
-                <a href="/aboutus">
+                <button onClick={() => navigate("/aboutus")}>
                   <span>Tentang Kami</span>
-                </a>
+                </button>
               </li>
               <li className="ms-auto">
                 {/* Tampilkan button Masuk atau Logout berdasarkan keberadaan token */}

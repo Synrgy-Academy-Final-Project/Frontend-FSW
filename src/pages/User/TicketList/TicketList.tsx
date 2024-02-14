@@ -18,7 +18,7 @@ import DropdownPassenger from "../../../components/DropdownPassenger";
 import MinimumPrice from "../../../components/MinPrice";
 import { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsPower } from "react-icons/bs";
 
 interface User {
@@ -139,6 +139,7 @@ export default function TicketList() {
     window.location.reload();
   };
   const label = "LIST-TICKET";
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -327,52 +328,52 @@ export default function TicketList() {
       <header>
         <div className="bg-plane">
           <nav>
-            <ul className="nav-list">
-              <li>
-                <a
-                  className={
-                    window.location.pathname === "/"
-                      ? "bg-white p-3 bg-opacity-50 rounded-4"
-                      : ""
-                  }
-                  href="/"
-                >
-                  <span>Beranda</span>
-                </a>
-              </li>
-              <li
+              <ul className="nav-list">
+            <li>
+              <button
+                onClick={() => navigate("/")}
                 className={
-                  window.location.pathname === "/list-ticket"
+                  window.location.pathname === "/"
                     ? "bg-white p-3 bg-opacity-50 rounded-4"
                     : ""
                 }
               >
-                <a href="/list-ticket">
-                  <span>Tiket Pesawat</span>
-                </a>
-              </li>
-              <li
-                className={
-                  window.location.pathname === "/populerplaces"
-                    ? "bg-white p-3 bg-opacity-50 rounded-4"
-                    : ""
-                }
-              >
-                <a href="/populerplaces">
-                  <span>Tempat Populer</span>
-                </a>
-              </li>
-              <li
-                className={
-                  window.location.pathname === "/aboutus"
-                    ? "bg-white p-3 bg-opacity-50 rounded-4"
-                    : ""
-                }
-              >
-                <a href="/aboutus">
-                  <span>Tentang Kami</span>
-                </a>
-              </li>
+                <span>Beranda</span>
+              </button>
+            </li>
+            <li
+              className={
+                window.location.pathname === "/list-ticket"
+                  ? "bg-white p-3 bg-opacity-50 rounded-4"
+                  : ""
+              }
+            >
+              <button onClick={() => navigate("/list-ticket")}>
+                <span>Tiket Pesawat</span>
+              </button>
+            </li>
+            <li
+              className={
+                window.location.pathname === "/populerplaces"
+                  ? "bg-white p-3 bg-opacity-50 rounded-4"
+                  : ""
+              }
+            >
+              <button onClick={() => navigate("/populerplaces")}>
+                <span>Tempat Populer</span>
+              </button>
+            </li>
+            <li
+              className={
+                window.location.pathname === "/aboutus"
+                  ? "bg-white p-3 bg-opacity-50 rounded-4"
+                  : ""
+              }
+            >
+              <button onClick={() => navigate("/aboutus")}>
+                <span>Tentang Kami</span>
+              </button>
+            </li>
               <li className="ms-auto">
                 {/* Tampilkan button Masuk atau Logout berdasarkan keberadaan token */}
                 {token && user ? (

@@ -3,6 +3,7 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { BsPower } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   firstName?: string;
@@ -16,6 +17,7 @@ const Navbar: React.FC = () => {
 
   const [user, setUser] = useState<User>(null);
   const [dropdown, setDropdown] = useState<boolean>(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -63,16 +65,16 @@ const Navbar: React.FC = () => {
       <nav>
         <ul className="nav-list">
           <li>
-            <a
+            <button
+              onClick={() => navigate("/")}
               className={
                 window.location.pathname === "/"
                   ? "bg-white p-3 bg-opacity-50 rounded-4"
                   : ""
               }
-              href="/"
             >
               <span>Beranda</span>
-            </a>
+            </button>
           </li>
           <li
             className={
@@ -81,9 +83,9 @@ const Navbar: React.FC = () => {
                 : ""
             }
           >
-            <a href="/list-ticket">
+            <button onClick={() => navigate("/list-ticket")}>
               <span>Tiket Pesawat</span>
-            </a>
+            </button>
           </li>
           <li
             className={
@@ -92,9 +94,9 @@ const Navbar: React.FC = () => {
                 : ""
             }
           >
-            <a href="/populerplaces">
+            <button onClick={() => navigate("/populerplaces")}>
               <span>Tempat Populer</span>
-            </a>
+            </button>
           </li>
           <li
             className={
@@ -103,9 +105,9 @@ const Navbar: React.FC = () => {
                 : ""
             }
           >
-            <a href="/aboutus">
+            <button onClick={() => navigate("/aboutus")}>
               <span>Tentang Kami</span>
-            </a>
+            </button>
           </li>
           <li className="ms-auto">
             {/* Tampilkan button Masuk atau Logout berdasarkan keberadaan token */}
@@ -134,7 +136,9 @@ const Navbar: React.FC = () => {
                     <div className="my-account">
                       <h5>Pengaturan</h5>
                       <div className="information">
-                        <p>Pengaturan Akun</p>
+                        <p>
+                          <a href="/profile">Pengaturan Akun</a>
+                        </p>
                         <p>Bahasa Indonesia</p>
                       </div>
                     </div>
