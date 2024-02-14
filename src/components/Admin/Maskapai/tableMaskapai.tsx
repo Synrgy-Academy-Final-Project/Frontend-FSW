@@ -162,8 +162,10 @@ interface TableMaskapaiProps {
     refreshData: number | boolean;
     onRefresh: () => void; // Tambahkan definisi tipe untuk onRefresh
 }
-
-const ITEMS_PER_PAGE = 5;
+interface ShowProps {
+    show: boolean;
+}
+const ITEMS_PER_PAGE = 10;
 const TableMaskapai = ({ refreshData, onRefresh }) => {
     const navigate = useNavigate();
 
@@ -175,6 +177,7 @@ const TableMaskapai = ({ refreshData, onRefresh }) => {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [sortBy, setSortBy] = useState('newest');
     useEffect(() => {
         const token = localStorage.getItem('token');
 
@@ -194,6 +197,10 @@ const TableMaskapai = ({ refreshData, onRefresh }) => {
                 });
 
                 if (!response.ok) {
+                    if (response.status === 403) {
+                        window.location.href = '/login-admin';
+                        return;
+                    }
                     throw new Error('Error fetching airplanes');
                 }
 
@@ -208,11 +215,27 @@ const TableMaskapai = ({ refreshData, onRefresh }) => {
 
         fetchData();
     }, [refreshData]);
+    const sortAirplanes = (data) => {
+        const sortedData = [...data];
+        sortedData.sort((a, b) => {
+            const dateA = new Date(a.updated_date).getTime(); // Convert to timestamp
+            const dateB = new Date(b.updated_date).getTime(); // Convert to timestamp
+            if (sortBy === 'newest') {
+                return dateB - dateA; // Sort by newest
+            } else {
+                return dateA - dateB; // Sort by oldest
+            }
+        });
+        return sortedData;
+    };
 
+    const handleSortChange = (event) => {
+        setSortBy(event.target.value);
+    };
     const totalPages = Math.ceil(airplanes.length / ITEMS_PER_PAGE);
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-    const currentItems = airplanes.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = sortAirplanes(airplanes).slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePreviousClick = () => {
         setCurrentPage(currentPage => Math.max(currentPage - 1, 1));
@@ -233,39 +256,44 @@ const TableMaskapai = ({ refreshData, onRefresh }) => {
     // DELETE API
     const [deleteError, setDeleteError] = useState('');
     const deleteAirplane = async (id) => {
+        const isConfirmed = window.confirm('Yakin mau hapus data ini?');
         const token = localStorage.getItem('token');
 
-        if (!token) {
-            setError('No token found');
-            return;
-        }
+        if (isConfirmed) {
+            const token = localStorage.getItem('token');
 
-        setIsLoading(true);
-
-        try {
-            const response = await fetch(`https://backend-fsw.fly.dev/api/v1/airplanes/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setAirplanes(airplanes.filter(airplane => airplane.id !== id));
-                alert(data.message);
-            } else {
-                // Handle non-OK responses
-                throw new Error(data.message);
+            if (!token) {
+                setError('No token found');
+                return;
             }
-        } catch (error) {
-            setDeleteError(error.message);
-            setTimeout(() => {
-                setDeleteError('');
-            }, 3000); // Menampilkan pesan selama 3 detik
-        } finally {
-            setIsLoading(false);
+
+            setIsLoading(true);
+
+            try {
+                const response = await fetch(`https://backend-fsw.fly.dev/api/v1/airplanes/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    setAirplanes(airplanes.filter(airplane => airplane.id !== id));
+                    alert(data.message);
+                } else {
+                    // Handle non-OK responses
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                setDeleteError(error.message);
+                setTimeout(() => {
+                    setDeleteError('');
+                }, 3000); // Menampilkan pesan selama 3 detik
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
 
@@ -310,6 +338,10 @@ const TableMaskapai = ({ refreshData, onRefresh }) => {
             <TableContainer>
                 {!isLoading && !error && (
                     <>
+                        <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                        </select>
                         <Table>
                             <thead>
                             <tr>

@@ -29,8 +29,6 @@ import VerifyAccount from "./pages/User/VerifyAccount/VerifyAccount";
 import ForgetPassword from "./pages/User/ForgetPassword/ForgetPassword";
 import ResetPassword from "./pages/User/ForgetPassword/ResetPassword";
 import LandingPage from "./pages/User/LandingPage/LandingPage";
-import AboutUs from "./pages/User/AboutUs/AboutUs.tsx";
-import TempatPopulerPage from "./pages/User/TempatPopulerPage/TempatPopulerPage.tsx";
 
 function App() {
   return (
@@ -38,7 +36,6 @@ function App() {
       <Routes>
         {/* page */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/header" element={<Header />} />
         <Route path="/login" element={<LoginUser />} />
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/list-ticket" element={<TicketList />} />
@@ -51,15 +48,8 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />
         <Route path="/informasiProfile" element={<InformationProfile />} />
-        {/* <ProtectedRoute path="/profile-edit" element={<ProfileEdit />} /> */}
+
         <Route path="/detailpembayaran" element={<PembayaranPage />} />
-        <Route path="/populerplaces" element={<TempatPopulerPage />} />
-        <Route path="/aboutus" element={<AboutUs />} />
-
-        {/* Components */}
-        <Route path="/formprofile" element={<FormProfile />} />
-        <Route path="/ticketsearch" element={<TicketSearch />} />
-
         {/*Admin*/}
 
         <Route path="/login-admin" element={<LoginAdmin />} />
@@ -69,8 +59,6 @@ function App() {
         <Route path="/departure-date" element={<IndexTanggal />} />
         <Route path="/transaction" element={<IndexTransaksi />} />
         <Route path="/detail-airline/:id" element={<IndexDetailPesawat />} />
-        <Route path="/ticketsearch" element={<TicketSearch />} />
-        <Route path="/cek2" element={<DropdownClass />} />
         <Route path="/verify-account-forgot" element={<OTPVerification />} />
       </Routes>
     </>

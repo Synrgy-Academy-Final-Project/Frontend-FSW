@@ -78,12 +78,17 @@ const PaymentSummaryChart: React.FC<Props> = ({ setTotalAmount, setFailureAmount
                 setFailureAmount(failureSum);
 
             } catch (error) {
-                console.error('Error fetching data:', error);
+                if (error.response && error.response.status === 403) {
+                    window.location.href = '/login-admin';
+                } else {
+                    console.error('Error fetching data:', error);
+                }
             }
         };
 
         fetchData();
     }, [setTotalAmount, setFailureAmount]);
+
 
     const generateChartOption = (data: PaymentData): echarts.EChartsCoreOption => {
         const sortedMonths = Object.keys(data).sort(

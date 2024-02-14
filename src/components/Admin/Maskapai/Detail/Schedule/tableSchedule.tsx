@@ -140,7 +140,24 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId, refreshTable 
         airplaneFlightTimePrice: 0
     });
 
-    const ITEMS_PER_PAGE = 3;
+    const ITEMS_PER_PAGE = 5;
+    const [sortBy, setSortBy] = useState('newest');
+    const sortDates = (data) => {
+        const sortedData = [...data];
+        sortedData.sort((a, b) => {
+            const dateA = new Date(a.updatedDate).getTime();
+            const dateB = new Date(b.updatedDate).getTime();
+            if (sortBy === 'newest') {
+                return dateB - dateA; // Sort by newest
+            } else {
+                return dateA - dateB; // Sort by oldest
+            }
+        });
+        return sortedData;
+    };
+    const handleSortChange = (event) => {
+        setSortBy(event.target.value);
+    };
     const [refreshFlag, setRefreshFlag] = useState(false);
     const handleRefresh = () => {
         setRefreshFlag(prevFlag => !prevFlag); // Toggle refresh flag to trigger data reload
@@ -166,6 +183,7 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId, refreshTable 
             })
             .then(data => {
                 if (data.status === 200) {
+                    console.log(data)
                     setFlightTimes(data.data);
                 } else {
                     throw new Error(data.message);
@@ -182,7 +200,7 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId, refreshTable 
     const totalPages = Math.ceil(flightTimes.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const currentFlightTimes = flightTimes.slice(startIndex, endIndex);
+    const currentFlightTimes = sortDates(flightTimes).slice(startIndex, endIndex);
 
     const handlePrevious = () => {
         setCurrentPage(current => Math.max(current - 1, 1));
@@ -266,6 +284,10 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId, refreshTable 
             )}
 
             <TableContainer>
+                <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
                 <Table>
                     <thead>
                     <tr>
