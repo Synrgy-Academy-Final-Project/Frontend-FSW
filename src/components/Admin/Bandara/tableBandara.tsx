@@ -191,7 +191,11 @@ const TableBandara = () => {
 
             } catch (err) {
                 console.error(err);
-                setErrorMessage('Error fetching data. Please try again.');
+                if (err.response && err.response.status === 403) {
+                    window.location.href = '/login-admin';
+                } else {
+                    setErrorMessage('Error fetching data. Please try again.');
+                }
             }
         };
 
@@ -200,6 +204,7 @@ const TableBandara = () => {
             setRefreshData(false);
         }
     }, [refreshData, setRefreshData, pageSize]);
+
 
     const updateDisplayedBandaras = (data, page, size) => {
         const startIndex = (page - 1) * size;

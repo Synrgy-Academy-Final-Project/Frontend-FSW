@@ -183,7 +183,10 @@ const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
                     throw new Error('ID Airplane Not Found');
                 } else if (response.status === 400) {
                     throw new Error('Bad Request');
-                } else {
+                } else if (response.status === 403) {
+                    window.location.href = '/login-admin';
+                    throw new Error('Error Fetching Data');
+                }else {
                     throw new Error('Internal Server Error');
                 }
             })

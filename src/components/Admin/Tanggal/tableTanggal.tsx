@@ -206,7 +206,6 @@ const TableTanggal = () => {
     const handleCancelEdit = () => {
         setEditingDateId(null);
     };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -220,6 +219,11 @@ const TableTanggal = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
+
+                if (response.status === 403) {
+                    window.location.href = '/login-admin';
+                    return;
+                }
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
@@ -240,6 +244,7 @@ const TableTanggal = () => {
 
         fetchData();
     }, [refreshData, setRefreshData, successMessage, patchMessage]);
+
 
     const handlePreviousClick = () => {
         if (currentPage > 1) {

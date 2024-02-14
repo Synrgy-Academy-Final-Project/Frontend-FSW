@@ -180,6 +180,7 @@ const TableTransaksi = () => {
                 if (error.status === 401) {
                     setError('Invalid token. Silakan login kembali.');
                 } else if (error.status === 403) {
+                    window.location.href = '/login-admin';
                     setError('Forbidden. Anda tidak memiliki akses.');
                 } else if (error.status === 500) {
                     setError('Internal Server Error. Silakan coba lagi nanti.');

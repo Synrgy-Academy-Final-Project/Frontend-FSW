@@ -197,6 +197,10 @@ const TableMaskapai = ({ refreshData, onRefresh }) => {
                 });
 
                 if (!response.ok) {
+                    if (response.status === 403) {
+                        window.location.href = '/login-admin';
+                        return;
+                    }
                     throw new Error('Error fetching airplanes');
                 }
 
