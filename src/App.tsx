@@ -29,6 +29,7 @@ import VerifyAccount from "./pages/User/VerifyAccount/VerifyAccount";
 import ForgetPassword from "./pages/User/ForgetPassword/ForgetPassword";
 import ResetPassword from "./pages/User/ForgetPassword/ResetPassword";
 import LandingPage from "./pages/User/LandingPage/LandingPage";
+import AboutUs from "./pages/User/AboutUs/AboutUs.tsx";
 import TempatPopulerPage from "./pages/User/TempatPopulerPage/TempatPopulerPage.tsx";
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
         {/* <ProtectedRoute path="/profile-edit" element={<ProfileEdit />} /> */}
         <Route path="/detailpembayaran" element={<PembayaranPage />} />
         <Route path="/populerplaces" element={<TempatPopulerPage />} />
+        <Route path="/aboutus" element={<AboutUs />} />
 
         {/* Components */}
         <Route path="/formprofile" element={<FormProfile />} />

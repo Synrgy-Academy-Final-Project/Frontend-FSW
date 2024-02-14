@@ -31,8 +31,9 @@ const ProfilePage = () => {
       case 6:
         isConfirmed = window.confirm("Apakah Anda yakin?");
         if (isConfirmed) {
-          localStorage.removeItem("access_token");
+          localStorage.removeItem("token");
           alert("Logout Berhasil");
+          navigate("/login");
         } else {
           alert("Logout dibatalkan");
         }
