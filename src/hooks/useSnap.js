@@ -25,9 +25,9 @@ const useSnap = () => {
             snap.pay(snap_token, {
                 onSuccess: function (result) {
                     console.log("sukses di js", result);
-                    const finishRedirectUrl = result.finish_redirect_url;     
-                    if (finishRedirectUrl) {
-                    navigate(finishRedirectUrl);
+                    const order_id = result.order_id;     
+                    if (order_id) {
+                    navigate(`/eticket?order_id=${order_id}`);
                     } else {
                     console.error("Error: No finish_redirect_url found in result object.");
                     }
