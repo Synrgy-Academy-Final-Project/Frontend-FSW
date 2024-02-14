@@ -51,7 +51,6 @@ function App() {
         <Route path="/detailpembayaran" element={<PembayaranPage />} />
 
         {/*Admin*/}
-
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/airport" element={<IndexBandara />} />
