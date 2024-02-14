@@ -15,6 +15,7 @@ button {
 .background {
   background-image: url(../assets/images/bg-plane-triangle.png);
   background-repeat: no-repeat;
+  background-size: 100% auto;
   object-fit: cover;
   height: 740px;
   background-position: 50% 100%;
