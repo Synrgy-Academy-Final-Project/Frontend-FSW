@@ -25,6 +25,8 @@ import DataPenumpang from "./pages/User/DataPenumpang/DataPenumpang";
 import Header from "./components/Header";
 import "./App.css";
 import TicketList from "./pages/User/TicketList/TicketList.tsx";
+import AboutUs from "./pages/User/AboutUs/AboutUs.tsx";
+import TempatPopulerPage from "./pages/User/TempatPopulerPage/TempatPopulerPage.tsx";
 import VerifyAccount from "./pages/User/VerifyAccount/VerifyAccount";
 import ForgetPassword from "./pages/User/ForgetPassword/ForgetPassword";
 import ResetPassword from "./pages/User/ForgetPassword/ResetPassword";
@@ -48,7 +50,8 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />
         <Route path="/informasiProfile" element={<InformationProfile />} />
-
+        <Route path="/populerplaces" element={<TempatPopulerPage />} />
+        <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/detailpembayaran" element={<PembayaranPage />} />
         {/*Admin*/}
 
