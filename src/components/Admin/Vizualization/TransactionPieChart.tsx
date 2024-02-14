@@ -27,6 +27,9 @@ const TransactionPieChart: React.FC = () => {
             })
                 .then(response => {
                     if (!response.ok) {
+                        if (response.status === 403) {
+                            throw new Error('Forbidden');
+                        }
                         throw new Error('Failed to fetch transaction data');
                     }
                     return response.json();
@@ -39,12 +42,17 @@ const TransactionPieChart: React.FC = () => {
                     }
                 })
                 .catch(error => {
-                    console.error('Error fetching transaction data:', error);
+                    if (error.message === 'Forbidden') {
+                        window.location.href = '/login-admin';
+                    } else {
+                        console.error('Error fetching transaction data:', error);
+                    }
                 });
         } else {
             console.error('Token not found in local storage');
         }
     }, []);
+
 
     useEffect(() => {
         if (!Array.isArray(transactionData) || transactionData.length === 0) {
