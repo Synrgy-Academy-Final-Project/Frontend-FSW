@@ -3,6 +3,7 @@ import "./InformationProfile.css";
 import { format } from "date-fns";
 import {
   BsCalendarDate,
+  BsFillFlagFill,
   BsFillPersonCheckFill,
   BsGeoAlt,
   BsPass,
@@ -31,6 +32,7 @@ interface UserDetails {
   updatedDate: string;
   deletedDate: string | null;
   nik: string | null;
+  nationality: string | null;
 }
 
 interface UserData {
@@ -93,10 +95,19 @@ const InformationProfile: React.FC = () => {
   return (
     <div>
       {userData && (
-        <Card className="profile-card mx-0">
+        <Card className="profile-card mx-0 shadow-none">
           <Card.Body>
             <table className="profile-table">
-              <h4 className="tittle">Informasi Akun</h4>
+              <h4
+                className="tittle"
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "600",
+                  color: "#1c1c1e",
+                }}
+              >
+                Informasi Akun
+              </h4>
               <tbody>
                 <tr>
                   <td className="label">
@@ -168,11 +179,18 @@ const InformationProfile: React.FC = () => {
                   </td>
                   <td>{userData.usersDetails.nik}</td>
                 </tr>
+                <tr>
+                  <td className="label">
+                    <BsFillFlagFill size={22} className="icon" />
+                    <span>Kewarnegaraan</span>
+                  </td>
+                  <td>{userData.usersDetails.nationality}</td>
+                </tr>
               </tbody>
             </table>
             <Button
               variant="primary"
-              className="button-edit mb-3 "
+              className="button-edit mb-3 mt-3"
               onClick={handleEditClick}
             >
               Edit Profile

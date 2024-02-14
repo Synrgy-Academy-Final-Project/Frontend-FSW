@@ -18,6 +18,7 @@ const FormProfile = () => {
   const [passport, setPassport] = useState("");
   const [residentPermit, setResidentPermit] = useState("");
   const [nik, setNik] = useState("");
+  const [nationality, setNationality] = useState("");
 
   const navigate = useNavigate();
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
@@ -226,6 +227,17 @@ const FormProfile = () => {
                 placeholder="NIK"
                 onChange={handleInputNik}
                 pattern="\d*"
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-2">
+              <Form.Label className="form-tittle">Kewarganegaraan</Form.Label>
+              <Form.Control
+                className="form-input"
+                type="nationality"
+                placeholder="Kewarganegaraan"
+                value={nationality}
+                onChange={(e) => setNationality(e.target.value)}
                 required
               />
             </Form.Group>
