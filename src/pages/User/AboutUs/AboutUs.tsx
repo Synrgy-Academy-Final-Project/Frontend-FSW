@@ -21,8 +21,10 @@ import {
   RegulerFeatText,
 } from "../../../components/styles/AboutUs.styled";
 import Footer from "../../../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const AboutUs: React.FC = () => {
+  const navigate = useNavigate()
   return (
     <>
       <AboutUsHeader />
@@ -135,7 +137,7 @@ const AboutUs: React.FC = () => {
           <RegularOptionText>
             Dapatkan berbagai pilihan penerbanganmu
           </RegularOptionText>
-          <OptionButton href="list-ticket">Pesan Tiket</OptionButton>
+          <OptionButton onClick={() => navigate("/list-ticket")}>Pesan Tiket</OptionButton>
         </OptionCard>
 
         <OptionCard>
@@ -146,7 +148,7 @@ const AboutUs: React.FC = () => {
           <RegularOptionText>
             Bingung mau kemana? lihat dulu disini buat referensimu
           </RegularOptionText>
-          <OptionButton href="list-ticket">Tempat Populer</OptionButton>
+          <OptionButton onClick={() => navigate("/populerplaces")}>Tempat Populer</OptionButton>
         </OptionCard>
       </OptionWrapper>
 

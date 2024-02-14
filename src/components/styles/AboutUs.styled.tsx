@@ -130,7 +130,7 @@ export const RegularOptionText = styled.div`
   width: 90%;
 `;
 
-export const OptionButton = styled.a`
+export const OptionButton = styled.button`
   display: flex;
   height: 40px;
   padding: 16px;
