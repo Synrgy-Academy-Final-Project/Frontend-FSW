@@ -25,6 +25,12 @@ const useSnap = () => {
             snap.pay(snap_token, {
                 onSuccess: function (result) {
                     console.log("sukses di js", result);
+                    const finishRedirectUrl = result.finish_redirect_url;     
+                    if (finishRedirectUrl) {
+                    navigate(finishRedirectUrl);
+                    } else {
+                    console.error("Error: No finish_redirect_url found in result object.");
+                    }
                 },
                 onPending: function (result) {
                     console.log("pending", result);
