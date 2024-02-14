@@ -134,7 +134,7 @@ const PageNumber = styled.span`
   text-align: center;
 `;
 
-const itemsPerPage = 3;
+const itemsPerPage = 5;
 
 const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -143,6 +143,23 @@ const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedClassData, setSelectedClassData] = useState(null);
     const [classData, setClassData] = useState([]);
+    const [sortBy, setSortBy] = useState('newest');
+    const sortData = (data) => {
+        const sortedData = [...data];
+        sortedData.sort((a, b) => {
+            const dateA = new Date(a.updated_date).getTime();
+            const dateB = new Date(b.updated_date).getTime();
+            if (sortBy === 'newest') {
+                return dateB - dateA; // Sort by newest
+            } else {
+                return dateA - dateB; // Sort by oldest
+            }
+        });
+        return sortedData;
+    };
+    const handleSortChange = (event) => {
+        setSortBy(event.target.value);
+    };
     useEffect(() => {
         const token = localStorage.getItem('token');
 
@@ -281,6 +298,10 @@ const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
                 )}
             </ModalContainer>
             <TableContainer>
+                <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
                 <Table>
                     <thead>
                     <tr>
@@ -293,7 +314,7 @@ const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {displayedData.map((item, index) => (
+                    {sortData(displayedData).map((item, index) => (
                         <tr key={index}>
                             <Td>{startIndex + index + 1}</Td>
                             <Td>{item.airplaneName}</Td>

@@ -33,10 +33,8 @@ const Input = styled.input`
   font-size: 14px;
 `;
 
-
-
 const ButtonContainer = styled.div`
-  grid-column: 1 / -1; 
+  grid-column: 1 / -1;
   display: flex;
   justify-content: flex-end;
 `;
@@ -63,13 +61,13 @@ const Button = styled.button`
   }
 `;
 const ResponseMessage = styled.div`
-    padding: 8px;
-    border-radius: 4px;
-    margin-left: 15px;
-    margin-right: 15px;
-    text-align: center;
-    cursor: pointer;
-    font-weight: bold;
+  padding: 8px;
+  border-radius: 4px;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
 `;
 
 const FormInputMaskapai = ({ onRefreshData }) => {
@@ -135,7 +133,6 @@ const FormInputMaskapai = ({ onRefreshData }) => {
             airplaneName: formData.airplaneName,
             airplaneCode: formData.airplaneCode,
             airplanePrice: formData.airplanePrice,
-            url: formData.url,
             companyId: selectedAirline ? selectedAirline.value : ''
         };
 
@@ -211,16 +208,6 @@ const FormInputMaskapai = ({ onRefreshData }) => {
                         options={airlineOptions}
                         getOptionLabel={option => option.label}  // Display name
                         getOptionValue={option => option.value}  // Use ID
-                    />
-                </InputGroup>
-                <InputGroup>
-                    <Label>Logo</Label>
-                    <Input
-                        name="url"
-                        type="text"
-                        placeholder="URL Logo"
-                        value={formData.url}
-                        onChange={handleInputChange}
                     />
                 </InputGroup>
                 <InputGroup>

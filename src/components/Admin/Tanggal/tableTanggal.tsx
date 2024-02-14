@@ -160,7 +160,6 @@ const TableTanggal = () => {
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = Math.min(startIndex + pageSize, dates.length);
-    const displayedDates = dates.slice(startIndex, endIndex);
 
     const [isNotificationVisible, setIsNotificationVisible] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
@@ -172,7 +171,25 @@ const TableTanggal = () => {
 
     // ...
     const [editFormMessage, setEditFormMessage] = useState('');
+    const [sortBy, setSortBy] = useState('newest');
+    const sortDates = (data) => {
+        const sortedData = [...data];
+        sortedData.sort((a, b) => {
+            const dateA = new Date(a.updatedDate).getTime();
+            const dateB = new Date(b.updatedDate).getTime();
+            if (sortBy === 'newest') {
+                return dateB - dateA; // Sort by newest
+            } else {
+                return dateA - dateB; // Sort by oldest
+            }
+        });
+        return sortedData;
+    };
+    const handleSortChange = (event) => {
+        setSortBy(event.target.value);
+    };
 
+    const displayedDates = sortDates(dates).slice(startIndex, endIndex);
     const hideMessageAfterTimeout = () => {
         setTimeout(() => {
             setSuccessMessage('');
@@ -320,7 +337,12 @@ const TableTanggal = () => {
             {editFormMessage && hideEditFormMessageAfterTimeout()}
 
             <TableContainer>
+                <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
                 <Table>
+
                     <thead>
                     <tr>
                         <Th>No</Th>
