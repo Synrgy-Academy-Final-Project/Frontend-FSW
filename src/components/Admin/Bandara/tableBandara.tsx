@@ -117,12 +117,16 @@ const ResponseMessage = styled.div`
   cursor: pointer;
   font-weight: bold;
 `;
+interface DataItem {
+    updatedDate: string;
+    // Add other properties if needed
+}
 
 const TableBandara = () => {
     const [bandaras, setBandaras] = useState([]);
     const [displayedBandaras, setDisplayedBandaras] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(3);
+    const [pageSize] = useState(10);
     const [totalItems, setTotalItems] = useState(0);
     const { refreshData, setRefreshData } = useCurrentPage();
     const [isNotificationVisible, setIsNotificationVisible] = useState(false);
@@ -130,6 +134,26 @@ const TableBandara = () => {
     const [selectedBandara, setSelectedBandara] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [sortOrder, setSortOrder] = useState('newest');
+
+    const filterAndSortData = (data: DataItem[], order: string) => {
+        if (order === 'newest') {
+            return data.slice().sort((a, b) => new Date(b.updatedDate).getTime() - new Date(a.updatedDate).getTime());
+        } else if (order === 'oldest') {
+            return data.slice().sort((a, b) => new Date(a.updatedDate).getTime() - new Date(b.updatedDate).getTime());
+        }
+        return data;
+    };
+    const handleSortOrderChange = (order) => {
+        setSortOrder(order);
+    };
+
+    useEffect(() => {
+        const sortedData = filterAndSortData(bandaras, sortOrder);
+        setTotalItems(sortedData.length);
+        updateDisplayedBandaras(sortedData, currentPage, pageSize);
+    }, [bandaras, currentPage, pageSize, sortOrder]);
+
 
     const handleEditClick = (bandaraId) => {
         const selectedBandara = bandaras.find((bandara) => bandara.id === bandaraId);
@@ -167,7 +191,11 @@ const TableBandara = () => {
 
             } catch (err) {
                 console.error(err);
-                setErrorMessage('Error fetching data. Please try again.');
+                if (err.response && err.response.status === 403) {
+                    window.location.href = '/login-admin';
+                } else {
+                    setErrorMessage('Error fetching data. Please try again.');
+                }
             }
         };
 
@@ -176,6 +204,7 @@ const TableBandara = () => {
             setRefreshData(false);
         }
     }, [refreshData, setRefreshData, pageSize]);
+
 
     const updateDisplayedBandaras = (data, page, size) => {
         const startIndex = (page - 1) * size;
@@ -286,7 +315,10 @@ const TableBandara = () => {
                         id={selectedBandara.id}
                     />
                 )}
-
+                <select value={sortOrder} onChange={(e) => handleSortOrderChange(e.target.value)}>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
                 <Table>
                     <thead>
                     <tr>

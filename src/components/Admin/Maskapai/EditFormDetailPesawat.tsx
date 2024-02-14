@@ -91,7 +91,6 @@ const EditFormDetailPesawat = ({ closeModal, airplane, onPatchSuccess }) => {
         airplaneName: airplane.airplaneName || "",
         airplaneCode: airplane.airplaneCode || "",
         airplanePrice: airplane.airplanePrice || 0,
-        url: airplane.url || "",
         airplaneId: airplane.companyId || "",
     });
 
@@ -102,7 +101,6 @@ const EditFormDetailPesawat = ({ closeModal, airplane, onPatchSuccess }) => {
             airplaneName: formData.airplaneName,
             airplaneCode: formData.airplaneCode,
             airplanePrice: formData.airplanePrice,
-            url: formData.url,
             airplaneId: formData.airplaneId,
         };
 
@@ -160,17 +158,6 @@ const EditFormDetailPesawat = ({ closeModal, airplane, onPatchSuccess }) => {
                     value={selectedAirline}
                     onChange={handleSelectChange}
                     options={airlineOptions}
-                />
-            </InputGroup>
-            <InputGroup>
-                <Label>URL</Label>
-                <Input
-                    id="url"
-                    name="url"
-                    type="text"
-                    placeholder="URL"
-                    value={formData.url}
-                    onChange={handleChange}
                 />
             </InputGroup>
             <InputGroup>
