@@ -156,7 +156,6 @@ const TableTanggal = () => {
     const [pageSize] = useState(10);
     const { refreshData, setRefreshData } = useCurrentPage();
 
-    const totalPages = Math.ceil(dates.length / pageSize);
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = Math.min(startIndex + pageSize, dates.length);
@@ -189,7 +188,6 @@ const TableTanggal = () => {
         setSortBy(event.target.value);
     };
 
-    const displayedDates = sortDates(dates).slice(startIndex, endIndex);
     const hideMessageAfterTimeout = () => {
         setTimeout(() => {
             setSuccessMessage('');
@@ -314,7 +312,19 @@ const TableTanggal = () => {
             setEditFormMessage('');
         }, 3000);
     };
+    const [searchTerm, setSearchTerm] = useState('');
 
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredDates = dates.filter((date) =>
+        formatDate(date.dateOfDeparture).includes(searchTerm.toLowerCase()) ||
+        date.dayCategory.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        date.price.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const displayedDates = sortDates(filteredDates).slice(startIndex, endIndex);
+    const totalPages = Math.ceil(filteredDates.length / pageSize);
     return (
         <>
             {isNotificationVisible && successMessage && (
@@ -342,6 +352,7 @@ const TableTanggal = () => {
             {editFormMessage && hideEditFormMessageAfterTimeout()}
 
             <TableContainer>
+                <input type="text" placeholder="Cari..." value={searchTerm} onChange={handleSearchChange} />
                 <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
                     <option value="newest">Newest</option>
                     <option value="oldest">Oldest</option>

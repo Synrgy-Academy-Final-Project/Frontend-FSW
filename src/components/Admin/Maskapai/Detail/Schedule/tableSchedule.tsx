@@ -128,6 +128,7 @@ const PageNumber = styled.span`
 `;
 
 const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId, refreshTable }) => {
+    const [searchQuery, setSearchQuery] = useState('');
 
     const [flightTimes, setFlightTimes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -270,6 +271,14 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId, refreshTable 
             closeEditModal();
         }
     };
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+    const filteredFlightTimes = currentFlightTimes.filter(flight =>
+        flight.airplaneName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        flight.flightTime.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        flight.airplaneFlightTimePrice.toString().includes(searchQuery)
+    );
 
     return (
         <>
@@ -284,6 +293,8 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId, refreshTable 
             )}
 
             <TableContainer>
+                <input type="text" value={searchQuery} onChange={handleSearchInputChange} placeholder="Search..." />
+
                 <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
                     <option value="newest">Newest</option>
                     <option value="oldest">Oldest</option>
@@ -299,7 +310,7 @@ const TableSchedule: React.FC<TableScheduleProps> = ({ airplaneId, refreshTable 
                     </tr>
                     </thead>
                     <tbody>
-                    {currentFlightTimes.map((flight, index) => (
+                    {filteredFlightTimes.map((flight, index) => (
                         <tr key={flight.id}>
                             <Td>{startIndex + index + 1}</Td>
                             <Td>{flight.airplaneName}</Td>
