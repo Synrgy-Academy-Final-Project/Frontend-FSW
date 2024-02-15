@@ -152,6 +152,7 @@ const TableTransaksi = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const [sortBy, setSortBy] = useState('newest');
+    const [searchTerm, setSearchTerm] = useState('');
 
 
     useEffect(() => {
@@ -198,7 +199,6 @@ const TableTransaksi = () => {
         const dateB = new Date(b.transaction_time).getTime();
         return sortBy === 'newest' ? dateB - dateA : dateA - dateB;
     });
-    const currentTransactions = sortedTransactions.slice(indexOfFirstItem, indexOfLastItem);
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -206,8 +206,29 @@ const TableTransaksi = () => {
     const handleSortChange = (event) => {
         setSortBy(event.target.value);
     };
+    const filteredTransactions = sortedTransactions.filter(transaction =>
+        transaction.id.toString().includes(searchTerm) ||
+        (transaction.first_name + ' ' + transaction.last_name).toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (transaction.departure_code + ' - ' + transaction.arrival_code).toLowerCase().includes(searchTerm.toLowerCase()) ||
+        new Date(transaction.transaction_time).toLocaleString('id-ID').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.airline.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        formatPrice(transaction.total_price).toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.transaction_status.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+
+    const currentTransactions = filteredTransactions.slice(indexOfFirstItem, indexOfLastItem);
+
     return (
         <TableContainer>
+            <input
+                type="text"
+                placeholder="Cari..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="mt-1"
+            />
+
             <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>

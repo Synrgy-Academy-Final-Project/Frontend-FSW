@@ -144,6 +144,8 @@ const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
     const [selectedClassData, setSelectedClassData] = useState(null);
     const [classData, setClassData] = useState([]);
     const [sortBy, setSortBy] = useState('newest');
+    const [searchTerm, setSearchTerm] = useState('');
+
     const sortData = (data) => {
         const sortedData = [...data];
         sortedData.sort((a, b) => {
@@ -209,7 +211,6 @@ const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
-    const displayedData = classData.slice(startIndex, endIndex);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
@@ -287,6 +288,15 @@ const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
         setShowEditModal(false);
         setSelectedClassData(null);
     };
+    const filteredData = classData.filter(item =>
+        item.airplaneName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.airplaneClassName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.capacity.toString().includes(searchTerm) ||
+        item.airplaneClassPrice.toString().includes(searchTerm)
+    );
+
+
+    const displayedData = sortData(filteredData).slice(startIndex, endIndex);
 
     return (
         <>
@@ -301,6 +311,14 @@ const TableClass = ({ airplaneId, refreshTable, onRefresh }) => {
                 )}
             </ModalContainer>
             <TableContainer>
+                <input
+                    type="text"
+                    placeholder="Cari..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="mt-1"
+                />
+
                 <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
                     <option value="newest">Newest</option>
                     <option value="oldest">Oldest</option>
