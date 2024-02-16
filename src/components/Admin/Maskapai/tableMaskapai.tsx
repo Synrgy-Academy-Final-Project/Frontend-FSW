@@ -232,10 +232,9 @@ const TableMaskapai = ({ refreshData, onRefresh }) => {
     const handleSortChange = (event) => {
         setSortBy(event.target.value);
     };
-    const totalPages = Math.ceil(airplanes.length / ITEMS_PER_PAGE);
+
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-    const currentItems = sortAirplanes(airplanes).slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePreviousClick = () => {
         setCurrentPage(currentPage => Math.max(currentPage - 1, 1));
@@ -319,6 +318,17 @@ const TableMaskapai = ({ refreshData, onRefresh }) => {
             onRefresh(); // Memanggil fungsi refresh
         }
     };
+    const [searchTerm, setSearchTerm] = useState('');
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+    const filteredAirplanes = sortAirplanes(airplanes).filter((airplane) =>
+        airplane.airlineName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        airplane.airplaneName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        airplane.airplaneCode.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const currentItems = filteredAirplanes.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredAirplanes.length / ITEMS_PER_PAGE);
     return (
         <>
             <Overlay show={showEditModal} onClick={closeEditModal} />
@@ -337,7 +347,7 @@ const TableMaskapai = ({ refreshData, onRefresh }) => {
 
             <TableContainer>
                 {!isLoading && !error && (
-                    <>
+                    <><input type="text" placeholder="Cari..." value={searchTerm} onChange={handleSearchChange} />
                         <select id="sortSelect" value={sortBy} onChange={handleSortChange} className={'mt-1'}>
                             <option value="newest">Newest</option>
                             <option value="oldest">Oldest</option>

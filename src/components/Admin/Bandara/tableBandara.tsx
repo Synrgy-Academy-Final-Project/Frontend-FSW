@@ -135,6 +135,22 @@ const TableBandara = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [sortOrder, setSortOrder] = useState('newest');
+    const [searchTerm, setSearchTerm] = useState('');
+    const searchBandaras = (data, term) => {
+        return data.filter(bandara => {
+            return bandara.fromCity.toLowerCase().includes(term.toLowerCase()) ||
+                bandara.toCity.toLowerCase().includes(term.toLowerCase()) ||
+                bandara.fromCode.toLowerCase().includes(term.toLowerCase()) ||
+                bandara.toCode.toLowerCase().includes(term.toLowerCase()) ||
+                bandara.price.toString().toLowerCase().includes(term.toLowerCase());
+        });
+    };
+    useEffect(() => {
+        const filteredData = searchTerm === '' ? bandaras : searchBandaras(bandaras, searchTerm);
+        const sortedData = filterAndSortData(filteredData, sortOrder);
+        setTotalItems(sortedData.length);
+        updateDisplayedBandaras(sortedData, currentPage, pageSize);
+    }, [bandaras, currentPage, pageSize, sortOrder, searchTerm]);
 
     const filterAndSortData = (data: DataItem[], order: string) => {
         if (order === 'newest') {
@@ -315,6 +331,13 @@ const TableBandara = () => {
                         id={selectedBandara.id}
                     />
                 )}
+                <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Cari..."
+            />
+
                 <select value={sortOrder} onChange={(e) => handleSortOrderChange(e.target.value)}>
                     <option value="newest">Newest</option>
                     <option value="oldest">Oldest</option>
