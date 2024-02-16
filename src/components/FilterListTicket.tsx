@@ -162,7 +162,7 @@ const FilterListTicket = ({
         </div>
 
         {/* Pemberhentian */}
-        <div className="lsNOL">
+        {/* <div className="lsNOL">
           <h2 className="textH2">Pemberhentian</h2>
           <div className="NolContent">
             <div className="NolWrapper">
@@ -187,10 +187,10 @@ const FilterListTicket = ({
               <span>+Rp400.000</span>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Maskapai */}
-        <div className="lsAirlines">
+        {/* <div className="lsAirlines">
           <h2 className="textH2">Maskapai</h2>
           <div className="airlinesContent">
             <div className="checkContent">
@@ -202,7 +202,7 @@ const FilterListTicket = ({
               <label htmlFor="airlines2">Aerolineas Argentinas</label>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Facility */}
         <div className="lsNOL">

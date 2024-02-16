@@ -16,6 +16,7 @@ import DropdownPassenger from "./DropdownPassenger";
 import useTicketSearch from "../pages/User/TicketList/TicketList.Hooks";
 import useTicketList from "../pages/User/TicketList/TicketList";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const customStylesStart = {
   control: (provided) => ({
@@ -122,6 +123,21 @@ export default function TicketSearch() {
     tickets,
     // Other state variables and functions from useTicketSearch...
   } = useTicketSearch();
+
+  const navigate = useNavigate();
+  const handleNavigateToList = () => {
+    // handleSearch("", {}, [], []);
+    // navigate("/list-ticket");
+    navigate("/list-ticket", {
+      state: {
+        origin: selectedOriginOption,
+        destination: selectedDestinationOption,
+        departureDate,
+        returnDate,
+        passengersData,
+      },
+    });
+  };
 
   const [passengersData, setPassengersData] = useState([
     { type: "adult", count: 1 },
@@ -246,11 +262,11 @@ export default function TicketSearch() {
                     </div>
                   </AccordionHeader>
                   <Accordion.Body className="p-0">
-                    <DropdownPassenger
+                    {/* <DropdownPassenger
                       onChangeCount={(count, type) =>
                         handlePassengerCountChange(count, type)
                       }
-                    />
+                    /> */}
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
@@ -277,7 +293,7 @@ export default function TicketSearch() {
             <Col></Col>
           </Row>
           <div className="text-center">
-            <Button className="" onClick={() => handleSearch("", {}, [], [])}>
+            <Button className="" onClick={handleNavigateToList}>
               <span className="px-4 text-white">Cari Tiket</span>
             </Button>
           </div>

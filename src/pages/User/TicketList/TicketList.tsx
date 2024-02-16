@@ -140,7 +140,7 @@ export default function TicketList() {
     window.location.reload();
   };
   const label = "LIST-TICKET";
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -322,6 +322,8 @@ export default function TicketList() {
   //   }
   // };
 
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div>
       {/* <Header label="LIST-TICKET" /> */}
@@ -329,52 +331,52 @@ export default function TicketList() {
       <header>
         <div className="bg-plane">
           <nav>
-              <ul className="nav-list">
-            <li>
-              <button
-                onClick={() => navigate("/")}
+            <ul className="nav-list">
+              <li>
+                <button
+                  onClick={() => navigate("/")}
+                  className={
+                    window.location.pathname === "/"
+                      ? "bg-white p-3 bg-opacity-50 rounded-4"
+                      : ""
+                  }
+                >
+                  <span>Beranda</span>
+                </button>
+              </li>
+              <li
                 className={
-                  window.location.pathname === "/"
+                  window.location.pathname === "/list-ticket"
                     ? "bg-white p-3 bg-opacity-50 rounded-4"
                     : ""
                 }
               >
-                <span>Beranda</span>
-              </button>
-            </li>
-            <li
-              className={
-                window.location.pathname === "/list-ticket"
-                  ? "bg-white p-3 bg-opacity-50 rounded-4"
-                  : ""
-              }
-            >
-              <button onClick={() => navigate("/list-ticket")}>
-                <span>Tiket Pesawat</span>
-              </button>
-            </li>
-            <li
-              className={
-                window.location.pathname === "/populerplaces"
-                  ? "bg-white p-3 bg-opacity-50 rounded-4"
-                  : ""
-              }
-            >
-              <button onClick={() => navigate("/populerplaces")}>
-                <span>Tempat Populer</span>
-              </button>
-            </li>
-            <li
-              className={
-                window.location.pathname === "/aboutus"
-                  ? "bg-white p-3 bg-opacity-50 rounded-4"
-                  : ""
-              }
-            >
-              <button onClick={() => navigate("/aboutus")}>
-                <span>Tentang Kami</span>
-              </button>
-            </li>
+                <button onClick={() => navigate("/list-ticket")}>
+                  <span>Tiket Pesawat</span>
+                </button>
+              </li>
+              <li
+                className={
+                  window.location.pathname === "/populerplaces"
+                    ? "bg-white p-3 bg-opacity-50 rounded-4"
+                    : ""
+                }
+              >
+                <button onClick={() => navigate("/populerplaces")}>
+                  <span>Tempat Populer</span>
+                </button>
+              </li>
+              <li
+                className={
+                  window.location.pathname === "/aboutus"
+                    ? "bg-white p-3 bg-opacity-50 rounded-4"
+                    : ""
+                }
+              >
+                <button onClick={() => navigate("/aboutus")}>
+                  <span>Tentang Kami</span>
+                </button>
+              </li>
               <li className="ms-auto">
                 {/* Tampilkan button Masuk atau Logout berdasarkan keberadaan token */}
                 {token && user ? (
@@ -390,7 +392,9 @@ export default function TicketList() {
                           <h5>Akun Saya</h5>
                           <div className="information">
                             <p>
-                              <button onClick={() => navigate("/pesanan")}>Pesanan</button>
+                              <button onClick={() => navigate("/pesanan")}>
+                                Pesanan
+                              </button>
                             </p>
                             <p>Notifikasi Harga</p>
                             <p>Favorit</p>
@@ -403,7 +407,9 @@ export default function TicketList() {
                           <h5>Pengaturan</h5>
                           <div className="information">
                             <p>
-                              <button onClick={() => navigate("/profile")}>Pengaturan Akun</button>
+                              <button onClick={() => navigate("/profile")}>
+                                Pengaturan Akun
+                              </button>
                             </p>
                             <p>Bahasa Indonesia</p>
                           </div>
@@ -437,7 +443,7 @@ export default function TicketList() {
           <div className="title">
             {label === "LIST-TICKET" ? (
               <>
-                <h1>TIKET PESAWAT</h1>
+                <h1 className="mb-5">TIKET PESAWAT</h1>
               </>
             ) : (
               <>
@@ -531,45 +537,67 @@ export default function TicketList() {
                     </Col>
                   </Row>
                   <Row className="mb-3 pt-2">
-                    <Col></Col>
-                    <Col className="pe-0">
-                      <Accordion
-                        defaultActiveKey="null"
-                        className="rounded-start"
-                      >
-                        <Accordion.Item
-                          eventKey="0"
-                          className="d-flex flex-column border-0"
-                        >
-                          <AccordionHeader className="p-0 justify-content-between ">
-                            <div className="d-flex flex-column mt-1 pt-2 ms-3">
-                              <p className="accordeoon-label">
-                                Jumlah Penumpang
-                              </p>
-                            </div>
-                            <div className="d-flex position-absolute flex-column pt-4 mt-2 ms-3">
-                              <p>Penumpang</p>
-                            </div>
-                          </AccordionHeader>
-                          <Accordion.Body className="p-0">
-                            <DropdownPassenger
-                              onChangeCount={(count, type) =>
-                                handlePassengerCountChange(count, type)
-                              }
-                            />
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      </Accordion>
-                    </Col>
-                    <Col className="ps-0 border-r">
+                    <Col lg="2"></Col>
+                    <Col lg="4" className="pe-0">
                       <FloatingLabel
-                        className="rounded-end"
+                        controlId="floatingSelectGrid"
+                        label="Jumlah Penumpang"
+                      >
+                        <Form.Select
+                          aria-label="Floating label select example"
+                          className="rounded-start"
+                          onClick={() => setShowModal(true)}
+                        >
+                          <option>
+                            Penumpang :
+                            {passengersData.some(
+                              (passenger) => passenger.count > 0
+                            ) && (
+                              <option>
+                                {passengersData
+                                  .map((passenger) => {
+                                    if (passenger.count > 0) {
+                                      let passengerType = "";
+                                      switch (passenger.type) {
+                                        case "adult":
+                                          passengerType = "Dewasa";
+                                          break;
+                                        case "child":
+                                          passengerType = "Anak-anak";
+                                          break;
+                                        case "baby":
+                                          passengerType = "Bayi";
+                                          break;
+                                        default:
+                                          passengerType = passenger.type;
+                                      }
+                                      return ` ${passenger.count} ${passengerType}`;
+                                    }
+                                    return null;
+                                  })
+                                  .filter(Boolean)
+                                  .join(", ")}
+                              </option>
+                            )}
+                          </option>
+                        </Form.Select>
+                      </FloatingLabel>
+                      <DropdownPassenger
+                        onChangeCount={(count, type) =>
+                          handlePassengerCountChange(count, type)
+                        }
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+                      />
+                    </Col>
+                    <Col lg="4" className="ps-0 border-r">
+                      <FloatingLabel
                         controlId="floatingSelectGrid"
                         label="Kelas"
                       >
                         <Form.Select
                           aria-label="Floating label select example"
-                          className="border-0"
+                          className="rounded-end"
                           onChange={handleClassChange}
                         >
                           <option>Kelas</option>
@@ -582,7 +610,7 @@ export default function TicketList() {
                         </Form.Select>
                       </FloatingLabel>
                     </Col>
-                    <Col></Col>
+                    <Col lg="2"></Col>
                   </Row>
                   <div className="text-center">
                     <Button
