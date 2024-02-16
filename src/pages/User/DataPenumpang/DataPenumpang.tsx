@@ -416,7 +416,7 @@ const DataPenumpang: React.FC = () => {
               </div>
             </div>
           </div>
-          <DetailHarga bookingData={bookingData} />
+          <DetailHarga bookingData={bookingData} passengersData={passengersData} />
         </Col>
       </Row>
 
