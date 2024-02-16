@@ -1,11 +1,31 @@
 import { Button, Card, Container, Table } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import "./DetailHarga.css";
 
-const DetailHarga = ({ bookingData }) => {
+const DetailHarga = ({ bookingData,passengersData }) => {
   const navigate = useNavigate();
   const price = bookingData?.tickets.totalPrice
+  const [isPassengerDetailFilled, setIsPassengerDetailFilled] = useState(false);
+  useEffect(() => {
+    const allPassengerDetailsFilled = passengersData.every(passengerType => {
+      const bookingType = passengerType.type;
+      const passengerCount = passengerType.count;
+      const passengersOfType = bookingData.penumpang.filter(passenger => passenger.type === bookingType);
+      if (passengersOfType.length !== passengerCount) return false;
+      return passengersOfType.every(penumpang => {
+        if (penumpang.type === "adult") {
+          return penumpang.name && penumpang.date && penumpang.gender && penumpang.phoneNumber;
+        } else {
+          return penumpang.name && penumpang.date && penumpang.gender;
+        }
+      });
+    });
+
+    setIsPassengerDetailFilled(allPassengerDetailsFilled);
+  }, [bookingData, passengersData]);
+
+
 
   const formatPrice = (price: number) => {
     const formattedPrice = new Intl.NumberFormat("id-ID", {
@@ -22,22 +42,25 @@ const DetailHarga = ({ bookingData }) => {
   const hargaBaby = parseInt((price * 0.2).toFixed(0));
 
   const handleSubmit = () => {
-    const fixData = {
-      tickets: bookingData?.tickets,
-      pemesan : bookingData?.pemesan,
-      penumpang : bookingData?.penumpang,
-      harga : {
-        adult: price,
-        kids: hargaKids,
-        baby: hargaBaby,
+    if (isPassengerDetailFilled) {
+      const fixData = {
+        tickets: bookingData?.tickets,
+        pemesan: bookingData?.pemesan,
+        penumpang: bookingData?.penumpang,
+        harga: {
+          adult: price,
+          kids: hargaKids,
+          baby: hargaBaby,
+        }
       }
+      navigate('/detailpembayaran', {
+        state: {
+          bookingData: fixData
+        },
+      });
+    } else {
+      alert("Silakan lengkapi semua detail penumpang terlebih dahulu.");
     }
-    // localStorage.setItem('bookingData', JSON.stringify(fixData));
-    navigate('/detailpembayaran', {
-      state: {
-        bookingData: fixData
-      },
-    });
   };
 
   return (
@@ -65,13 +88,14 @@ const DetailHarga = ({ bookingData }) => {
               </tr>
             </tbody>
           </Table>
-          <div
-            style={{ backgroundColor: "#3e7bfa", color: "white", maxWidth:"100%" }}
-            className="btn button-harga"
-            onClick={handleSubmit}
+          <Button
+              style={{ backgroundColor: "#3e7bfa", color: "white", maxWidth:"100%" }}
+              className={`btn button-harga ${isPassengerDetailFilled ? "" : "disabled"}`}
+              onClick={handleSubmit}
+              disabled={!isPassengerDetailFilled}
           >
             Lanjut ke pembayaran
-          </div>
+          </Button>
         </Card.Body>
       </div>
     </div>
