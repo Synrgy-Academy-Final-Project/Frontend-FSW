@@ -17,9 +17,14 @@ type TransformedItem = {
 export default function FormPembayaran({ bookingData, discount }) {
   const { snapPay } = useSnap();
   const [orderId, setOrderId] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
   const options = [
     { value: 'midtrans', label: 'Midtrans' }
   ]
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
 
   const formatDate = (dateTimeString: string) => {
     const departureDate = new Date(dateTimeString);
@@ -145,9 +150,24 @@ export default function FormPembayaran({ bookingData, discount }) {
                       Metode Pembayaran<span className="text-danger">*</span>
                     </Form.Label>
                     <Select options={options} defaultValue={options} />
+                    <div className="mt-3">
+                      <Form.Check type="checkbox" id="">
+                        <Form.Check.Input type="checkbox" checked={isChecked} onChange={handleCheckboxChange}/>
+                        <Form.Check.Label>
+                          Dengan melakukan pembayaran ini, saya telah menyetujui
+                          segala{" "}
+                          <span className="text-primary">
+                            Ketentuan Pengguna{" "}
+                          </span>
+                          dan{" "}
+                          <span className="text-primary">Kebijakan Privasi</span>{" "}
+                          Fly.id
+                        </Form.Check.Label>
+                      </Form.Check>
+                    </div>
                   </>
                   <div className="d-grid gap-2 mt-3">
-                    <Button variant="primary" onClick={handleTransactions}>
+                    <Button variant="primary" onClick={handleTransactions} disabled={!isChecked}>
                       <img src="./icon/Shield Check.svg" alt="" />
                       Bayar
                     </Button>
