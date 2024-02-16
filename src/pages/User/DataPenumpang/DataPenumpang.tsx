@@ -111,25 +111,21 @@ const DataPenumpang: React.FC = () => {
               <i className="user-avatar"></i>
             </div>
           ) : (
-            <a className="login bg-white bg-opacity-50 rounded-4" href="/login">
-              <span>Masuk</span>
+            <a className="login bg-primary bg-opacity-75 rounded-4 text-white" href="/login">
+              <>Masuk</>
             </a>
           )}
         </Col>
       </Row>
       <Div1 className="my-4">
         <Row className="align-items-center">
-          <Col lg={1}>
-            <img src="./images/3d-phone.png" alt="" />
+          <Col lg={1} >
+            <img src="./images/3d-phone.png" alt="" className="ps-3" />
           </Col>
-          <Col lg={11} className="ps-5">
+          <Col lg={11} >
             <HeadText>
-              Ayo masuk dan pesan tiket jadi lebih mudah dan cepat lo!
+              Masukkan data Anda dengan benar sesuai kartu identitas
             </HeadText>
-            <p>
-              Masuk ke akun Anda dan nikmati layanan mudah dan cepat untuk
-              mendapatkan tiket impianmu
-            </p>
           </Col>
         </Row>
       </Div1>

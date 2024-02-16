@@ -100,11 +100,8 @@ export default function PembayaranPage() {
                 <i className="user-avatar"></i>
               </div>
             ) : (
-              <a
-                className="login bg-white bg-opacity-50 rounded-4"
-                href="/login"
-              >
-                <span>Masuk</span>
+              <a className="login bg-primary bg-opacity-75 rounded-4 text-white" href="/login">
+                <>Masuk</>
               </a>
             )}
           </Col>

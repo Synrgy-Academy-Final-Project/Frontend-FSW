@@ -9,7 +9,7 @@ button {
   background-image: url(../assets/images/plane-bg.png);
   background-repeat: no-repeat;
   object-fit: cover;
-  height: 850px;
+  height: 650px;
   background-position: 60% 39%;
 }
 .background {
@@ -33,7 +33,7 @@ button {
   justify-content: left;
   align-items: center;
   gap: 2.5rem;
-  padding: 3rem;
+  padding: 2.5rem 3rem 1rem;
 }
 
 .nav-list a {
@@ -82,8 +82,8 @@ button {
 }
 
 .title {
-  color: #fff;
-  padding: 3rem;
+  color: var(--blue);
+  padding: 2.5rem 3rem;
   display: flex;
   flex-direction: column;
 }
@@ -95,7 +95,7 @@ button {
   margin-bottom: 1rem;
 }
 
-.title h3 {
+.title h4 {
   text-shadow: 1px 4px 8px grey;
 }
 

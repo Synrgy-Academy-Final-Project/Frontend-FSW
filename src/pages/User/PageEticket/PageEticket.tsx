@@ -99,8 +99,15 @@ export default function PageEticket() {
           Authorization: `Bearer ${token}`,
         },
       });
+      const sendEmail = await fetch(base_url + `/report/eticket/${orderId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/pdf",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      if (response.status === 200) {
+      if (response.status === 200 && sendEmail.status === 200) {
         const blob = await response.blob(); 
         const url = URL.createObjectURL(blob); 
         setPdfUrl(url);

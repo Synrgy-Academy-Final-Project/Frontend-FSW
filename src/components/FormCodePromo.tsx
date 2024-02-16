@@ -14,6 +14,7 @@ interface DiscountProps {
 const FormCodePromo: React.FC<DiscountProps> = ({ onDiscountChange }) => {
   const [promoCode, setPromoCode] = useState('');
   const [promoStatus, setPromoStatus] = useState(null); 
+  const [textPromo, setTextPromo] = useState('')
   const [discount, setDiscount] = useState(0);
 
   const handlePromoCodeChange = (event) => {
@@ -33,21 +34,30 @@ const FormCodePromo: React.FC<DiscountProps> = ({ onDiscountChange }) => {
   }, [discount, promoCode]);
 
   const handlePromo = async () => {
-    try {
-      const response = await fetch(`https://fly-id-1999ce14c36e.herokuapp.com/promotions/${promoCode}`);
-      if (response.status === 200) {
-        const data = await response.json();        
-        setDiscount(data?.data.discount);
-        setPromoStatus('success');
-      } else {
+    if (promoCode !== '') {
+      try {
+        const response = await fetch(`https://fly-id-1999ce14c36e.herokuapp.com/promotions/${promoCode}`);
+        if (response.status === 200) {
+          const data = await response.json();        
+          setDiscount(data?.data.discount);
+          setPromoStatus('success');
+          setTextPromo('Selamat! Promo ditemukan')
+        } else {
+          setDiscount(0);
+          setPromoStatus('secondary');
+          setTextPromo('Maaf, promo tidak ditemukan')
+        }
+      } catch (error) {
+        console.error('Error fetching promo:', error);
         setDiscount(0);
-        setPromoStatus('secondary');
+        setPromoStatus('danger');
       }
-    } catch (error) {
-      console.error('Error fetching promo:', error);
+    } else {
       setDiscount(0);
       setPromoStatus('danger');
+      setTextPromo('Kode promo tidak boleh kosong!')
     }
+    
     setTimeout(() => {
       setPromoStatus(null);
     }, 5000);
@@ -67,18 +77,18 @@ const FormCodePromo: React.FC<DiscountProps> = ({ onDiscountChange }) => {
             onChange={handlePromoCodeChange}
           />
           <InputGroup.Text className="border-start-0 bg-white">
-            <img src="public/images/check-circle.png" alt="Icon" />
+            <img src="./images/check-circle.png" alt="Icon" />
           </InputGroup.Text>
         </InputGroup>
         <div className="d-grid gap-2 mt-3">
           <Button variant="primary" size="sm" onClick={handlePromo}>
-            oke
+            Cari Promo
           </Button>
         </div>
         {promoStatus && (
         <div className="mt-2">
           <Badge bg={promoStatus} className="fs-6">
-            {promoStatus === 'success' ? 'Selamat! Promo ditemukan' : 'Maaf, promo tidak ditemukan'}
+            {textPromo}
           </Badge>
         </div>
       )}

@@ -1,6 +1,6 @@
 import { Button, Card, Container, Form } from "react-bootstrap";
-import { Snap } from "midtrans-client";
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select'
 
 import "./FormPembayaran.css";
 import useSnap from "../hooks/useSnap.js";
@@ -16,8 +16,10 @@ type TransformedItem = {
 
 export default function FormPembayaran({ bookingData, discount }) {
   const { snapPay } = useSnap();
-  const navigate = useNavigate();
   const [orderId, setOrderId] = useState('');
+  const options = [
+    { value: 'midtrans', label: 'Midtrans' }
+  ]
 
   const formatDate = (dateTimeString: string) => {
     const departureDate = new Date(dateTimeString);
@@ -95,7 +97,6 @@ export default function FormPembayaran({ bookingData, discount }) {
         snapPay(data?.data.token, {
           onSuccess: function (result) {
             console.log("success in TSX", result);
-            
           },
           onPending: function (result) {
             console.log("wating", result);
@@ -107,10 +108,6 @@ export default function FormPembayaran({ bookingData, discount }) {
           },
         });
         
-        // const snap = new Snap({ isProduction: true, serverKey: 'YOUR_SERVER_KEY' });
-        // window.snap.pay(data?.data.token, {
-        //   // Konfigurasi opsi pembayaran Snap di sini
-        // });
       } else {
         console.log("ada eror", response);
       }
@@ -147,57 +144,7 @@ export default function FormPembayaran({ bookingData, discount }) {
                     <Form.Label>
                       Metode Pembayaran<span className="text-danger">*</span>
                     </Form.Label>
-                    <Form.Select aria-label="Default select example">
-                      <option>Pilih metode pembayaran</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </Form.Select>
-                    <div className="row my-3">
-                      <div className="col">
-                        <Form.Label>Nama Pemegang Kartu</Form.Label>
-                        <Form.Control type="text" placeholder="Nama" />
-                      </div>
-                      <div className="col">
-                        <Form.Label>
-                          Nomor Kartu Kredit/Debit
-                          <span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="****-****-****-****"
-                        />
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <Form.Label>
-                          Kedaluwarsa<span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control type="text" placeholder="MM/YY" />
-                      </div>
-                      <div className="col">
-                        <Form.Label>
-                          CVV<span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control type="text" placeholder="***" />
-                      </div>
-                    </div>
-                    <div className="mt-3">
-                      <Form.Check type="checkbox" id="">
-                        <Form.Check.Input type="checkbox" />
-                        <Form.Check.Label>
-                          Dengan melakukan pembayaran ini, saya telah menyetujui
-                          segala{" "}
-                          <span className="text-primary">
-                            Ketentuan Pengguna{" "}
-                          </span>
-                          dan{" "}
-                          <span className="text-primary">Kebijakan Privasi</span>{" "}
-                          Fly.id
-                        </Form.Check.Label>
-                      </Form.Check>
-                    </div>
+                    <Select options={options} defaultValue={options} />
                   </>
                   <div className="d-grid gap-2 mt-3">
                     <Button variant="primary" onClick={handleTransactions}>

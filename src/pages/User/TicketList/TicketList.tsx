@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { BsPower } from "react-icons/bs";
+import "./TicketSearch.css";
 
 interface User {
   firstName?: string;

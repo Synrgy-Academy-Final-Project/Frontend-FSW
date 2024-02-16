@@ -70,7 +70,7 @@ const DetailHarga = ({ bookingData }) => {
             className="btn button-harga"
             onClick={handleSubmit}
           >
-            Submit
+            Lanjut ke pembayaran
           </div>
         </Card.Body>
       </div>

@@ -9,7 +9,7 @@ const AboutUsHeader: React.FC = () => {
         <Navbar />
         <div className="tagline">
           <h1>Selamat Datang di Fly.id</h1>
-          <p>Let Your Dreams Take Flight!</p>
+          <p>Let’s Your Dreams Take Flight!</p>
         </div>
         <img className="polygon" src="./images/polygon-1.png" alt="polygon" />
       </div>

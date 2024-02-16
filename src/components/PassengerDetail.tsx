@@ -49,14 +49,14 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
 
   const today = new Date();
   const minDateKids = new Date(
-    today.getFullYear() - 9,
+    today.getFullYear() - 11,
     today.getMonth(),
     today.getDate()
   )
     .toISOString()
     .split("T")[0];
   const minDateBaby = new Date(
-    today.getFullYear() - 2,
+    today.getFullYear() - 3,
     today.getMonth(),
     today.getDate()
   )
@@ -258,6 +258,7 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
                         <Input
                           type="date"
                           placeholder="dd/mm/yy"
+                          max={minDateKids}
                           required
                           onChange={(e) =>
                             handleInputChange(
@@ -372,7 +373,7 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
                           type="date"
                           placeholder="dd/mm/yy"
                           min={minDateKids}
-                          max={today.toISOString().split("T")[0]}
+                          max={minDateBaby}
                           onChange={(e) =>
                             handleInputChange(
                               e,
