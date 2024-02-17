@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../../../components/Footer.tsx";
 import DetailBooking from "../../../components/DetailSection.tsx";
 import DetailHarga from "../../../components/DetailHarga.tsx";
@@ -9,8 +9,52 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../components/ModalPesanTiket.css";
 import { useLocation } from "react-router";
 
+interface Header {
+  label?: string;
+}
+interface User {
+  firstName?: string;
+  lastName?: string;
+}
+
 const DataPenumpang: React.FC = () => {
   const token = localStorage.getItem("token");
+
+  const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
+
+  const [user, setUser] = useState<User>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(base_url + "/user-detail/logged-in-user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status === 500) {
+          localStorage.removeItem("token");
+          throw new Error("Token tidak valid!");
+        }
+
+        const responseJson = await response.json();
+
+        if (response.status === 200) {
+          setUser({
+            firstName: responseJson.data.usersDetails.firstName,
+            lastName: responseJson.data.usersDetails.lastName,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (token) {
+      fetchUser();
+    }
+  }, [token]);
 
   const formatDate = (dateTimeString: string) => {
     const departureDate = new Date(dateTimeString);
@@ -105,13 +149,16 @@ const DataPenumpang: React.FC = () => {
           </div>
         </Col>
         <Col lg={2}>
-          {token ? (
+          {token && user ? (
             <div className="d-flex align-items-center">
-              <span className="me-3 fs-5">Akun</span>
+              <span className="me-3 fs-5">{user.firstName}</span>
               <i className="user-avatar"></i>
             </div>
           ) : (
-            <a className="login bg-primary bg-opacity-75 rounded-4 text-white" href="/login">
+            <a
+              className="login bg-primary bg-opacity-75 rounded-4 text-white"
+              href="/login"
+            >
               <>Masuk</>
             </a>
           )}
@@ -119,10 +166,10 @@ const DataPenumpang: React.FC = () => {
       </Row>
       <Div1 className="my-4">
         <Row className="align-items-center">
-          <Col lg={1} >
+          <Col lg={1}>
             <img src="./images/3d-phone.png" alt="" className="ps-3" />
           </Col>
-          <Col lg={11} >
+          <Col lg={11}>
             <HeadText>
               Masukkan data Anda dengan benar sesuai kartu identitas
             </HeadText>
@@ -161,11 +208,7 @@ const DataPenumpang: React.FC = () => {
               </div>
             </div>
             <div className="col text-center">
-              <img
-                src="./images/plane.png"
-                alt=""
-                style={{ width: "35px" }}
-              />
+              <img src="./images/plane.png" alt="" style={{ width: "35px" }} />
             </div>
             <div className="col text-center pt-3">
               <div>
@@ -325,11 +368,7 @@ const DataPenumpang: React.FC = () => {
                   </div>
                   <div className="row list-dp">
                     <div className="col-1 justify-content-center">
-                      <img
-                        src="./images/usb.png"
-                        alt=""
-                        className="pt-1"
-                      />
+                      <img src="./images/usb.png" alt="" className="pt-1" />
                     </div>
                     <div className="col-11">
                       <p
@@ -386,10 +425,7 @@ const DataPenumpang: React.FC = () => {
                       </p>
                     </div>
                     <div className="col-1">
-                      <img
-                        src="./images/Money Check Edit Alt.png"
-                        alt=""
-                      />
+                      <img src="./images/Money Check Edit Alt.png" alt="" />
                     </div>
                     <div className="col-6">
                       <p className="r-14-s my-1">
@@ -416,7 +452,10 @@ const DataPenumpang: React.FC = () => {
               </div>
             </div>
           </div>
-          <DetailHarga bookingData={bookingData} passengersData={passengersData} />
+          <DetailHarga
+            bookingData={bookingData}
+            passengersData={passengersData}
+          />
         </Col>
       </Row>
 

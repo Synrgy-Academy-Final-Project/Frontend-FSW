@@ -3,6 +3,7 @@ import "./DetailTicket.css";
 import { ITickets } from "../services/types";
 import { useState } from "react";
 import ModalPesanTiket from "./ModalPesanTiket";
+import ModalTanpaLogin from "./ModalTanpaLogin";
 
 const formatDate = (dateTimeString: string) => {
   const departureDate = new Date(dateTimeString);
@@ -53,6 +54,8 @@ const formatPrice = (price: number) => {
 
 const DetailTicket = ({ tickets, passengersData }) => {
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const token = localStorage.getItem("token");
+  const [showModal, setShowModal] = useState(false);
 
   const handleSelectTicket = (ticket) => {
     setSelectedTicket(ticket);
@@ -216,14 +219,38 @@ const DetailTicket = ({ tickets, passengersData }) => {
                           </span>
                         </div>
                         <div className="row">
-                          <div className="d-grid gap-2">
+                          {/* <div className="d-grid gap-2">
                             <div
                               className="button-primary-small"
                               onClick={() => handleSelectTicket(record)}
                             >
                               Pilih
                             </div>
+                          </div> */}
+                          <div className="d-grid gap-2">
+                            {/* Tampilkan modal jika tidak ada token */}
+                            {!token && (
+                              <div
+                                className="button-primary-small"
+                                onClick={() => setShowModal(true)}
+                              >
+                                Pilih
+                              </div>
+                            )}
+                            {/* Tampilkan tombol "Pilih" tanpa modal jika ada token */}
+                            {token && (
+                              <div
+                                className="button-primary-small"
+                                onClick={() => handleSelectTicket(record)}
+                              >
+                                Pilih
+                              </div>
+                            )}
                           </div>
+                          <ModalTanpaLogin
+                            show={showModal}
+                            handleClose={() => setShowModal(false)}
+                          />
                         </div>
                       </div>
                     </div>

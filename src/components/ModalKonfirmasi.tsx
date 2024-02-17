@@ -6,8 +6,9 @@ const ModalKonfirmasi = ({ show, onHide }) => {
   const navigate = useNavigate();
 
   const handleOK = () => {
-    navigate("/profile");
-    localStorage.removeItem("isEditClicked");
+   navigate("/login");
+   localStorage.removeItem("isEditClicked");
+   localStorage.removeItem("token");
   };
   return (
     <Modal

@@ -1,0 +1,39 @@
+.button-register {
+  background-color: white;
+  border-color: #3e7bfa;
+  color: #3e7bfa;
+  width: 48%;
+  font-weight: 600;
+  height: 50px;
+}
+
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.button-login {
+  background-color: #3e7bfa;
+  border-color: #3e7bfa;
+  color: white;
+  width: 48%;
+  font-weight: 600;
+  height: 50px;
+}
+
+.modal-tittle {
+  text-align: center;
+}
+
+.text-tittle {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+.text-desc {
+  text-align: center;
+  font-size: 16px;
+}
+
+.modal-footer {
+  border: none;
+}
