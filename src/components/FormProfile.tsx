@@ -2,9 +2,32 @@ import "./FormProfile.css";
 import { Button, Card, Form, InputGroup } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalKonfirmasi from "./ModalKonfirmasi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+
+interface UserDetails {
+  id: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  gender: string;
+  phoneNumber: string;
+  visa: string | null;
+  passport: string | null;
+  residentPermit: string | null;
+  dateOfBirth: string | null;
+  createdDate: string;
+  updatedDate: string;
+  deletedDate: string | null;
+  nik: string | null;
+  nationality: string | null;
+}
+
+interface UserData {
+  email: string;
+  usersDetails: UserDetails;
+}
 
 const FormProfile = () => {
   const [showModal, setShowModal] = useState(false);
@@ -22,6 +45,45 @@ const FormProfile = () => {
 
   const navigate = useNavigate();
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+        const response = await fetch(base_url + "/user-detail/logged-in-user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const responseData = await response.json();
+        // setUserData(responseData.data);
+        const userDetails = responseData.data.usersDetails;
+        setFirstName(userDetails.firstName || "");
+        setLastName(userDetails.lastName || "");
+        setDateOfBirth(userDetails.dateOfBirth || "");
+        setAddress(userDetails.address || "");
+        setGender(userDetails.gender || "");
+        setPhoneNumber(userDetails.phoneNumber || "");
+        setVisa(userDetails.visa || "");
+        setPassport(userDetails.passport || "");
+        setResidentPermit(userDetails.residentPermit || "");
+        setNik(userDetails.nik || "");
+        setNationality(userDetails.nationality || "");
+        console.log("user data", userDetails);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const formatDate = (isoDate) => {
     const [year, month, day] = isoDate.split("-");
@@ -54,7 +116,7 @@ const FormProfile = () => {
         body: JSON.stringify(payload),
       });
       const responseJson = await response.json();
-
+      navigate("/profile");
       if (response.status !== 200) {
         alert("Error: " + responseJson.message);
       } else {
@@ -181,8 +243,9 @@ const FormProfile = () => {
                 className="form-input"
                 type="nomor"
                 placeholder="Nomor Ponsel"
-                onChange={handleInputPhoneNumber}
-                pattern="\d*"
+                // onChange={handleInputPhoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                // pattern="\d*"
                 required
               />
             </Form.Group>
@@ -192,7 +255,8 @@ const FormProfile = () => {
                 className="form-input"
                 type="visa"
                 placeholder="Visa"
-                onChange={handleInputVisa}
+                // onChange={handleInputVisa}
+                onChange={(e) => setVisa(e.target.value)}
                 pattern="\d*"
                 required
               />
@@ -203,7 +267,8 @@ const FormProfile = () => {
                 className="form-input"
                 type="passport"
                 placeholder="Passport"
-                onChange={handleInputPassport}
+                // onChange={handleInputPassport}
+                onChange={(e) => setPassport(e.target.value)}
                 pattern="\d*"
                 required
               />
@@ -214,7 +279,8 @@ const FormProfile = () => {
                 className="form-input"
                 type="residentPermit"
                 placeholder="Resident Permit"
-                onChange={handleInputResidentPermit}
+                // onChange={handleInputResidentPermit}
+                onChange={(e) => setResidentPermit(e.target.value)}
                 pattern="\d*"
                 required
               />
@@ -225,7 +291,8 @@ const FormProfile = () => {
                 className="form-input"
                 type="NIK"
                 placeholder="NIK"
-                onChange={handleInputNik}
+                // onChange={handleInputNik}
+                onChange={(e) => setNik(e.target.value)}
                 pattern="\d*"
                 required
               />
@@ -242,10 +309,7 @@ const FormProfile = () => {
               />
             </Form.Group>
           </Form>
-          <ModalKonfirmasi
-            show={showModal}
-            onHide={() => setShowModal(false)}
-          />
+
           <Button
             variant="primary"
             className="button-simpan my-3 "

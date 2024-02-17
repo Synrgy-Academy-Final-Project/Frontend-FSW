@@ -49,6 +49,7 @@ const InformationProfile: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
+
   const formatDate = (dateString: string) => {
     return format(new Date(dateString), "dd/MM/yyyy");
   };
