@@ -11,6 +11,9 @@ import IndexDetailPesawat from "./components/Admin/indexDetailPesawat.tsx";
 // user
 import ETicket from "./pages/User/PageEticket/PageEticket.tsx";
 import PesananPage from "./pages/User/PesananPage/PesananPage.tsx";
+import NotifHarga from "./pages/User/NotifHargaPage/NotifHargaPage.tsx";
+import Favorit from "./pages/User/FavoritPage/FavoritPage.tsx";
+import DataPenumpangFavorit from "./pages/User/DataPenumpangFavorit/DataPenumpangFavorit.tsx";
 import ProfilePage from "./pages/User/ProfilePage/ProfilePage.tsx";
 import ProfileEdit from "./pages/User/ProfilePage/ProfileEdit/ProfileEdit.tsx";
 import PembayaranPage from "./pages/User/PembayaranPage/PembayaranPage.tsx";
@@ -43,6 +46,9 @@ function App() {
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/pesanan" element={<PesananPage />} />
+        <Route path="/notifikasi-harga" element={<NotifHarga />} />
+        <Route path="/favorit" element={<Favorit />} />
+        <Route path="/data-penumpang-favorit" element={<DataPenumpangFavorit />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />
         <Route path="/informasiProfile" element={<InformationProfile />} />

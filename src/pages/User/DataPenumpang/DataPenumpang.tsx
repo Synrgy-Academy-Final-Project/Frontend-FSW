@@ -94,8 +94,6 @@ const DataPenumpang: React.FC = () => {
 
   const location = useLocation();
   const { tickets, passengersData } = location.state || {};
-  console.log("ticketss : ", tickets);
-  console.log("passengersData : ", passengersData);
 
   interface pemesanData {
     nama: string;
@@ -114,11 +112,9 @@ const DataPenumpang: React.FC = () => {
   const [pemesanData, setPemesanData] = useState<pemesanData>();
   const handlePemesanChange = (pemesanData: pemesanData) => {
     setPemesanData(pemesanData);
-    console.log("data detail pemesan >>>", pemesanData);
   };
   const handlePenumpangChange = (penumpangData: PenumpangData[]) => {
     setPenumpangData(penumpangData);
-    console.log("data detail penumpang >>>", penumpangData);
   };
 
   const bookingData = {
