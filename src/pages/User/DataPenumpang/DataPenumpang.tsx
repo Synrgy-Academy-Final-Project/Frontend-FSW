@@ -21,7 +21,6 @@ const DataPenumpang: React.FC = () => {
   const token = localStorage.getItem("token");
 
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
-
   const [user, setUser] = useState<User>(null);
 
   useEffect(() => {
