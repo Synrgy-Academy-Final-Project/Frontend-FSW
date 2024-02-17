@@ -47,10 +47,10 @@ const ProfilePage = () => {
       <PesananHeader />
       <Container fluid className="px-5">
         <Row>
-          <Col xs={12} md={4} className="py-5">
+          <Col xs={12} md={3} className="py-5">
             <SidebarAkun handleOptionClick={handleOptionClick} />
           </Col>
-          <Col xs={12} md={8} className="py-5 ps-5">
+          <Col xs={12} md={9} className="py-5 ps-5">
             <h1 className="tittle">Pengaturan Akun</h1>
             <InformationProfile />
           </Col>

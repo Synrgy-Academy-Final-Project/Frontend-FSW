@@ -65,9 +65,11 @@ const FormProfile = () => {
         const responseData = await response.json();
         // setUserData(responseData.data);
         const userDetails = responseData.data.usersDetails;
+        const lahirString = new Date(userDetails.dateOfBirth);
+        const formattedDate = lahirString.toISOString().split("T")[0];
         setFirstName(userDetails.firstName || "");
         setLastName(userDetails.lastName || "");
-        setDateOfBirth(userDetails.dateOfBirth || "");
+        setDateOfBirth(formattedDate || "");
         setAddress(userDetails.address || "");
         setGender(userDetails.gender || "");
         setPhoneNumber(userDetails.phoneNumber || "");
@@ -76,7 +78,7 @@ const FormProfile = () => {
         setResidentPermit(userDetails.residentPermit || "");
         setNik(userDetails.nik || "");
         setNationality(userDetails.nationality || "");
-        console.log("user data", userDetails);
+        console.log("lahir >>>", dateOfBirth);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -245,6 +247,7 @@ const FormProfile = () => {
                 placeholder="Nomor Ponsel"
                 // onChange={handleInputPhoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                value={phoneNumber}
                 // pattern="\d*"
                 required
               />
@@ -257,6 +260,7 @@ const FormProfile = () => {
                 placeholder="Visa"
                 // onChange={handleInputVisa}
                 onChange={(e) => setVisa(e.target.value)}
+                value={visa}
                 pattern="\d*"
                 required
               />
@@ -269,6 +273,7 @@ const FormProfile = () => {
                 placeholder="Passport"
                 // onChange={handleInputPassport}
                 onChange={(e) => setPassport(e.target.value)}
+                value={passport}
                 pattern="\d*"
                 required
               />
@@ -281,6 +286,7 @@ const FormProfile = () => {
                 placeholder="Resident Permit"
                 // onChange={handleInputResidentPermit}
                 onChange={(e) => setResidentPermit(e.target.value)}
+                value={residentPermit}
                 pattern="\d*"
                 required
               />
@@ -293,6 +299,7 @@ const FormProfile = () => {
                 placeholder="NIK"
                 // onChange={handleInputNik}
                 onChange={(e) => setNik(e.target.value)}
+                value={nik}
                 pattern="\d*"
                 required
               />

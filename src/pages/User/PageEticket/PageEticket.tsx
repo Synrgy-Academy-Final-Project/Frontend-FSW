@@ -65,30 +65,54 @@ const BlueButton = styled.button`
   }
 `;
 
+interface Header {
+  label?: string;
+}
+interface User {
+  firstName?: string;
+  lastName?: string;
+}
+
 export default function PageEticket() {
   const [pdfUrl, setPdfUrl] = useState("");
   
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = urlParams.get('order_id');
   const token = localStorage.getItem("token");
+  const [user, setUser] = useState<User>(null);
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 
-  const user = async () => {
-    try {
-      const responseUser = await fetch(base_url + "/user-detail/logged-in-user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(base_url + "/user-detail/logged-in-user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (responseUser.status === 500) {
-        localStorage.removeItem("token");
-        throw new Error("Token tidak valid!");
+        if (response.status === 500) {
+          localStorage.removeItem("token");
+          throw new Error("Token tidak valid!");
+        }
+
+        const responseJson = await response.json();
+
+        if (response.status === 200) {
+          setUser({
+            firstName: responseJson.data.usersDetails.firstName,
+            lastName: responseJson.data.usersDetails.lastName,
+          });
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error("Error during user API request:", error);
+    };
+
+    if (token) {
+      fetchUser();
     }
-  }
+  }, [token]);
 
   const fetchData = async () => {
     try {
@@ -122,10 +146,6 @@ export default function PageEticket() {
   useEffect(() => {
     fetchData();
 
-    const interval = setInterval(() => {
-      user();
-    }, 1500000);
-    return () => clearInterval(interval);
   }, [orderId]);
   
   return (
@@ -153,17 +173,17 @@ export default function PageEticket() {
             </div>
           </Col>
           <Col lg={2}>
-            {token ? (
+            {token && user ? (
               <div className="d-flex align-items-center">
-                <span className="me-3 fs-5">Akun</span>
+                <span className="me-3 fs-5">{user.firstName}</span>
                 <i className="user-avatar"></i>
               </div>
             ) : (
               <a
-                className="login bg-white bg-opacity-50 rounded-4"
+                className="login bg-primary bg-opacity-75 rounded-4 text-white"
                 href="/login"
               >
-                <span>Masuk</span>
+                <>Masuk</>
               </a>
             )}
           </Col>

@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import DetailHargaPay from "../../../components/DetailHargaPay";
 import DetailPerjalanan from "../../../components/DetailPerjalanan";
@@ -46,6 +46,14 @@ const Line = styled.div`
   }
 `;
 
+interface Header {
+  label?: string;
+}
+interface User {
+  firstName?: string;
+  lastName?: string;
+}
+
 export default function PembayaranPage() {
   const token = localStorage.getItem("token");
   // const bookingDataString = localStorage.getItem("bookingData");
@@ -54,6 +62,41 @@ export default function PembayaranPage() {
     value: 0,
     promoCode: ""
   });
+
+  const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
+  const [user, setUser] = useState<User>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(base_url + "/user-detail/logged-in-user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status === 500) {
+          localStorage.removeItem("token");
+          throw new Error("Token tidak valid!");
+        }
+
+        const responseJson = await response.json();
+
+        if (response.status === 200) {
+          setUser({
+            firstName: responseJson.data.usersDetails.firstName,
+            lastName: responseJson.data.usersDetails.lastName,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (token) {
+      fetchUser();
+    }
+  }, [token]);
 
   const location = useLocation();
   const { bookingData } = location.state || {};
@@ -94,13 +137,16 @@ export default function PembayaranPage() {
             </div>
           </Col>
           <Col lg={2}>
-            {token ? (
+            {token && user ? (
               <div className="d-flex align-items-center">
-                <span className="me-3 fs-5">Akun</span>
+                <span className="me-3 fs-5">{user.firstName}</span>
                 <i className="user-avatar"></i>
               </div>
             ) : (
-              <a className="login bg-primary bg-opacity-75 rounded-4 text-white" href="/login">
+              <a
+                className="login bg-primary bg-opacity-75 rounded-4 text-white"
+                href="/login"
+              >
                 <>Masuk</>
               </a>
             )}
