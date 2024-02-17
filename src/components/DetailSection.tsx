@@ -47,8 +47,6 @@ const DetailSection: React.FC<DetailDataProps> = ({
   const handlePassengerDetailChange = (detailpassengger: PenumpangData[]) => {
     // Lakukan sesuatu dengan nilai detailpenumpang yang diterima
     setPenumpang(detailpassengger);
-    console.log("detail sec>>> ", detailpassengger);
-    // Misalnya, Anda bisa memperbarui state atau melakukan operasi lainnya di sini
   };
 
   return (

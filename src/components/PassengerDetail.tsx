@@ -135,7 +135,6 @@ const PassengerDetail: React.FC<PenumpangDataProps> = ({
 
     setDetailPassenger(newDetailPassenger);
   };
-  console.log("detailpassengger : ", detailpassengger);
 
   let dewasaCounter = 0;
   let anakCounter = 0;

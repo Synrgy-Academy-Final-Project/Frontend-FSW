@@ -7,11 +7,12 @@ const DetailHarga = ({ bookingData,passengersData }) => {
   const navigate = useNavigate();
   const price = bookingData?.tickets.totalPrice
   const [isPassengerDetailFilled, setIsPassengerDetailFilled] = useState(false);
+  
   useEffect(() => {
     const allPassengerDetailsFilled = passengersData.every(passengerType => {
       const bookingType = passengerType.type;
       const passengerCount = passengerType.count;
-      const passengersOfType = bookingData.penumpang.filter(passenger => passenger.type === bookingType);
+      const passengersOfType = bookingData.penumpang.filter(passenger => passenger && passenger.type === bookingType);
       if (passengersOfType.length !== passengerCount) return false;
       return passengersOfType.every(penumpang => {
         if (penumpang.type === "adult") {
