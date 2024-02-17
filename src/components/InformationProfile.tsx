@@ -16,6 +16,7 @@ import {
 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ModalKonfirmasi from "./ModalKonfirmasi";
 
 interface UserDetails {
   id: string;
@@ -45,10 +46,26 @@ const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 const InformationProfile: React.FC = () => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const formatDate = (dateString: string) => {
     return format(new Date(dateString), "dd/MM/yyyy");
+  };
+  const handleLogout = () => {
+    setShowModal(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowModal(false);
+    // Lakukan proses logout di sini
+    navigate("/login");
+    localStorage.removeItem("isEditClicked");
+    localStorage.removeItem("token");
+  };
+
+  const handleCancelLogout = () => {
+    setShowModal(false);
   };
 
   useEffect(() => {
@@ -195,7 +212,11 @@ const InformationProfile: React.FC = () => {
             >
               Edit Profile
             </Button>
-            <Button variant="danger" className="button-keluar mb-3">
+            <Button
+              variant="danger"
+              className="button-keluar mb-3"
+              onClick={handleLogout}
+            >
               <div className="d-flex align-items-center justify-content-center ">
                 <BsPower className="icon-power-off" />
                 Keluar Akun
@@ -204,6 +225,11 @@ const InformationProfile: React.FC = () => {
           </Card.Body>
         </Card>
       )}
+      <ModalKonfirmasi
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        // onConfirm={handleLogoutConfirm}
+      />
     </div>
   );
 };
