@@ -10,6 +10,11 @@
   border: 1px solid var(--Primary-Light-Blue, #b1c5ff);
 }
 
+/* .form-select {
+  border-radius: 0rem 0.75rem 0.75rem 0rem !important;
+  border: 1px solid var(--Primary-Light-Blue, #b1c5ff);
+} */
+
 .rounded-end {
   border-radius: 0rem 0.75rem 0.75rem 0rem;
   border: 1px solid var(--Primary-Light-Blue, #b1c5ff);
@@ -24,6 +29,9 @@
   margin-bottom: 32px;
 }
 
+.react-datepicker-wrapper {
+  width: 100%;
+}
 /* Text Field */
 /* .form-position {
   z-index: 4 !important;

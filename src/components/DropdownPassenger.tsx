@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
+import { Modal } from "react-bootstrap";
 import styled from "styled-components";
 
 const Title = styled.div`
@@ -92,7 +93,9 @@ const JumlahPenumpangRoot = styled.div`
 
 const DropdownPassenger: FunctionComponent<{
   onChangeCount: (count: number, type: string) => void;
-}> = ({ onChangeCount }) => {
+  showModal: boolean;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ onChangeCount, showModal, setShowModal }) => {
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(0);
   const [babyCount, setBabyCount] = useState(0);
@@ -136,65 +139,71 @@ const DropdownPassenger: FunctionComponent<{
   };
 
   return (
-    <JumlahPenumpangRoot>
-      <Title>Jumlah Penumpang</Title>
-      <PassengerType>
-        <Icon
-          style={{
-            backgroundImage: "url('https://i.ibb.co/J7GDYSF/User-Tie.png')",
-          }}
-        />
-        <PassengerInfo>
-          <PassengerLabel>Dewasa</PassengerLabel>
-          <PassengerSubLabel>(12 tahun ke atas)</PassengerSubLabel>
-        </PassengerInfo>
-        <CounterButton onClick={(event) => handleDecrease("adult", event)}>
-          -
-        </CounterButton>
-        <CountDisplay>{adultCount}</CountDisplay>
-        <CounterButton onClick={(event) => handleIncrease("adult", event)}>
-          +
-        </CounterButton>
-      </PassengerType>
+    <>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <h5 className="m-0 fw-bold">Jumlah Penumpang</h5>
+        </Modal.Header>
+        <Modal.Body>
+          <PassengerType>
+            <Icon
+              style={{
+                backgroundImage: "url('https://i.ibb.co/J7GDYSF/User-Tie.png')",
+              }}
+            />
+            <PassengerInfo>
+              <PassengerLabel>Dewasa</PassengerLabel>
+              <PassengerSubLabel>(12 tahun ke atas)</PassengerSubLabel>
+            </PassengerInfo>
+            <CounterButton onClick={(event) => handleDecrease("adult", event)}>
+              -
+            </CounterButton>
+            <CountDisplay>{adultCount}</CountDisplay>
+            <CounterButton onClick={(event) => handleIncrease("adult", event)}>
+              +
+            </CounterButton>
+          </PassengerType>
 
-      <PassengerType>
-        <Icon
-          style={{
-            backgroundImage: "url('https://i.ibb.co/NKs7K2C/Child-2.png')",
-          }}
-        />
-        <PassengerInfo>
-          <PassengerLabel>Anak-anak</PassengerLabel>
-          <PassengerSubLabel>(2 - 11 tahun)</PassengerSubLabel>
-        </PassengerInfo>
-        <CounterButton onClick={(event) => handleDecrease("child", event)}>
-          -
-        </CounterButton>
-        <CountDisplay>{childCount}</CountDisplay>
-        <CounterButton onClick={(event) => handleIncrease("child", event)}>
-          +
-        </CounterButton>
-      </PassengerType>
+          <PassengerType>
+            <Icon
+              style={{
+                backgroundImage: "url('https://i.ibb.co/NKs7K2C/Child-2.png')",
+              }}
+            />
+            <PassengerInfo>
+              <PassengerLabel>Anak-anak</PassengerLabel>
+              <PassengerSubLabel>(2 - 11 tahun)</PassengerSubLabel>
+            </PassengerInfo>
+            <CounterButton onClick={(event) => handleDecrease("child", event)}>
+              -
+            </CounterButton>
+            <CountDisplay>{childCount}</CountDisplay>
+            <CounterButton onClick={(event) => handleIncrease("child", event)}>
+              +
+            </CounterButton>
+          </PassengerType>
 
-      <PassengerType>
-        <Icon
-          style={{
-            backgroundImage: "url('https://i.ibb.co/ykBTKPd/Baby.png')",
-          }}
-        />
-        <PassengerInfo>
-          <PassengerLabel>Bayi</PassengerLabel>
-          <PassengerSubLabel>(di bawah 2 tahun)</PassengerSubLabel>
-        </PassengerInfo>
-        <CounterButton onClick={(event) => handleDecrease("baby", event)}>
-          -
-        </CounterButton>
-        <CountDisplay>{babyCount}</CountDisplay>
-        <CounterButton onClick={(event) => handleIncrease("baby", event)}>
-          +
-        </CounterButton>
-      </PassengerType>
-    </JumlahPenumpangRoot>
+          <PassengerType>
+            <Icon
+              style={{
+                backgroundImage: "url('https://i.ibb.co/ykBTKPd/Baby.png')",
+              }}
+            />
+            <PassengerInfo>
+              <PassengerLabel>Bayi</PassengerLabel>
+              <PassengerSubLabel>(di bawah 2 tahun)</PassengerSubLabel>
+            </PassengerInfo>
+            <CounterButton onClick={(event) => handleDecrease("baby", event)}>
+              -
+            </CounterButton>
+            <CountDisplay>{babyCount}</CountDisplay>
+            <CounterButton onClick={(event) => handleIncrease("baby", event)}>
+              +
+            </CounterButton>
+          </PassengerType>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 

@@ -7,11 +7,11 @@ const AboutUsHeader: React.FC = () => {
     <>
       <div className="bg-aboutus">
         <Navbar />
-        <div className="tagline">
+        <div className="tagline d-flex justify-content-center">
           <h1>Selamat Datang di Fly.id</h1>
           <p>Let’s Your Dreams Take Flight!</p>
         </div>
-        <img className="polygon" src="./images/polygon-1.png" alt="polygon" />
+        {/* <img className="polygon" src="./images/polygon-1.png" alt="polygon" /> */}
       </div>
     </>
   );

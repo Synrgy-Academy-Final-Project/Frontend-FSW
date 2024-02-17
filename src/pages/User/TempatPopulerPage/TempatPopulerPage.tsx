@@ -21,7 +21,7 @@ export default function TempatPopulerPage(props) {
 
   const [user, setUser] = useState<User>(null);
   const [dropdown, setDropdown] = useState<boolean>(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -130,7 +130,9 @@ export default function TempatPopulerPage(props) {
                           <h5>Akun Saya</h5>
                           <div className="information">
                             <p>
-                              <button onClick={() => navigate("/pesanan")}>Pengaturan Akun</button>
+                              <button onClick={() => navigate("/pesanan")}>
+                                Pengaturan Akun
+                              </button>
                             </p>
                             <p>Notifikasi Harga</p>
                             <p>Favorit</p>
@@ -143,7 +145,9 @@ export default function TempatPopulerPage(props) {
                           <h5>Pengaturan</h5>
                           <div className="information">
                             <p>
-                              <button onClick={() => navigate("/profile")}>Pengaturan Akun</button>
+                              <button onClick={() => navigate("/profile")}>
+                                Pengaturan Akun
+                              </button>
                             </p>
                             <p>Bahasa Indonesia</p>
                           </div>

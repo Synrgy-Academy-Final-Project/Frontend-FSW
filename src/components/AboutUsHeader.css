@@ -1,26 +1,25 @@
 .bg-aboutus {
-  background-image: url(../assets/images/plane-bg.png);
+  background-image: url(../assets/images/bg-plane-triangle.png);
   background-repeat: no-repeat;
+  background-size: 100% auto;
   object-fit: cover;
-  height: 100vh;
-  background-position: 60% 39%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+  height: 728px;
+  background-position: 50% 100%;
+  z-index: -1;
 }
 
 .tagline {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  margin-top: 10rem;
 }
 
 .tagline h1 {
   color: var(--Neutral-01, var(--Light-background, #fff));
   font-size: 32px;
   font-weight: 700;
+  padding-bottom: 1rem;
 }
 
 .tagline p {
@@ -35,7 +34,7 @@
   bottom: 0;
 }
 
-@media screen and (min-width: 1440px) {
+/* @media screen and (min-width: 1440px) {
   .bg-aboutus {
     background-position: 0% 38.5%;
   }
@@ -47,4 +46,4 @@
     height: 1200px;
     background-position: 0% 41%;
   }
-}
+} */
