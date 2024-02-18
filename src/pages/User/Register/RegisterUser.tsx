@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { Col, Container, Row, Form, Button, InputGroup } from "react-bootstrap";
 import * as Yup from "yup";
-import { Col, Container, Row } from "react-bootstrap";
+import styled from "styled-components";
 import { encryptData } from "../../../utils/authUtils";
 
 const RegisterUser = () => {
   const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState();
   const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{
     fullname?: string;
     email?: string;
@@ -18,7 +19,11 @@ const RegisterUser = () => {
 
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -149,20 +154,6 @@ const RegisterUser = () => {
                 </div>
               )}
             </FormGroup>
-            {/* <FormGroup>
-                <Label>Nomor Ponsel</Label>
-                <Input
-                    type="tel"
-                    name="phone"
-                    id="phone"
-                    placeholder="Masukkan nomor ponsel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    pattern="0?[0-9]*" 
-                    title="Harap masukkan hanya angka" 
-                    required 
-                />
-              </FormGroup> */}
             <FormGroup>
               <Label>Email</Label>
               <Input
@@ -189,15 +180,33 @@ const RegisterUser = () => {
             </FormGroup>
             <FormGroup>
               <Label>Kata Sandi</Label>
-              <Input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Masukkan kata sandi"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <InputGroup>
+                <Form.Control
+                  name="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Masukkan Kata Sandi"
+                  type={showPassword ? "text" : "password"}
+                  style={{ height: "56px" }}
+                  required
+                />
+
+                <InputGroup.Text>
+                  <Button
+                    variant="link"
+                    onClick={togglePasswordVisibility}
+                    style={{
+                      border: "none",
+                      background: "none",
+                      padding: "0",
+                      color: showPassword ? "grey" : "black",
+                    }}
+                  >
+                    {showPassword ? <BsEyeSlash /> : <BsEye />}
+                  </Button>
+                </InputGroup.Text>
+              </InputGroup>
               {/* Menampilkan pesan error dari Yup jika ada */}
               {errors.password && (
                 <div
@@ -211,9 +220,9 @@ const RegisterUser = () => {
                 </div>
               )}
             </FormGroup>
-            <Button className="my-3" onClick={handleRegister}>
+            <Btn className="my-3" onClick={handleRegister}>
               Daftar
-            </Button>
+            </Btn>
             <p>
               Sudah Punya Akun? <Login href="/login">Masuk aja!</Login>
             </p>
@@ -279,7 +288,7 @@ const Input = styled.input`
   height: 56px;
 `;
 
-const Button = styled.button`
+const Btn = styled.button`
   background-color: var(--Primary-Blue, #3e7bfa);
   color: #ffffff;
   border: none;

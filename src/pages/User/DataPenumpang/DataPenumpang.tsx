@@ -8,6 +8,7 @@ import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../components/ModalPesanTiket.css";
 import { useLocation } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 interface Header {
   label?: string;
@@ -19,6 +20,7 @@ interface User {
 
 const DataPenumpang: React.FC = () => {
   const token = localStorage.getItem("token");
+  const navigate = useNavigate()
 
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
   const [user, setUser] = useState<User>(null);
@@ -127,7 +129,7 @@ const DataPenumpang: React.FC = () => {
     <Container>
       <Row className="align-items-center justify-content-center">
         <Col lg={2}>
-          <img src="https://i.ibb.co/Tc8PssV/Logo-white.png" alt="logo-white" />
+          <button onClick={() => navigate("/")}><img src="https://i.ibb.co/Tc8PssV/Logo-white.png" alt="logo-white" /></button>
         </Col>
         <Col lg={8}>
           <Row className="align-items-center flex-lg-row flex-column justify-content-center">

@@ -28,7 +28,7 @@ export const NavList = styled.li`
   gap: 4px;
 `;
 
-export const NavBtn = styled.a`
+export const NavBtn = styled.button`
   color: var(--Neutral-09, #1c1c1e);
   font-size: 16px;
   font-weight: 600;

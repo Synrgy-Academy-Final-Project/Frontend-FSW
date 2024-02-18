@@ -7,7 +7,7 @@ import {
   ProfileWrapper,
   SemiBoldBlue,
 } from "./styles/PesananHeader.styled";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Header {
   label?: string;
@@ -22,6 +22,7 @@ const PesananHeader: React.FC = () => {
   const base_url = "https://fly-id-1999ce14c36e.herokuapp.com";
 
   const [user, setUser] = useState<User>(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -64,22 +65,22 @@ const PesananHeader: React.FC = () => {
 
         <Navbar>
           <NavList>
-            <NavBtn href="#">
+            <NavBtn onClick={() => navigate("#")}>
               Unduh Aplikasi{" "}
               <img src="./images/ic_chevron_down.png" alt="ic_chevron_down" />
             </NavBtn>
           </NavList>
           <NavList>
-            <NavBtn href="#">Tiket Pesawat</NavBtn>
+            <NavBtn onClick={() => navigate("/list-ticket")}>Tiket Pesawat</NavBtn>
           </NavList>
           <NavList>
-            <NavBtn href="#">Tempat Populer</NavBtn>
+            <NavBtn onClick={() => navigate("/populerplaces")}>Tempat Populer</NavBtn>
           </NavList>
           <NavList>
-            <NavBtn href="#">Pesanan</NavBtn>
+            <NavBtn onClick={() => navigate("/pesanan")}>Pesanan</NavBtn>
           </NavList>
           <NavList>
-            <NavBtn href="#">Favorit</NavBtn>
+            <NavBtn onClick={() => navigate("/favorit")}>Favorit</NavBtn>
           </NavList>
         </Navbar>
 

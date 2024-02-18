@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import * as yup from "yup";
 import {
-  Button,
-  Form,
+  Btn,
+  FormLogin,
   Input,
   LoginContainer,
   Span,
@@ -11,11 +11,14 @@ import {
   Texth4,
   Texth5,
 } from "./styles/LoginForm.styled";
+import { Form, Button, InputGroup } from "react-bootstrap";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {}
   );
@@ -37,6 +40,10 @@ const LoginForm: React.FC = () => {
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleLogin = async (e: React.MouseEvent) => {
@@ -91,7 +98,7 @@ const LoginForm: React.FC = () => {
   return (
     <>
       <LoginContainer>
-        <Form>
+        <FormLogin>
           <Texth2>Masuk akun</Texth2>
 
           <Texth5>Email</Texth5>
@@ -110,12 +117,31 @@ const LoginForm: React.FC = () => {
           )}
 
           <Texth5>Kata Sandi</Texth5>
-          <Input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Masukkan Kata Sandi"
-          />
+          <InputGroup>
+            <Form.Control
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="Masukkan Kata Sandi"
+              type={showPassword ? "text" : "password"}
+              style={{ height: "56px" }}
+              required
+            />
+
+            <InputGroup.Text>
+              <Button
+                variant="link"
+                onClick={togglePasswordVisibility}
+                style={{
+                  border: "none",
+                  background: "none",
+                  padding: "0",
+                  color: showPassword ? "grey" : "black",
+                }}
+              >
+                {showPassword ? <BsEyeSlash /> : <BsEye />}
+              </Button>
+            </InputGroup.Text>
+          </InputGroup>
           {errors.password && (
             <div
               style={{ color: "red", fontSize: "14px", paddingBottom: "5px" }}
@@ -126,12 +152,12 @@ const LoginForm: React.FC = () => {
 
           <Texth4 href="/forget-password">Lupa Kata Sandi?</Texth4>
 
-          <Button onClick={handleLogin}>Masuk</Button>
+          <Btn onClick={handleLogin}>Masuk</Btn>
 
           <Texth3>
             Belum punya akun? <Span href="/register">Daftar aja!</Span>
           </Texth3>
-        </Form>
+        </FormLogin>
       </LoginContainer>
     </>
   );

@@ -15,7 +15,7 @@ export const LoginContainer = styled.div`
   align-items: center;
 `;
 
-export const Form = styled.form`
+export const FormLogin = styled.form`
   display: flex;
   flex-direction: column;
   width: 50%;
@@ -61,7 +61,7 @@ export const Texth4 = styled.a`
   margin-bottom: 16px;
 `;
 
-export const Button = styled.button`
+export const Btn = styled.button`
   border-radius: 8px;
   padding: 16px;
   background-color: #3e7bfa;

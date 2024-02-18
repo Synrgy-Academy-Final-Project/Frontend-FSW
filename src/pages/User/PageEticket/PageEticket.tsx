@@ -2,8 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Footer from "../../../components/Footer";
-import FormCodePromo from "../../../components/FormCodePromo";
-import { useLocation } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const TextBullet = styled.p`
   font: var(--fwregular) 16px/110% Open Sans, sans-serif;
@@ -75,6 +74,7 @@ interface User {
 
 export default function PageEticket() {
   const [pdfUrl, setPdfUrl] = useState("");
+  const navigate = useNavigate()
   
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = urlParams.get('order_id');
@@ -153,10 +153,7 @@ export default function PageEticket() {
       <Container className="mt-3">
         <Row className="align-items-center justify-content-center">
           <Col lg={2}>
-            <img
-              src="https://i.ibb.co/Tc8PssV/Logo-white.png"
-              alt="logo-white"
-            />
+            <button onClick={() => navigate("/")}><img src="https://i.ibb.co/Tc8PssV/Logo-white.png" alt="logo-white" /></button>
           </Col>
           <Col lg={8}>
             <Row className="align-items-center flex-lg-row flex-column justify-content-center">

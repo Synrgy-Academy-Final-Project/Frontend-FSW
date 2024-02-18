@@ -126,11 +126,21 @@ const Navbar: React.FC = () => {
                         <p>
                           <button onClick={() => navigate("/pesanan")}>Pesanan</button>
                         </p>
-                        <p>Notifikasi Harga</p>
-                        <p>Favorit</p>
-                        <p>Data Penumpang Tersimpan</p>
-                        <p>Ulasan</p>
-                        <p>Profil</p>
+                        <p>
+                          <button onClick={() => navigate("/notifikasi-harga")}>Notifikasi Harga</button>
+                        </p>
+                        <p>
+                          <button onClick={() => navigate("/favorit")}>Favorit</button>
+                        </p>
+                        <p>
+                          <button onClick={() => navigate("/data-penumpang-favorit")}>Data Penumpang Tersimpan</button>
+                        </p>
+                        <p>
+                          <button onClick={() => navigate("#")}>Ulasan</button>
+                        </p>
+                        <p>
+                          <button onClick={() => navigate("/profile")}>Profil</button>
+                        </p>
                       </div>
                     </div>
                     <div className="my-account">
